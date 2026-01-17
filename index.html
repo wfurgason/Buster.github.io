@@ -65,24 +65,65 @@
   <h2>Book Buster</h2>
   <p>Heavy rock band based in the Wasatch Front area.</p>
 
-  <form name="booking" method="POST" data-netlify="true" action="/thank-you.html">
-  <input type="hidden" name="form-name" value="booking">
+<section id="booking">
+  <h2>Book the Band</h2>
+  <p>Heavy rock band based in the Wasatch Front, Utah.</p>
 
-  <label>Venue / Organization</label>
-  <input type="text" name="venue" placeholder="Venue / Organization" 
-         required minlength="3" maxlength="100" 
-         pattern="[A-Za-z0-9\s]+" 
-         title="Only letters, numbers, and spaces allowed">
+  <form name="booking"
+        method="POST"
+        data-netlify="true"
+        action="/thank-you.html"
+        netlify-honeypot="bot-field">
 
-  <label>Contact Email</label>
-  <input type="email" name="email" placeholder="Contact Email" required>
+    <!-- Netlify required hidden field -->
+    <input type="hidden" name="form-name" value="booking">
 
-  <label>Event Details</label>
-  <textarea name="details" placeholder="Event details" 
-            required minlength="10" maxlength="1000"></textarea>
+    <!-- Honeypot (hidden from humans) -->
+    <p style="display:none;">
+      <label>Don’t fill this out:
+        <input name="bot-field">
+      </label>
+    </p>
 
-  <button type="submit">Submit Booking Request</button>
-</form>
+    <label>
+      Venue / Organization *
+      <input
+        type="text"
+        name="venue"
+        placeholder="Venue or Organization Name"
+        required
+        minlength="3"
+        maxlength="100"
+        pattern="[A-Za-z0-9\s\.\-&]+"
+        title="Use letters, numbers, and basic punctuation only"
+      >
+    </label>
+
+    <label>
+      Contact Email *
+      <input
+        type="email"
+        name="email"
+        placeholder="booking@venue.com"
+        required
+      >
+    </label>
+
+    <label>
+      Event Details *
+      <textarea
+        name="details"
+        placeholder="Date, location, capacity, load-in time, payment, etc."
+        required
+        minlength="20"
+        maxlength="1500"
+      ></textarea>
+    </label>
+
+    <button type="submit">Submit Booking Request</button>
+  </form>
+</section>
+
 </section>
 
 <section id="contact">
