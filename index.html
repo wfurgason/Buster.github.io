@@ -65,13 +65,24 @@
   <h2>Book Buster</h2>
   <p>Heavy rock band based in the Wasatch Front area.</p>
 
-  <form name="booking" method="POST" data-netlify="true">
-    <input type="hidden" name="form-name" value="booking">
-    <input type="text" name="venue" placeholder="Venue / Organization" required>
-    <input type="email" name="email" placeholder="Contact Email" required>
-    <textarea name="details" placeholder="Event details"></textarea>
-    <button type="submit">Submit Booking Request</button>
-  </form>
+  <form name="booking" method="POST" data-netlify="true" action="/thank-you.html">
+  <input type="hidden" name="form-name" value="booking">
+
+  <label>Venue / Organization</label>
+  <input type="text" name="venue" placeholder="Venue / Organization" 
+         required minlength="3" maxlength="100" 
+         pattern="[A-Za-z0-9\s]+" 
+         title="Only letters, numbers, and spaces allowed">
+
+  <label>Contact Email</label>
+  <input type="email" name="email" placeholder="Contact Email" required>
+
+  <label>Event Details</label>
+  <textarea name="details" placeholder="Event details" 
+            required minlength="10" maxlength="1000"></textarea>
+
+  <button type="submit">Submit Booking Request</button>
+</form>
 </section>
 
 <section id="contact">
