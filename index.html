@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>Buster | Heavy Rock from Utah</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <meta name="description" content="Heavy rock band from the Wasatch Front, Utah. Music, shows, merch, and booking.">
 
   <link rel="stylesheet" href="styles.css">
@@ -14,7 +13,7 @@
 
 <header>
   <div class="logo">Buster</div>
-  <nav>
+  <nav aria-label="Main navigation">
     <a href="#music">Music</a>
     <a href="#shows">Shows</a>
     <a href="#merch">Merch</a>
@@ -22,6 +21,8 @@
     <a href="#contact">Contact</a>
   </nav>
 </header>
+
+<main>
 
 <section class="hero-video">
   <video
@@ -42,15 +43,16 @@
   </div>
 </section>
 
-
 <section id="music">
   <h2>Music</h2>
   <p>If you’ve seen us live, start here.</p>
 
   <iframe
-    src="https://open.spotify.com/embed/track/0oEu8l0CTl7SQksrThkM3q?si"
-    width="100%" height="152"
+    src="https://open.spotify.com/embed/track/0oEu8l0CTl7SQksrThkM3q"
+    width="100%"
+    height="152"
     frameborder="0"
+    loading="lazy"
     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
   </iframe>
 </section>
@@ -76,25 +78,21 @@
 </section>
 
 <section id="booking">
-  <h2>Book Buster</h2>
-  <p>Heavy rock band based in the Wasatch Front area.</p>
-
-<section id="booking">
   <h2>Book the Band</h2>
   <p>Heavy rock band based in the Wasatch Front, Utah.</p>
 
-  <form name="booking"
-        method="POST"
-        data-netlify="true"
-        action="/thank-you.html"
-        netlify-honeypot="bot-field">
-
-    <!-- Netlify required hidden field -->
+  <form
+    name="booking"
+    method="POST"
+    data-netlify="true"
+    action="/thank-you.html"
+    netlify-honeypot="bot-field"
+  >
     <input type="hidden" name="form-name" value="booking">
 
-    <!-- Honeypot (hidden from humans) -->
     <p style="display:none;">
-      <label>Don’t fill this out:
+      <label>
+        Don’t fill this out:
         <input name="bot-field">
       </label>
     </p>
@@ -109,7 +107,6 @@
         minlength="3"
         maxlength="100"
         pattern="[A-Za-z0-9\s\.\-&]+"
-        title="Use letters, numbers, and basic punctuation only"
       >
     </label>
 
@@ -138,11 +135,9 @@
   </form>
 </section>
 
-</section>
-
 <section id="contact">
   <h2>Contact</h2>
-  <p>Email: busterthebandslc@gmail.com</p>
+  <p>Email: <a href="mailto:busterthebandslc@gmail.com">busterthebandslc@gmail.com</a></p>
 
   <div class="socials">
     <a href="#">Instagram</a>
@@ -151,6 +146,8 @@
   </div>
 </section>
 
+</main>
+
 <footer>
   <p>© Buster</p>
 </footer>
@@ -158,4 +155,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-
