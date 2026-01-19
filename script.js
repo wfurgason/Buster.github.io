@@ -75,4 +75,5 @@ document.addEventListener("DOMContentLoaded", function () {
       data.items.forEach(event => {
         const start = event.start.dateTime || event.start.date;
         const date = new Date(start)
+      }
 
