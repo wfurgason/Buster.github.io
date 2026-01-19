@@ -50,8 +50,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const showsList = document.getElementById("shows-list");
   if (!showsList) return;
 
-  const calendarId = "YOUR_CALENDAR_ID_HERE";
-  const apiKey = "YOUR_GOOGLE_API_KEY";
+  const calendarId = "busterthebandslc@gmail.com";
+  const apiKey = "AIzaSyA1T5W98T_6UHD4ZUzwPYRrBwt2p2Q4sYw";
   const maxResults = 5;
 
   const calendarUrl =
