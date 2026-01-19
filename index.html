@@ -69,6 +69,45 @@
 <section class="signup">
   <h2>Join the Inner Circle</h2>
   <p>Show announcements, merch drops, and exclusives.</p>
+
+  <form
+    name="inner-circle"
+    method="POST"
+    data-netlify="true"
+    netlify-honeypot="bot-field"
+    action="/thank-you.html"
+    class="signup-form"
+  >
+    <input type="hidden" name="form-name" value="inner-circle">
+
+    <!-- Honeypot -->
+    <p style="display:none;">
+      <label>
+        Don’t fill this out:
+        <input name="bot-field">
+      </label>
+    </p>
+
+    <label class="sr-only" for="email">
+      Email address
+    </label>
+
+    <input
+      id="email"
+      type="email"
+      name="email"
+      placeholder="Enter your email"
+      required
+    >
+
+    <button type="submit" class="btn">
+      Join
+    </button>
+  </form>
+
+  <p class="signup-note">
+    No spam. Unsubscribe anytime.
+  </p>
 </section>
 
 <section id="merch">
