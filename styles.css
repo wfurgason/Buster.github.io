@@ -1,9 +1,44 @@
 /* =====================
    GLOBAL STYLES
    ===================== */
+/* 1. Reset defaults for the whole page */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+}
+
+/* 2. Ensure the main container doesn't restrict width */
+main {
+    width: 100%;
+}
+
+/* 3. Force the hero to span the full viewport */
+.hero {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 4. Ensure the video stretches to fill that container */
+.hero video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block; /* Removes inline-block gaps */
+}
 
 body {
   margin: 0;
+  Padding: 0;
+  Width: 100%;
+  Overflow-x: hidden;
   font-family: Arial, sans-serif;
   background: #0b0b0b;
   color: #fff;
@@ -37,27 +72,25 @@ section {
    ===================== */
 
 .hero {
-  position: relative;   /* This is the anchor for the video */
-  width: 100%;          /* Makes the section full-width */
-  height: 80vh;         /* Adjust this height as you like (e.g., 500px or 100vh) */
-  overflow: hidden;     /* Keeps the video from spilling out of the section */
-  display: flex;
-  align-items: center;  /* Vertically centers the "Listen Now" text */
-  justify-content: center; /* Horizontally centers the text */
-  background: #000;     /* Matches the band's dark aesthetic */
+    position: relative;
+    width: 100%;
+    max-width: none;  /* This overrides the 1000px limit */
+    padding: 0;       /* Removes the 20px side padding from line 32 */
+    height: 80vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
 }
 
 .hero video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* This perfectly centers the video */
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  object-fit: cover;  /* This ensures the video fills the screen background */
-  z-index: 0;         /* Keeps video behind the "Heavy Rock" text */
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover; /* This is the key property */
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .hero::after {
