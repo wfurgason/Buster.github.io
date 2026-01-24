@@ -29,8 +29,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // --- Upcoming Shows from Google Calendar ---
-  const calendarId = "busterthebandslc@gmail.com"; // replace with your calendar ID
-  const apiKey = "AIzaSyA1T5W98T_6UHD4ZUzwPYRrBwt2p2Q4sYw"; // replace with your API key
+  const calendarId = "busterthebandslc@gmail.com";
+  const apiKey = "AIzaSyA1T5W98T_6UHD4ZUzwPYRrBwt2p2Q4sYw";
   const maxResults = 5;
 
   const showsSection = document.querySelector("#shows");
@@ -44,28 +44,33 @@ document.addEventListener("DOMContentLoaded", function () {
         calendarId
       )}/events?key=${apiKey}&timeMin=${new Date().toISOString()}&maxResults=${maxResults}&orderBy=startTime&singleEvents=true`
     )
-      .then((response) => response.json())
+      .then((response) => response.json()) // <--- ADD THIS LINE
       .then((data) => {
+        // Now 'data' is the actual JSON object from Google
         if (!data.items || data.items.length === 0) {
-          showsList.innerHTML = "<li>No upcoming shows</li>";
-          return;
+            showsList.innerHTML = "<li>No upcoming shows</li>";
+            return;
         }
+
+        const listItems = data.items.map((event) => {
+            const title = event.summary || "Buster Show";
+            const location = event.location || "TBA";
             let start = "";
+
             if (event.start.dateTime) {
-              const date = new Date(event.start.dateTime);
-              const options = { weekday: "short", month: "short", day: "numeric" };
-              const dateStr = date.toLocaleDateString(undefined, options);
-              const timeStr = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-              start = `${dateStr} – ${timeStr}`;
+                const date = new Date(event.start.dateTime);
+                const options = { weekday: "short", month: "short", day: "numeric" };
+                const dateStr = date.toLocaleDateString(undefined, options);
+                const timeStr = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+                start = `${dateStr} – ${timeStr}`;
             } else {
-              const date = new Date(event.start.date);
-              const options = { weekday: "short", month: "short", day: "numeric" };
-              start = date.toLocaleDateString(undefined, options);
+                const date = new Date(event.start.date);
+                const options = { weekday: "short", month: "short", day: "numeric" };
+                start = date.toLocaleDateString(undefined, options);
             }
 
             return `<li>🎸 ${title} – 📍 ${location} – 🕒 ${start}</li>`;
-          })
-          .join("");
+        }).join("");
 
         showsList.innerHTML = listItems;
       })
