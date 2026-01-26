@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buster | EPK</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="epk-styles.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
 </head>
 <body>
     <header>
-        <h1>Electronic Press Kit</h1>
+        <div class="logo">Buster</div>
         <nav aria-label="Main navigation">
             <a href="index.html">Home</a>
             <a href="index.html#music">Music</a>
@@ -47,30 +49,31 @@
     </div>
 </section>
    
-   <section id="lineup">
+<section class="epk-section">
     <h2>The Lineup</h2>
-    <div class="band-members">
-        <div class="member">
+    <div class="lineup-container">
+        <div class="lineup-member">
             <h3>Karl Gilchrist</h3>
             <p class="role">Vocals & Guitar</p>
-            <p class="nickname">"The illegitimate son of Jim Morrison"</p>
+            <p class="quote">"The illegitimate son of Jim Morrison"</p>
         </div>
-        <div class="member">
+        <div class="lineup-member">
             <h3>Jon Beutler</h3>
             <p class="role">Lead Guitar</p>
-            <p class="nickname">"The Professor"</p>
+            <p class="quote">"The Professor"</p>
         </div>
-        <div class="member">
+        <div class="lineup-member">
             <h3>Dave Call</h3>
             <p class="role">Bass</p>
-            <p class="nickname">"Snack Master"</p>
+            <p class="quote">"Snack Master"</p>
         </div>
-        <div class="member">
+        <div class="lineup-member">
             <h3>Wes Furgason</h3>
             <p class="role">Drums</p>
-            <p class="nickname">professional Cat Herder"</p>
+            <p class="quote">"Professional Cat Herder"</p>
         </div>
     </div>
+</section>
       <section id="tech-rider" class="epk-section">
     <h2 class="section-title">Stage Plot & Inputs</h2>
     
@@ -127,10 +130,10 @@
     </div>
 </section>
 
-<section id="videos" class="epk-section">
-    <h2 class="section-title">Live Performance</h2>
-    <div class="video-container">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/kcnZ6qtVr84?si=A54ObzPX-OiP7cnw&controls=0&start=23" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<section class="epk-section">
+    <h2>Live Performance</h2>
+    <div class="video-responsive">
+        <iframe src="https://www.youtube.com/embed/kcnZ6qtVr84?si=eU_480-zGLoa3OQg?rel=0&start=23"></iframe>
     </div>
 </section>
 
@@ -149,20 +152,20 @@
 </section>
     </main>
         <footer>
-    <div class="footer-content">
-        <div class="contact-info">
-            <h3>Contact</h3>
-            <p>Email: <a href="mailto:busterthebandslc@gmail.com">busterthebandslc@gmail.com</a></p>
-        </div>
+    <div class="footer-container">
+        <h2 class="footer-logo">BUSTER</h2>
         
         <div class="social-links">
-            <a href="https://www.instagram.com/bustertheband/" target="_blank">Instagram</a>
-            <a href="https://www.youtube.com/@bustertheband" target="_blank">YouTube</a>
-            <a href="https://open.spotify.com/artist/3exYjJhkzwnv436LMtWAGI?si=MXA4asiRRE-TExGOlPuXFg" target="_blank">Spotify</a>
+            <a href="https://www.instagram.com/bustertheband/" target="_blank" class="social-icon">Instagram</a>
+            <a href="https://www.youtube.com/@bustertheband" target="_blank" class="social-icon">YouTube</a>
+            <a href="https://open.spotify.com/artist/your-id" target="_blank" class="social-icon">Spotify</a>
+        </div>
+
+        <div class="footer-contact">
+            <p>Booking & Press: <a href="mailto:busterthebandslc@gmail.com">busterthebandslc@gmail.com</a></p>
         </div>
         
-        <p>© 2026 Buster. All rights reserved.</p>
+        <p class="copyright">© 2026 BUSTER. All Rights Reserved.</p>
     </div>
-</footer>
     </body>
 </html>

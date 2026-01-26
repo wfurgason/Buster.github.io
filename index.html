@@ -8,6 +8,7 @@
   <meta name="description" content="Heavy rock band from the Wasatch Front, Utah. Music, shows, merch, and booking.">
 
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
 </head>
 
 <body>
@@ -28,40 +29,34 @@
 
   <!-- HERO -->
   <section class="hero">
-    <video
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="metadata"
-      poster="hero-poster.jpg"
-    >
-      <source src="heroSOL.mp4" type="video/mp4">
-    </video>
+  <video autoplay muted loop playsinline poster="hero-poster.jpg">
+    <source src="heroSOL.mp4" type="video/mp4">
+  </video>
+</section>
 
-    <div class="hero-content">
-      <h1>Heavy Rock from Utah</h1>
-      <p>Live. Loud. Wasatch Front.</p>
-      <a href="#music" class="btn">Listen Now</a>
-    </div>
+<div class="hero-caption">
+  <h1>Heavy Rock from Utah</h1>
+  <p>Live. Loud. Wasatch Front.</p>
+  <a href="#music" class="btn">Listen Now</a>
+</div>
   </section>
 
-  <!-- MUSIC -->
-  <section id="music" class="bg-section">
-    <h2>Music</h2>
+<section id="music">
+    <h2>MUSIC</h2>
     <p>If you’ve seen us live, start here.</p>
-
-    <iframe
-      src="https://open.spotify.com/embed/track/0oEu8l0CTl7SQksrThkM3q"
-      width="100%"
-      height="152"
-      loading="lazy"
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-    </iframe>
-  </section>
+    <div class="music-player-container">
+        <iframe 
+            src="https://open.spotify.com/embed/artist/3exYjJhkzwnv436LMtWAGI?utm_source=generator"
+            title="Buster | Spotify" 
+            frameborder="0" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+        </iframe>
+    </div>
+</section>
 
   <!-- SHOWS -->
-  <section id="shows" class="bg-section">
+  <section id="shows" class="epk-section">
     <h2>Upcoming Shows</h2>
 
     <ul id="shows-list">
@@ -70,7 +65,7 @@
   </section>
 
   <!-- SIGNUP -->
-  <section class="bg-section signup">
+  <section class="epk-section signup">
     <h2>Join the Inner Circle</h2>
     <p>Show announcements, merch drops, and exclusives.</p>
 
@@ -111,19 +106,21 @@
   </section>
 
   <!-- MERCH -->
-  <section id="merch">
-  <h2>Merch</h2>
-  <p>Support the band directly.</p>
-  
-  <div class="merch-container">
-    <img src="assets/sticker1.png" alt="Buster Band Sticker" class="merch-image">
-    <br>
-    <a href="YOUR_STORE_LINK_HERE" class="button">Shop Merch</a>
-  </div>
+  <section id="merch" class="epk-section">
+    <div class="bio-container">
+        <h2 class="section-title">Merch</h2>
+        <p class="tagline">Grab some gear and support the grit.</p>
+        
+        <div class="merch-item">
+            <img src="assets/sticker1.png" alt="Buster Sticker" class="sticker-sticker">
+            <br>
+            <a href="#" class="download-button">Shop Merch</a>
+        </div>
+    </div>
 </section>
 
   <!-- BOOKING -->
-  <section id="booking" class="bg-section">
+  <section id="booking" class="epk-section">
     <h2>Book the Band</h2>
     <p>Heavy rock band based in the Wasatch Front, Utah.</p>
 
@@ -186,19 +183,20 @@
 </main>
 
 <footer>
-    <div class="footer-content">
-        <div class="contact-info">
-            <h3>Contact</h3>
-            <p>Email: <a href="mailto:busterthebandslc@gmail.com">busterthebandslc@gmail.com</a></p>
-        </div>
+    <div class="footer-container">
+        <h2 class="footer-logo">BUSTER</h2>
         
         <div class="social-links">
-            <a href="https://www.instagram.com/bustertheband/" target="_blank">Instagram</a>
-            <a href="https://www.youtube.com/@bustertheband" target="_blank">YouTube</a>
-            <a href="https://open.spotify.com/artist/3exYjJhkzwnv436LMtWAGI?si=MXA4asiRRE-TExGOlPuXFg" target="_blank">Spotify</a>
+            <a href="https://www.instagram.com/bustertheband/" target="_blank" class="social-icon">Instagram</a>
+            <a href="https://www.youtube.com/@bustertheband" target="_blank" class="social-icon">YouTube</a>
+            <a href="https://open.spotify.com/artist/your-id" target="_blank" class="social-icon">Spotify</a>
+        </div>
+
+        <div class="footer-contact">
+            <p>Booking & Press: <a href="mailto:busterthebandslc@gmail.com">busterthebandslc@gmail.com</a></p>
         </div>
         
-        <p>© 2026 Buster. All rights reserved.</p>
+        <p class="copyright">© 2026 BUSTER. All Rights Reserved.</p>
     </div>
 </footer>
 
