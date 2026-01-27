@@ -1,496 +1,248 @@
-/* =====================
-   GLOBAL STYLES
-   ===================== */
-/* 1. Reset defaults for the whole page */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* --- 1. GLOBAL RESET & BASE STYLES --- */
 html, body {
-    width: 100%;
-    overflow-x: hidden; /* Prevents horizontal scrolling */
-}
-
-/* 2. Ensure the main container doesn't restrict width */
-main {
-    width: 100%;
-}
-
-/* 3. Force the hero to span the full viewport */
-.hero {
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-}
-
-/* 4. Ensure the video stretches to fill that container */
-.hero video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block; /* Removes inline-block gaps */
-}
-
-body {
   margin: 0;
-  Padding: 0;
-  Width: 100%;
-  Overflow-x: hidden;
-  font-family: Arial, sans-serif;
-  background: #0b0b0b;
-  color: #fff;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  background-color: #0b0b0b;
+  font-family: sans-serif; /* Adds a clean base font */
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* Prevents links from turning blue/purple */
+a, a:visited, a:active {
+    color: inherit;
+    text-decoration: none;
 }
 
+/* --- 2. HEADER & NAVIGATION --- */
 header {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  background: #000;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%; /* Slightly tighter padding for sticky look */
+    
+    /* The Fix */
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999; /* Higher than everything else */
+    
+    /* Professional 'Buster' Aesthetic */
+    background: rgba(0, 0, 0, 0.85); /* 85% solid black */
+    backdrop-filter: blur(5px);      /* Blurs content behind the nav */
+    border-bottom: 1px solid #333;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #ff0000;
 }
 
 nav a {
-  color: #fff;
-  margin-left: 15px;
-  text-decoration: none;
+    color: #fff !important; /* Force white links */
+    margin-left: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
 }
 
-section {
-  max-width: 1000px;
-  padding: 60px 20px;
+nav a:hover {
+    color: #ff0000 !important;
 }
 
-/* =====================
-   HERO SECTION
-   ===================== */
-
+/* --- 3. HERO SECTION (VIDEO & CAPTION) --- */
 .hero {
-    position: relative;
     width: 100%;
-    max-width: none;  /* This overrides the 1000px limit */
-    padding: 0;       /* Removes the 20px side padding from line 32 */
-    height: 80vh;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background: #000;
 }
 
 .hero video {
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover; /* This is the key property */
-    position: absolute;
-    top: 0;
-    left: 0;
+    width: 100%;
+    height: auto;
+    max-height: 80vh; /* Prevents video from taking too much vertical space */
+    object-fit: cover;
+    display: block;
 }
 
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 1;
-  pointer-events: none;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  padding: 20px;
-}
-
-/* Mobile fallback */
-@media (max-width: 768px) {
-  .hero video {
-    display: none;
-  }
-
-  .hero {
-    min-height: 100vh;
-    background: url('hero-poster.jpg') center/cover no-repeat;
-  }
-}
-
-/* =====================
-   BUTTONS
-   ===================== */
-
-.btn,
-button {
-  display: inline-block;
-  padding: 12px 24px;
-  border: 2px solid #fff;
-  background: transparent;
-  color: #fff;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn:hover,
-button:hover {
-  background: #e63946;
-  border-color: #e63946;
-}
-
-button:focus,
-.btn:focus {
-  outline: 2px solid #e63946;
-  outline-offset: 2px;
-}
-
-/* =====================
-   SHARED BACKGROUND SECTIONS
-   ===================== */
-
-.bg-section {
-  position: relative;
-  max-width: 1200px;
-  margin: 40px auto; /* space between sections */
-  padding: 60px 20px;
-  color: #fff;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #000;
-}
-
-.bg-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url('bg.jpg') center/cover no-repeat;
-  opacity: 0.25;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.bg-section > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* =====================
-   UPCOMING SHOWS
-   ===================== */
-
-#shows ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-#shows li {
-  margin-bottom: 15px;
-  font-size: 1.1rem;
-}
-
-/* =====================
-   SIGNUP SECTION
-   ===================== */
-
-.signup {
-  text-align: center;
-}
-
-.signup h2 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-/* =====================
-   BOOKING FORM
-   ===================== */
-
-#booking {
-  text-align: left;
-  max-width: 640px;
-  margin: auto;
-}
-
-#booking label {
-  display: block;
-  margin-bottom: 1.25rem;
-}
-
-#booking input,
-#booking textarea {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin-top: 0.5rem;
-  background: #111;
-  color: #fff;
-  border: 1px solid #444;
-}
-
-/* =====================
-   FOOTER
-   ===================== */
-
-footer {
-    background-color: #111;
-    color: #fff;
-    padding: 40px 20px;
+.hero-caption {
+    background: #000;
+    padding: 60px 20px;
     text-align: center;
-    border-top: 1px solid #333;
+    border-bottom: 3px solid #ff0000;
 }
 
-.footer-content {
+.hero-caption h1 {
+    color: #ffffff !important;
+    font-size: 3rem;
+    text-transform: uppercase;
+    margin: 0 0 10px 0;
+    letter-spacing: 2px;
+}
+
+.hero-caption p {
+    color: #ffffff !important;
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+/* --- 4. SECTION HEADINGS (Buster Style) --- */
+h2 {
+    color: #fff;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: table;
+    margin: 40px auto;
+    text-align: center;
+    border-bottom: 3px solid #ff0000;
+    padding-bottom: 10px;
+}
+
+.epk-section {
+    padding: 60px 5%;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    color: #fff;
+}
+
+/* --- 5. MUSIC & SPOTIFY FIX --- */
+.music-player-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 30px auto;
+    height: 352px; /* Correct height for Spotify Player */
+    display: block;
+}
+
+.music-player-container iframe {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 12px;
+    border: none;
+}
+
+/* --- 6. BUTTONS --- */
+.btn, .download-button, button[type="submit"] {
+    display: inline-block;
+    padding: 14px 32px;
+    background-color: #ff0000;
+    color: #fff !important;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    transition: transform 0.2s ease, background 0.4s ease;
+    cursor: pointer;
+}
+
+.btn:hover, .download-button:hover, button[type="submit"]:hover {
+    background-color: #cc0000;
+    transform: scale(1.05);
+}
+
+/* --- 7. MERCH STICKER --- */
+.sticker-sticker {
+    max-width: 280px;
+    height: auto;
+    margin: 20px auto;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.8));
+    transition: transform 0.4s ease;
+}
+
+.sticker-sticker:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* --- 8. FORMS (Booking & Signup) --- */
+form {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    align-items: center;
-}
-/* =====================
-   Social Links
-   ===================== */
-.social-links a {
-    margin: 0 10px;
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.social-links a:hover {
-    color: #ff0000; /* Or your brand color */
-  /* =====================
-   Band Members
-   ===================== */
-}
-.band-members {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.member h3 {
-    margin-bottom: 5px;
-    color: #ff0000; /* Use your band's accent color */
-    text-transform: uppercase;
-}
-
-.role {
-    font-weight: bold;
-    margin: 0;
-}
-
-.nickname {
-    font-style: italic;
-    font-size: 0.9em;
-    color: #ccc;
-}
-/* EPK Biography Styling - Left Justified */
-.epk-section {
-    width: 100%;
-    padding: 40px 20px;
-    background-color: transparent; /* Keep your site background */
-}
-
-.bio-container {
-    max-width: 900px;
-    margin-left: 0;      /* Forces container to the left */
-    text-align: left;    /* Aligns all text inside to the left */
-}
-
-.section-title {
-    font-size: 2.5rem;
-    text-transform: uppercase;
-    border-bottom: 3px solid #ff0000;
-    margin-bottom: 10px;
-    display: block;      /* Takes full width to keep underline consistent */
-}
-
-.tagline {
-    font-size: 1.2rem;
-    font-style: italic;
-    color: #ccc;
-    margin-bottom: 30px;
-}
-
-.intro-text {
-    font-size: 1.25rem;
-    color: #fff;
-    margin-bottom: 20px;
-}
-
-.bio-content p {
-    margin-bottom: 15px;
+    max-width: 600px;
+    margin: 0 auto;
     text-align: left;
 }
 
-.call-to-action {
-    font-weight: bold;
-    color: #ff0000;
-    margin-top: 25px;
-    font-size: 1.1rem;
-}
-/* --- Promotional Assets Section --- */
-#press-assets {
-    margin-top: 40px;
-}
-
-.asset-links {
+label {
     display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.download-button {
-    display: inline-block;
-    padding: 12px 24px;
-    background-color: #ff0000;
-    color: #fff;
-    text-decoration: none;
+    flex-direction: column;
+    color: #ccc;
     font-weight: bold;
     text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+input, textarea {
+    margin-top: 8px;
+    padding: 15px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: #fff;
     border-radius: 4px;
-    transition: background 0.3s ease;
 }
 
-.download-button:hover {
-    background-color: #cc0000;
-}
-/* Shared Section Title Styling */
-.section-title {
-    font-size: 2.5rem;
-    text-transform: uppercase;
-    color: #fff; /* White text for the title */
-    border-bottom: 3px solid #ff0000; /* The Red Underline */
-    margin-bottom: 30px;
-    padding-bottom: 5px;
-    display: table; /* Ensures underline only goes as wide as the words */
-    text-align: left;
+input:focus, textarea:focus {
+    border-color: #ff0000;
+    outline: none;
 }
 
-/* Ensure all section containers are left-aligned */
-.epk-section {
-    padding: 40px 20px;
-    text-align: left;
-}
-/* --- Live Performance (Video) Section --- */
-.video-container {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-    height: 0;
-    overflow: hidden;
-    max-width: 800px;
-    margin-top: 20px;
-    border: 2px solid #333;
+/* --- 9. FOOTER --- */
+footer {
+    background-color: #000;
+    padding: 60px 20px;
+    border-top: 2px solid #ff0000;
+    text-align: center;
+    color: #ffffff; /* Sets default footer text to white */
 }
 
-.video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-/* --- What They're Saying (Press Quotes) Section --- */
-.quote-container {
-    margin-top: 30px;
-    border-left: 4px solid #ff0000;
-    padding-left: 20px;
-    max-width: 800px;
-}
-
-blockquote {
-    font-size: 1.4rem;
-    font-style: italic;
-    color: #fff;
-    margin: 0 0 10px 0;
-}
-
-cite {
-    display: block;
-    font-size: 1rem;
-    color: #ff0000;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-/* Tech Rider Styling */
-.tech-content h3 {
-    color: #ff0000;
-    text-transform: uppercase;
-    margin-top: 30px;
-    font-size: 1.5rem;
-}
-
-.input-list {
+.social-links {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
     margin: 20px 0;
-    overflow-x: auto; /* Ensures table is readable on mobile */
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    color: #eee;
-}
-
-th, td {
-    text-align: left;
-    padding: 12px;
-    border-bottom: 1px solid #333;
-}
-
-th {
-    background-color: #222;
-    color: #ff0000;
+/* Fix: Ensures social icons are white by default and stay white after being clicked */
+.social-icon, 
+.social-icon:visited, 
+.social-icon:active {
+    border: 1px solid #333;
+    padding: 8px 16px;
+    color: #ffffff !important; /* Forces white even if global link rules try to change it */
+    transition: all 0.3s ease;
     text-transform: uppercase;
     font-size: 0.9rem;
 }
 
-tr:hover {
-    background-color: #1a1a1a;
+.social-icon:hover {
+    color: #ff0000 !important;
+    border-color: #ff0000;
 }
 
-.stage-requirements ul {
-    list-style: none;
-    padding: 0;
+.footer-contact p, 
+.footer-contact a {
+    color: #ffffff;
+    margin: 10px 0;
 }
 
-.stage-requirements li {
-    margin-bottom: 10px;
-    padding-left: 15px;
-    border-left: 2px solid #ff0000;
-}
-.tech-pdf-btn {
-    margin-top: 20px;
-    background-color: transparent;
-    border: 2px solid #ff0000;
+.footer-contact a:hover {
     color: #ff0000;
+    text-decoration: underline;
 }
 
-.tech-pdf-btn:hover {
-    background-color: #ff0000;
-    color: #fff;
-}
-.merch-container {
-  text-align: left; /* Keeps it aligned with your current text style */
-  margin-top: 20px;
-}
-
-.merch-image {
-  max-width: 200px; /* Adjust this size based on your preference */
-  height: auto;
-  border-radius: 8px; /* Smooths edges if the sticker is rectangular */
-  margin-bottom: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5); /* Adds depth against the background */
-  transition: transform 0.3s ease;
-}
-
-.merch-image:hover {
-  transform: scale(1.05); /* Subtle zoom when fans hover over it */
+/* Fix: Ensures copyright isn't black-on-black */
+.copyright {
+    font-size: 0.8rem;
+    color: #888888; /* Grey color so it's readable but subtle */
+    margin-top: 30px;
+    display: block;
 }

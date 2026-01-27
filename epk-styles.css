@@ -1,0 +1,182 @@
+/* --- EPK Layout & Sections --- */
+.epk-container {
+    background-color: #0b0b0b;
+    color: #fff;
+    padding-bottom: 80px;
+}
+
+.epk-section {
+    padding: 60px 5%;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* --- Biography & Text Styling --- */
+.bio-content {
+    line-height: 1.8;
+    font-size: 1.15rem;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+    color: #ddd;
+}
+
+.tagline {
+    color: #ff0000;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+/* --- The Lineup Grid --- */
+.lineup-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.lineup-member {
+    background: #151515;
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid #222;
+    transition: border-color 0.3s ease;
+}
+
+.lineup-member:hover {
+    border-color: #ff0000;
+}
+
+.lineup-member h3 {
+    color: #ff0000;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.role {
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.quote {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+/* --- Stage Plot & Input List Table --- */
+.tech-content {
+    text-align: left;
+    margin-top: 30px;
+}
+
+/* Mobile Scroll Container for Table */
+.input-list {
+    overflow-x: auto;
+    margin: 30px 0;
+    border: 1px solid #333;
+    border-radius: 8px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #111;
+    min-width: 600px; /* Ensures table doesn't squish too small */
+}
+
+th {
+    background-color: #ff0000;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    padding: 15px;
+    text-align: left;
+}
+
+td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #222;
+    color: #eee;
+}
+
+/* Zebra Striping for readability */
+tbody tr:nth-child(even) {
+    background-color: #1a1a1a;
+}
+
+tbody tr:hover {
+    background-color: #252525;
+}
+
+/* --- Stage Requirements List --- */
+.stage-requirements {
+    background: #151515;
+    padding: 30px;
+    border-left: 4px solid #ff0000;
+    margin-top: 30px;
+}
+
+.stage-requirements h3 {
+    color: #ff0000;
+    margin-top: 0;
+}
+
+.stage-requirements ul {
+    list-style: none;
+    padding: 0;
+}
+
+.stage-requirements li {
+    margin-bottom: 12px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.stage-requirements li::before {
+    content: "»";
+    position: absolute;
+    left: 0;
+    color: #ff0000;
+    font-weight: bold;
+}
+
+/* --- Responsive Video Container --- */
+.video-responsive {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 ratio */
+    height: 0;
+    overflow: hidden;
+    width: 100%;
+    margin: 40px 0;
+    border: 2px solid #333;
+}
+
+.video-responsive iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* --- Press Quotes --- */
+blockquote {
+    font-size: 1.5rem;
+    font-style: italic;
+    border-left: none;
+    padding: 0;
+    margin: 40px 0 10px 0;
+}
+
+cite {
+    color: #ff0000;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
