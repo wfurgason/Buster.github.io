@@ -66,44 +66,67 @@
 
   <!-- SIGNUP -->
   <section class="epk-section signup">
-    <h2>Join the Inner Circle</h2>
-    <p>Show announcements, merch drops, and exclusives.</p>
+  <h2>Join the Inner Circle</h2>
+  <p>Show announcements, merch drops, and exclusives.</p>
 
-    <form
-      name="inner-circle"
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-      action="/thank-you.html"
-      class="signup-form"
+  <form
+    id="innerCircleForm"
+    action="https://script.google.com/macros/s/AKfycbxpDzw9ZH4tOkrAsd4PEvX4rj0pOfb8S08m7V4gLqhlz1geap3MYveCAK9piEAD67lp0w/exec" 
+    method="POST"
+    class="signup-form"
+  >
+    <input type="hidden" name="formType" value="innerCircle">
+
+    <label class="sr-only" for="email">Email address</label>
+
+    <input
+      id="email"
+      type="email"
+      name="email"
+      placeholder="Enter your email"
+      required
     >
-      <input type="hidden" name="form-name" value="inner-circle">
 
-      <!-- Honeypot -->
-      <p style="display:none;">
-        <label>
-          Don’t fill this out:
-          <input name="bot-field">
-        </label>
-      </p>
+    <button type="submit" id="submitBtn" class="btn">Join</button>
+  </form>
 
-      <label class="sr-only" for="email">Email address</label>
+  <p id="responseMessage" class="signup-note">
+    No spam. Unsubscribe anytime.
+  </p>
+</section>
 
-      <input
-        id="email"
-        type="email"
-        name="email"
-        placeholder="Enter your email"
-        required
-      >
+<script>
+  const form = document.getElementById('innerCircleForm');
+  const btn = document.getElementById('submitBtn');
+  const msg = document.getElementById('responseMessage');
 
-      <button type="submit" class="btn">Join</button>
-    </form>
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    
+    // Visual feedback for the user
+    btn.disabled = true;
+    btn.innerText = "Joining...";
 
-    <p class="signup-note">
-      No spam. Unsubscribe anytime.
-    </p>
-  </section>
+    fetch(form.action, { 
+      method: 'POST', 
+      body: new FormData(form),
+      mode: 'no-cors' // Required for Google Script cross-domain requests
+    })
+    .then(() => {
+      form.reset();
+      btn.innerText = "Join";
+      btn.disabled = false;
+      msg.innerText = "Welcome to the Inner Circle!";
+      msg.style.color = "#FF4500"; // Matches your brand red
+    })
+    .catch(error => {
+      console.error('Error!', error.message);
+      btn.disabled = false;
+      btn.innerText = "Join";
+      alert("Something went wrong. Please try again!");
+    });
+  });
+</script>
 
   <!-- MERCH -->
   <section id="merch" class="epk-section">
