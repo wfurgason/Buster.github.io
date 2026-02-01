@@ -246,3 +246,101 @@ footer {
     margin-top: 30px;
     display: block;
 }
+/* =========================
+   MERCH SECTION
+========================= */
+
+.merch-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.merch-item {
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 16px;
+  width: 200px;
+  text-align: center;
+}
+
+.merch-item img.sticker-sticker {
+  max-width: 150px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.merch-name {
+  font-weight: bold;
+  margin: 8px 0 4px;
+}
+
+.merch-price {
+  color: #FF4500;
+  margin-bottom: 10px;
+}
+
+/* Quantity controls */
+.quantity-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0;
+}
+
+.qty-btn {
+  background: #FF4500;
+  border: none;
+  color: #fff;
+  padding: 4px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.qty-btn:hover {
+  background: #cc3700;
+}
+
+.qty-input {
+  width: 40px;
+  text-align: center;
+}
+
+/* Size dropdown */
+.size-select {
+  margin: 6px 0;
+  padding: 6px;
+  border-radius: 4px;
+}
+
+/* Cart */
+.cart {
+  display: none;
+  margin-top: 30px;
+  background: #111;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cart ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cart li {
+  padding: 6px 0;
+  border-bottom: 1px solid #333;
+}
+
+.cart-total {
+  margin-top: 12px;
+  font-weight: bold;
+}

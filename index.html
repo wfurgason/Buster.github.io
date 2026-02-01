@@ -64,82 +64,100 @@
     </ul>
   </section>
 
-  <!-- SIGNUP -->
-  <section class="epk-section signup">
+<!-- INNER CIRCLE SIGNUP -->
+<section id="inner-circle" style="padding: 20px; text-align: center;">
   <h2>Join the Inner Circle</h2>
-  <p>Show announcements, merch drops, and exclusives.</p>
 
-  <form
-    id="innerCircleForm"
-    action="https://script.google.com/macros/s/AKfycbxpDzw9ZH4tOkrAsd4PEvX4rj0pOfb8S08m7V4gLqhlz1geap3MYveCAK9piEAD67lp0w/exec" 
-    method="POST"
-    class="signup-form"
-  >
-    <input type="hidden" name="formType" value="innerCircle">
-
-    <label class="sr-only" for="email">Email address</label>
-
-    <input
-      id="email"
-      type="email"
-      name="email"
-      placeholder="Enter your email"
-      required
+  <form id="innerCircleForm" style="display: inline-block; width: 100%; max-width: 400px;">
+    <input 
+      type="email" 
+      name="email" 
+      placeholder="Enter your email" 
+      required 
+      style="
+        width: 100%; 
+        padding: 14px 12px; /* taller for vertical centering */
+        border-radius: 4px; 
+        border: 1px solid #ccc; 
+        margin-bottom: 15px; 
+        font-size: 1rem;
+        line-height: 1.4; /* ensures vertical alignment */
+        box-sizing: border-box;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      "
     >
 
-    <button type="submit" id="submitBtn" class="btn">Join</button>
-  </form>
+    <input type="hidden" name="formType" value="fan">
 
-  <p id="responseMessage" class="signup-note">
-    No spam. Unsubscribe anytime.
-  </p>
+    <button 
+      type="submit" 
+      id="submitBtn" 
+      class="btn" 
+      style="
+        width: 100%; 
+        padding: 14px; /* taller to match input */
+        font-size: 1rem;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+      "
+    >
+      JOIN
+    </button>
+
+    <div id="responseMessage" style="margin-top: 15px; min-height: 20px; font-size: 0.95rem;"></div>
+  </form>
 </section>
 
-<script>
-  const form = document.getElementById('innerCircleForm');
-  const btn = document.getElementById('submitBtn');
-  const msg = document.getElementById('responseMessage');
+<style>
+  /* Input focus glow */
+  #inner-circle input:focus {
+    outline: none;
+    border-color: #FF4500; /* Matches your heading color */
+    box-shadow: 0 0 5px #FF4500;
+  }
 
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    
-    // Visual feedback for the user
-    btn.disabled = true;
-    btn.innerText = "Joining...";
+  /* Hover for the button */
+  #inner-circle button:hover {
+    background-color: #cc3700; /* Matches other buttons */
+  }
 
-    fetch(form.action, { 
-      method: 'POST', 
-      body: new FormData(form),
-      mode: 'no-cors' // Required for Google Script cross-domain requests
-    })
-    .then(() => {
-      form.reset();
-      btn.innerText = "Join";
-      btn.disabled = false;
-      msg.innerText = "Welcome to the Inner Circle!";
-      msg.style.color = "#FF4500"; // Matches your brand red
-    })
-    .catch(error => {
-      console.error('Error!', error.message);
-      btn.disabled = false;
-      btn.innerText = "Join";
-      alert("Something went wrong. Please try again!");
-    });
-  });
-</script>
+  /* Responsive tweak for small screens */
+  @media (max-width: 480px) {
+    #inner-circle form {
+      max-width: 100%;
+    }
+
+    #inner-circle input,
+    #inner-circle button {
+      font-size: 1rem;
+      padding: 12px;
+    }
+  }
+</style>
 
   <!-- MERCH -->
-  <section id="merch" class="epk-section">
-    <div class="bio-container">
-        <h2 class="section-title">Merch</h2>
-        <p class="tagline">Grab some gear and support the grit.</p>
-        
-        <div class="merch-item">
-            <img src="assets/sticker1.png" alt="Buster Sticker" class="sticker-sticker">
-            <br>
-            <a href="#" class="download-button">Shop Merch</a>
-        </div>
+<section id="merch" class="epk-section">
+  <div class="bio-container">
+    <h2 class="section-title">Merch</h2>
+    <p class="tagline">Grab some gear and support the grit.</p>
+
+    <div class="merch-list" id="merchList">
+      <!-- JS will inject merch items here -->
     </div>
+
+    <button id="addToCartBtn" class="btn">Add Selected Items to Cart</button>
+
+    <div id="cart" class="cart">
+      <h3>Your Cart</h3>
+      <ul id="cartItems"></ul>
+      <p class="cart-total">
+        Total: $<span id="cartTotal">0.00</span>
+      </p>
+      <button id="checkoutBtn" class="btn">
+      Checkout
+    </button>
+    </div>
+  </div>
 </section>
 
   <!-- BOOKING -->
@@ -150,11 +168,8 @@
     <form
       name="booking"
       method="POST"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-      action="/thank-you.html"
     >
-      <input type="hidden" name="form-name" value="booking">
+      <input type="hidden" name="formType" value="booking">
 
       <p style="display:none;">
         <label>
@@ -187,9 +202,19 @@
       </label>
 
       <label>
+        Contact Phone Number*
+        <input
+          type="phone"
+          name="phone"
+          placeholder="(000)000-0000"
+          required
+        >
+      </label>
+
+      <label>
         Event Details *
         <textarea
-          name="details"
+          name="message"
           placeholder="Date, location, capacity, load-in time, payment, etc."
           required
           minlength="20"
@@ -200,6 +225,7 @@
       <button type="submit" class="btn">
         Submit Booking Request
       </button>
+      <p id="form-status" style="display:none; margin-top: 1rem; font-weight: bold;"></p>
     </form>
   </section>
 
