@@ -157,19 +157,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // MERCH ITEMS
   // ----------------------
   const merchItems = [
-    {
-      id: "sticker",
-      name: "Buster Sticker",
-      price: 3.00,
-      image: "assets/sticker1.png"
-    },
-    {
-      id: "tshirt",
-      name: "Buster T-Shirt",
-      price: 20.00,
-      image: "assets/tshirt1.png",
-      sizes: ["S", "M", "L", "XL", "2XL", "3XL"]
-    }
+    { id: "sticker", name: "Buster Sticker", price: 3.0, image: "assets/sticker1.png" },
+    { id: "tshirt", name: "Buster T-Shirt", price: 20.0, image: "assets/tshirt1.png", sizes: ["S", "M", "L", "XL", "2XL", "3XL"] }
   ];
 
   const merchList = document.getElementById("merchList");
@@ -179,11 +168,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const addToCartBtn = document.getElementById("addToCartBtn");
   const checkoutBtn = document.getElementById("checkoutBtn");
 
+  // Our live cart array
   const cart = [];
 
-  // ----------------------
-  // RENDER MERCH ITEMS
-  // ----------------------
+  // Render merch
   merchItems.forEach(item => {
     const div = document.createElement("div");
     div.className = "merch-item";
@@ -213,24 +201,17 @@ document.addEventListener("DOMContentLoaded", () => {
     merchList.appendChild(div);
   });
 
-  // ----------------------
-  // QUANTITY BUTTONS
-  // ----------------------
+  // Quantity buttons
   merchList.addEventListener("click", e => {
     if (!e.target.dataset.id) return;
-
     const input = merchList.querySelector(`.qty-input[data-id="${e.target.dataset.id}"]`);
     let val = parseInt(input.value, 10);
-
     if (e.target.classList.contains("plus")) val++;
     if (e.target.classList.contains("minus") && val > 1) val--;
-
     input.value = val;
   });
 
-  // ----------------------
-  // ADD TO CART
-  // ----------------------
+  // Add selected items to cart
   addToCartBtn.addEventListener("click", () => {
     cart.length = 0; // clear previous cart
     cartItemsEl.innerHTML = "";
@@ -240,27 +221,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const checkbox = merchList.querySelector(`input[type="checkbox"][data-id="${item.id}"]`);
       if (!checkbox.checked) return;
 
-      const qty = parseInt(
-        merchList.querySelector(`.qty-input[data-id="${item.id}"]`).value,
-        10
-      );
-
+      const qty = parseInt(merchList.querySelector(`.qty-input[data-id="${item.id}"]`).value, 10);
       const sizeSelect = merchList.querySelector(`.size-select[data-id="${item.id}"]`);
       const size = sizeSelect ? sizeSelect.value : null;
 
+      // Add to cart array
+      cart.push({ id: item.id, name: item.name, price: item.price, quantity: qty, size });
+
+      // Render cart list
       const lineTotal = item.price * qty;
       total += lineTotal;
-
-      cart.push({
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        quantity: qty,
-        size: size
-      });
-
-      const sizeLabel = size ? ` (${size})` : "";
-      cartItemsEl.innerHTML += `<li>${item.name}${sizeLabel} × ${qty} — $${lineTotal.toFixed(2)}</li>`;
+      const sizeText = size ? ` (${size})` : "";
+      cartItemsEl.innerHTML += `<li>${item.name}${sizeText} × ${qty} — $${lineTotal.toFixed(2)}</li>`;
     });
 
     if (total > 0) {
@@ -271,49 +243,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ----------------------
-  // STRIPE CHECKOUT
-  // ----------------------
-  async function checkoutWithStripe(cart) {
-    checkoutBtn.disabled = true;
-    checkoutBtn.textContent = "Redirecting...";
-
-    try {
-      const res = await fetch(
-        "https://script.google.com/macros/s/AKfycbwRl5JcOXtEcsG8VcXur4kHohpPl634gS0iHp2ginodG-TXXeCJVyyk7r4E8ixjnvb9xg/exec",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            action: "stripe",
-            cart: cart
-          })
-        }
-      );
-
-      const data = await res.json();
-
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert("Payment error. Please try again.");
-        console.error("Stripe response error:", data);
-        checkoutBtn.disabled = false;
-        checkoutBtn.textContent = "Checkout";
-      }
-    } catch (err) {
-      console.error("Checkout error:", err);
-      alert("An error occurred. Please try again.");
-      checkoutBtn.disabled = false;
-      checkoutBtn.textContent = "Checkout";
-    }
+  // Checkout via Stripe
+  checkoutBtn.addEventListener("click", async () => {
+  if (cart.length === 0) {
+    alert("Your cart is empty!");
+    return;
   }
 
-  checkoutBtn.addEventListener("click", () => {
-    if (cart.length === 0) {
-      alert("Please add items to your cart first!");
-      return;
+  try {
+    const res = await fetch("https://YOUR-VERCEL-PROJECT.vercel.app/api/create-checkout-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cart })
+    });
+
+    const data = await res.json();
+
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert("Checkout error.");
+      console.error(data);
     }
-    checkoutWithStripe(cart);
-  });
+  } catch (err) {
+    alert("Something went wrong.");
+    console.error(err);
+  }
 });
