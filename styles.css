@@ -1,299 +1,83 @@
 /* --- 1. GLOBAL RESET & BASE STYLES --- */
 html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow-x: hidden;
-  background-color: #0b0b0b;
-  font-family: sans-serif;
+  margin: 0; padding: 0; width: 100%; overflow-x: hidden;
+  background-color: #0b0b0b; font-family: sans-serif;
 }
-
-/* Prevents links from turning blue/purple */
-a, a:visited, a:active {
-    color: inherit;
-    text-decoration: none;
-}
+a, a:visited, a:active { color: inherit; text-decoration: none; }
 
 /* --- 2. HEADER & NAVIGATION --- */
 header {
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 5%; 
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 9999; 
-    background: rgba(0, 0, 0, 0.85); 
-    backdrop-filter: blur(5px);      
+    box-sizing: border-box; display: flex; justify-content: space-between;
+    align-items: center; padding: 15px 5%; position: fixed; 
+    top: 0; left: 0; width: 100%; z-index: 9999; 
+    background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px);      
     border-bottom: 1px solid #333;
 }
+.logo { font-size: 1.8rem; font-weight: 900; text-transform: uppercase; letter-spacing: 4px; color: #ff0000; }
+nav a { color: #fff !important; margin-left: 20px; text-transform: uppercase; font-weight: bold; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease; }
+nav a:hover { color: #ff0000 !important; }
 
-.logo {
-    font-size: 1.8rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    color: #ff0000;
-}
-
-nav a {
-    color: #fff !important; 
-    margin-left: 20px;
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-    transition: color 0.3s ease;
-}
-
-nav a:hover {
-    color: #ff0000 !important;
-}
-
-/* --- 3. HERO SECTION (VIDEO & CAPTION) --- */
-.hero {
-    width: 100%;
-    background: #000;
-}
-
-.hero video {
-    width: 100%;
-    height: auto;
-    max-height: 80vh; 
-    object-fit: cover;
-    display: block;
-}
-
-.hero-caption {
-    background: #000;
-    padding: 60px 20px;
-    text-align: center;
-    border-bottom: 3px solid #ff0000;
-}
-
-.hero-caption h1 {
-    color: #ffffff !important;
-    font-size: 3rem;
-    text-transform: uppercase;
-    margin: 0 0 10px 0;
-    letter-spacing: 2px;
-}
-
-.hero-caption p {
-    color: #ffffff !important;
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-}
+/* --- 3. HERO --- */
+.hero { width: 100%; background: #000; }
+.hero video { width: 100%; height: auto; max-height: 80vh; object-fit: cover; display: block; }
+.hero-caption { background: #000; padding: 60px 20px; text-align: center; border-bottom: 3px solid #ff0000; }
+.hero-caption h1 { color: #ffffff !important; font-size: 3rem; text-transform: uppercase; margin: 0 0 10px 0; letter-spacing: 2px; }
+.hero-caption p { color: #ffffff !important; font-size: 1.2rem; margin-bottom: 30px; }
 
 /* --- 4. SECTION HEADINGS --- */
-h2 {
-    color: #fff;
-    font-size: 2.5rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    display: table;
-    margin: 40px auto;
-    text-align: center;
-    border-bottom: 3px solid #ff0000;
-    padding-bottom: 10px;
-}
+h2 { color: #fff; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px; display: table; margin: 40px auto; text-align: center; border-bottom: 3px solid #ff0000; padding-bottom: 10px; }
+.epk-section { padding: 60px 5%; max-width: 1000px; margin: 0 auto; text-align: center; color: #fff; }
 
-.epk-section {
-    padding: 60px 5%;
-    max-width: 1000px;
-    margin: 0 auto;
-    text-align: center;
-    color: #fff;
-}
-
-/* --- 5. MUSIC & SPOTIFY --- */
-.music-player-container {
-    width: 100%;
-    max-width: 600px;
-    margin: 30px auto;
-    height: 352px; 
-    display: block;
-}
-
-.music-player-container iframe {
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: 12px;
-    border: none;
-}
+/* --- 5. MUSIC --- */
+.music-player-container { width: 100%; max-width: 600px; margin: 30px auto; height: 352px; display: block; }
+.music-player-container iframe { width: 100% !important; height: 100% !important; border-radius: 12px; border: none; }
 
 /* --- 6. BUTTONS --- */
-.btn, .download-button, button[type="submit"] {
-    display: inline-block;
-    padding: 14px 32px;
-    background-color: #ff0000;
-    color: #fff !important;
-    text-decoration: none;
-    font-weight: bold;
-    text-transform: uppercase;
-    border: none;
-    border-radius: 4px;
-    transition: transform 0.2s ease, background 0.4s ease;
-    cursor: pointer;
+.btn, button[type="submit"] { display: inline-block; padding: 14px 32px; background-color: #ff0000; color: #fff !important; font-weight: bold; text-transform: uppercase; border: none; border-radius: 4px; transition: 0.2s ease; cursor: pointer; }
+.btn:hover { background-color: #cc0000; transform: scale(1.05); }
+
+/* --- 7. MERCH SECTION --- */
+.merch-list { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; margin-top: 30px; position: relative; }
+.merch-item { background: #111; border: 1px solid #333; border-radius: 8px; padding: 16px; width: 200px; text-align: center; transition: 0.3s; }
+.sticker-sticker { max-width: 150px; margin-bottom: 10px; border-radius: 8px; filter: drop-shadow(0 5px 10px #000); }
+.merch-name { font-weight: bold; margin: 8px 0; }
+.merch-price { color: #ff0000; margin-bottom: 10px; }
+.quantity-selector { display: flex; justify-content: center; gap: 6px; margin: 10px 0; }
+.qty-btn { background: #ff0000; border: none; color: #fff; padding: 4px 10px; border-radius: 4px; cursor: pointer; }
+.qty-input { width: 40px; text-align: center; background: #222; color: #fff; border: 1px solid #444; }
+
+/* PREVIEW MODE STYLES (PUBLIC) */
+#merchList:not(.active-store) .merch-item {
+    filter: blur(4px) grayscale(100%);
+    opacity: 0.5;
+    pointer-events: none;
+}
+#merchList:not(.active-store)::after {
+    content: "DROPS SOON";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-5deg);
+    background: #ff0000; color: #fff;
+    padding: 15px 40px; font-size: 2rem; font-weight: 900;
+    border: 4px solid #fff; box-shadow: 10px 10px 0px #000;
+    z-index: 100;
+}
+/* Hide controls in preview */
+#merchList:not(.active-store) .quantity-selector, 
+#merchList:not(.active-store) .size-select,
+#merchList:not(.active-store) label,
+#addToCartBtn { 
+    display: none !important; 
 }
 
-.btn:hover, .download-button:hover, button[type="submit"]:hover {
-    background-color: #cc0000;
-    transform: scale(1.05);
-}
+/* SECRET TEST MODE UNLOCK */
+#merchList.active-store .merch-item { filter: none; opacity: 1; pointer-events: auto; }
+#merchList.active-store + #addToCartBtn { display: inline-block !important; }
 
-/* --- 7. MERCH IMAGES --- */
-.sticker-sticker {
-    max-width: 280px;
-    height: auto;
-    margin: 20px auto;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.8));
-    transition: transform 0.4s ease;
-}
-
-/* --- 8. FORMS --- */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: left;
-}
-
-label {
-    display: flex;
-    flex-direction: column;
-    color: #ccc;
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-}
-
-input, textarea {
-    margin-top: 8px;
-    padding: 15px;
-    background: #1a1a1a;
-    border: 1px solid #333;
-    color: #fff;
-    border-radius: 4px;
-}
-
-input:focus, textarea:focus {
-    border-color: #ff0000;
-    outline: none;
-}
-
-/* --- 9. FOOTER --- */
-footer {
-    background-color: #000;
-    padding: 60px 20px;
-    border-top: 2px solid #ff0000;
-    text-align: center;
-    color: #ffffff; 
-}
-
-.social-links {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin: 20px 0;
-}
-
-.social-icon, .social-icon:visited, .social-icon:active {
-    border: 1px solid #333;
-    padding: 8px 16px;
-    color: #ffffff !important; 
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-}
-
-.social-icon:hover {
-    color: #ff0000 !important;
-    border-color: #ff0000;
-}
-
-.copyright {
-    font-size: 0.8rem;
-    color: #888888; 
-    margin-top: 30px;
-    display: block;
-}
-
-/* --- 10. MERCH PREVIEW MODE --- */
-
-.merch-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-  justify-content: center;
-  margin-top: 30px;
-  position: relative; /* Needed for the overlay */
-}
-
-/* Frosted glass effect for Preview Mode */
-.merch-item {
-  background: #111;
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 16px;
-  width: 200px;
-  text-align: center;
-  filter: blur(2px) grayscale(50%); /* Makes items look 'locked' */
-  pointer-events: none; /* Prevents people from ticking boxes */
-  opacity: 0.6;
-}
-
-/* The "Drops Soon" Badge Overlay */
-#merch .epk-section {
-  position: relative;
-}
-
-/* Creating a banner over the merch area */
-#merchList::after {
-  content: "DROPS SOON";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-5deg);
-  background: #ff0000;
-  color: #fff;
-  padding: 15px 40px;
-  font-size: 2rem;
-  font-weight: 900;
-  border: 4px solid #fff;
-  box-shadow: 10px 10px 0px #000;
-  z-index: 100;
-  pointer-events: none;
-  letter-spacing: 2px;
-}
-
-.merch-item img.sticker-sticker {
-  max-width: 150px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-}
-
-.merch-name {
-  font-weight: bold;
-  margin: 8px 0 4px;
-}
-
-.merch-price {
-  color: #ff0000;
-  margin-bottom: 10px;
-}
-
-/* Hide Quantity/Size during preview to keep it clean */
-.quantity-selector, .size-select, label input[type="checkbox"] {
-  display: none !important;
-}
-
-/* Cart visibility in preview */
-.cart {
-  display: none !important; /* Cart shouldn't show in preview mode */
-}
+/* --- 8. FORMS & FOOTER --- */
+form { display: flex; flex-direction: column; gap: 20px; max-width: 600px; margin: 0 auto; text-align: left; }
+input, textarea, .size-select { padding: 15px; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 4px; }
+footer { background-color: #000; padding: 60px 20px; border-top: 2px solid #ff0000; text-align: center; color: #fff; }
+.social-icon { border: 1px solid #333; padding: 8px 16px; color: #fff !important; margin: 0 10px; }
+.copyright { font-size: 0.8rem; color: #888; margin-top: 30px; display: block; }
+.cart { margin: 30px auto; background: #111; padding: 20px; border-radius: 8px; border: 1px solid #333; max-width: 500px; }
