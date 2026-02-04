@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
     checkoutBtn.addEventListener("click", async () => {
       if (cart.length === 0) return alert("Your cart is empty!");
       try {
-        const res = await fetch("buster-github-io-git-main-wes-furgasons-projects.vercel.app", {
+        const res = await fetch("https://buster-github-io-git-main-wes-furgasons-projects.vercel.app/api/create-checkout-session", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ cart })
