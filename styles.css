@@ -74,11 +74,60 @@ h2 { color: #fff; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 
 #merchList.active-store .merch-item { filter: none; opacity: 1; pointer-events: auto; }
 #merchList.active-store + #addToCartBtn { display: inline-block !important; }
 
-/* --- 8. FORMS & FOOTER --- */
-form { display: flex; flex-direction: column; gap: 20px; max-width: 600px; margin: 0 auto; text-align: left; }
-input, textarea, .size-select { padding: 15px; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 4px; }
+/* --- 8. FORMS (Booking & Signup) --- */
+#booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* This wrapper ensures the label stays on top of the input */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+label {
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin-bottom: 8px; /* Creates space between label and box */
+    letter-spacing: 1px;
+}
+
+input, textarea {
+    padding: 15px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: #fff;
+    border-radius: 4px;
+    font-family: inherit;
+    width: 100%; /* Prevents boxes from being different widths */
+    box-sizing: border-box; 
+}
+
+input:focus, textarea:focus {
+    border-color: #ff0000;
+    outline: none;
+    background: #222;
+}
+
+/* Form Submit Button specific spacing */
+#booking-form button[type="submit"] {
+    margin-top: 10px;
+    align-self: center; /* Centers just the button */
+    width: 100%;
+}
+
+/* --- 9. FOOTER & MISC --- */
 footer { background-color: #000; padding: 60px 20px; border-top: 2px solid #ff0000; text-align: center; color: #fff; }
 .social-icon { border: 1px solid #333; padding: 8px 16px; color: #fff !important; margin: 0 10px; }
+.social-icon:hover { border-color: #ff0000; background: #111; }
 .copyright { font-size: 0.8rem; color: #888; margin-top: 30px; display: block; }
 .cart { margin: 30px auto; background: #111; padding: 20px; border-radius: 8px; border: 1px solid #333; max-width: 500px; }
 
