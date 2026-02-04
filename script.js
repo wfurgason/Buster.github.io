@@ -171,22 +171,47 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // =========================
+  // 5. STRIPE CHECKOUT
+  // =========================
   if (checkoutBtn) {
     checkoutBtn.addEventListener("click", async () => {
       if (cart.length === 0) return alert("Your cart is empty!");
+      
       try {
+        // 1. Fetch Session from Vercel
         const res = await fetch("https://buster-github-io-git-main-wes-furgasons-projects.vercel.app/api/create-checkout-session", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ cart })
         });
-        const data = await res.json();
-        if (data.url) window.location.href = data.url;
-        else alert("Checkout error.");
+
+        const session = await res.json();
+
+        // 2. Error handling if backend returns an error message
+        if (!res.ok || session.error) {
+          console.error("Stripe Session Error:", session.error);
+          alert(`Checkout Error: ${session.error || "Failed to create session."}`);
+          return;
+        }
+
+        // 3. Initialize Stripe and Redirect
+        // REPLACING WITH YOUR PUBLISHABLE KEY
+        const stripe = Stripe('pk_test_51Svqpj1sJKQpz5MMutWZAjn1ZoJju20mtduf945K5ltGkiq8f8epxiN4VvbqgFN3xU94G00zo8LzyRxb9KOeMstX00ZQjUZJIe');
+        const { error } = await stripe.redirectToCheckout({
+          sessionId: session.id
+        });
+
+        if (error) {
+          console.error("Redirect error:", error.message);
+          alert(error.message);
+        }
+
       } catch (err) {
-        alert("Something went wrong.");
+        console.error("General Script Error:", err);
+        alert("Something went wrong connecting to the payment server.");
       }
     });
   }
 
-}); // <--- This one closing brace now covers the whole file!
+});
