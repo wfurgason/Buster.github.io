@@ -5,7 +5,7 @@ html, body {
   width: 100%;
   overflow-x: hidden;
   background-color: #0b0b0b;
-  font-family: sans-serif;
+  font-family: sans-serif; /* Adds a clean base font */
 }
 
 /* Prevents links from turning blue/purple */
@@ -20,14 +20,18 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 5%; 
+    padding: 15px 5%; /* Slightly tighter padding for sticky look */
+    
+    /* The Fix */
     position: fixed; 
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 9999; 
-    background: rgba(0, 0, 0, 0.85); 
-    backdrop-filter: blur(5px);      
+    z-index: 9999; /* Higher than everything else */
+    
+    /* Professional 'Buster' Aesthetic */
+    background: rgba(0, 0, 0, 0.85); /* 85% solid black */
+    backdrop-filter: blur(5px);      /* Blurs content behind the nav */
     border-bottom: 1px solid #333;
 }
 
@@ -40,7 +44,7 @@ header {
 }
 
 nav a {
-    color: #fff !important; 
+    color: #fff !important; /* Force white links */
     margin-left: 20px;
     text-transform: uppercase;
     font-weight: bold;
@@ -62,7 +66,7 @@ nav a:hover {
 .hero video {
     width: 100%;
     height: auto;
-    max-height: 80vh; 
+    max-height: 80vh; /* Prevents video from taking too much vertical space */
     object-fit: cover;
     display: block;
 }
@@ -88,7 +92,7 @@ nav a:hover {
     margin-bottom: 30px;
 }
 
-/* --- 4. SECTION HEADINGS --- */
+/* --- 4. SECTION HEADINGS (Buster Style) --- */
 h2 {
     color: #fff;
     font-size: 2.5rem;
@@ -109,12 +113,12 @@ h2 {
     color: #fff;
 }
 
-/* --- 5. MUSIC & SPOTIFY --- */
+/* --- 5. MUSIC & SPOTIFY FIX --- */
 .music-player-container {
     width: 100%;
     max-width: 600px;
     margin: 30px auto;
-    height: 352px; 
+    height: 352px; /* Correct height for Spotify Player */
     display: block;
 }
 
@@ -145,7 +149,7 @@ h2 {
     transform: scale(1.05);
 }
 
-/* --- 7. MERCH IMAGES --- */
+/* --- 7. MERCH STICKER --- */
 .sticker-sticker {
     max-width: 280px;
     height: auto;
@@ -154,7 +158,11 @@ h2 {
     transition: transform 0.4s ease;
 }
 
-/* --- 8. FORMS --- */
+.sticker-sticker:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* --- 8. FORMS (Booking & Signup) --- */
 form {
     display: flex;
     flex-direction: column;
@@ -193,7 +201,7 @@ footer {
     padding: 60px 20px;
     border-top: 2px solid #ff0000;
     text-align: center;
-    color: #ffffff; 
+    color: #ffffff; /* Sets default footer text to white */
 }
 
 .social-links {
@@ -203,10 +211,13 @@ footer {
     margin: 20px 0;
 }
 
-.social-icon, .social-icon:visited, .social-icon:active {
+/* Fix: Ensures social icons are white by default and stay white after being clicked */
+.social-icon, 
+.social-icon:visited, 
+.social-icon:active {
     border: 1px solid #333;
     padding: 8px 16px;
-    color: #ffffff !important; 
+    color: #ffffff !important; /* Forces white even if global link rules try to change it */
     transition: all 0.3s ease;
     text-transform: uppercase;
     font-size: 0.9rem;
@@ -217,14 +228,27 @@ footer {
     border-color: #ff0000;
 }
 
+.footer-contact p, 
+.footer-contact a {
+    color: #ffffff;
+    margin: 10px 0;
+}
+
+.footer-contact a:hover {
+    color: #ff0000;
+    text-decoration: underline;
+}
+
+/* Fix: Ensures copyright isn't black-on-black */
 .copyright {
     font-size: 0.8rem;
-    color: #888888; 
+    color: #888888; /* Grey color so it's readable but subtle */
     margin-top: 30px;
     display: block;
 }
-
-/* --- 10. MERCH PREVIEW MODE --- */
+/* =========================
+   MERCH SECTION
+========================= */
 
 .merch-list {
   display: flex;
@@ -232,10 +256,8 @@ footer {
   gap: 24px;
   justify-content: center;
   margin-top: 30px;
-  position: relative; /* Needed for the overlay */
 }
 
-/* Frosted glass effect for Preview Mode */
 .merch-item {
   background: #111;
   border: 1px solid #333;
@@ -243,33 +265,6 @@ footer {
   padding: 16px;
   width: 200px;
   text-align: center;
-  filter: blur(2px) grayscale(50%); /* Makes items look 'locked' */
-  pointer-events: none; /* Prevents people from ticking boxes */
-  opacity: 0.6;
-}
-
-/* The "Drops Soon" Badge Overlay */
-#merch .epk-section {
-  position: relative;
-}
-
-/* Creating a banner over the merch area */
-#merchList::after {
-  content: "DROPS SOON";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-5deg);
-  background: #ff0000;
-  color: #fff;
-  padding: 15px 40px;
-  font-size: 2rem;
-  font-weight: 900;
-  border: 4px solid #fff;
-  box-shadow: 10px 10px 0px #000;
-  z-index: 100;
-  pointer-events: none;
-  letter-spacing: 2px;
 }
 
 .merch-item img.sticker-sticker {
@@ -284,16 +279,68 @@ footer {
 }
 
 .merch-price {
-  color: #ff0000;
+  color: #FF4500;
   margin-bottom: 10px;
 }
 
-/* Hide Quantity/Size during preview to keep it clean */
-.quantity-selector, .size-select, label input[type="checkbox"] {
-  display: none !important;
+/* Quantity controls */
+.quantity-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0;
 }
 
-/* Cart visibility in preview */
+.qty-btn {
+  background: #FF4500;
+  border: none;
+  color: #fff;
+  padding: 4px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.qty-btn:hover {
+  background: #cc3700;
+}
+
+.qty-input {
+  width: 40px;
+  text-align: center;
+}
+
+/* Size dropdown */
+.size-select {
+  margin: 6px 0;
+  padding: 6px;
+  border-radius: 4px;
+}
+
+/* Cart */
 .cart {
-  display: none !important; /* Cart shouldn't show in preview mode */
+  display: none;
+  margin-top: 30px;
+  background: #111;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cart ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cart li {
+  padding: 6px 0;
+  border-bottom: 1px solid #333;
+}
+
+.cart-total {
+  margin-top: 12px;
+  font-weight: bold;
 }

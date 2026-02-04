@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Buster | Heavy Rock from Utah</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Heavy rock band from the Wasatch Front, Utah. Music, shows, merch, and booking.">
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Buster</div>
+
+  <nav aria-label="Main navigation">
+    <a href="#music">Music</a>
+    <a href="#shows">Shows</a>
+    <a href="#merch">Merch</a>
+    <a href="#booking">Booking</a>
+    <a href="epk.html">EPK</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+  <video autoplay muted loop playsinline poster="hero-poster.jpg">
+    <source src="heroSOL.mp4" type="video/mp4">
+  </video>
+</section>
+
+<div class="hero-caption">
+  <h1>Heavy Rock from Utah</h1>
+  <p>Live. Loud. Wasatch Front.</p>
+  <a href="#music" class="btn">Listen Now</a>
+</div>
+  </section>
+
+<section id="music">
+    <h2>MUSIC</h2>
+    <p>If you’ve seen us live, start here.</p>
+    <div class="music-player-container">
+        <iframe 
+            src="https://open.spotify.com/embed/artist/3exYjJhkzwnv436LMtWAGI?utm_source=generator"
+            title="Buster | Spotify" 
+            frameborder="0" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+        </iframe>
+    </div>
+</section>
+
+  <!-- SHOWS -->
+  <section id="shows" class="epk-section">
+    <h2>Upcoming Shows</h2>
+
+    <ul id="shows-list">
+      <li>Loading shows…</li>
+    </ul>
+  </section>
+
+<!-- INNER CIRCLE SIGNUP -->
+<section id="inner-circle" style="padding: 20px; text-align: center;">
+  <h2>Join the Inner Circle</h2>
+
+  <form id="innerCircleForm" style="display: inline-block; width: 100%; max-width: 400px;">
+    <input 
+      type="email" 
+      name="email" 
+      placeholder="Enter your email" 
+      required 
+      style="
+        width: 100%; 
+        padding: 14px 12px; /* taller for vertical centering */
+        border-radius: 4px; 
+        border: 1px solid #ccc; 
+        margin-bottom: 15px; 
+        font-size: 1rem;
+        line-height: 1.4; /* ensures vertical alignment */
+        box-sizing: border-box;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      "
+    >
+
+    <input type="hidden" name="formType" value="fan">
+
+    <button 
+      type="submit" 
+      id="submitBtn" 
+      class="btn" 
+      style="
+        width: 100%; 
+        padding: 14px; /* taller to match input */
+        font-size: 1rem;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+      "
+    >
+      JOIN
+    </button>
+
+    <div id="responseMessage" style="margin-top: 15px; min-height: 20px; font-size: 0.95rem;"></div>
+  </form>
+</section>
+
+<style>
+  /* Input focus glow */
+  #inner-circle input:focus {
+    outline: none;
+    border-color: #FF4500; /* Matches your heading color */
+    box-shadow: 0 0 5px #FF4500;
+  }
+
+  /* Hover for the button */
+  #inner-circle button:hover {
+    background-color: #cc3700; /* Matches other buttons */
+  }
+
+  /* Responsive tweak for small screens */
+  @media (max-width: 480px) {
+    #inner-circle form {
+      max-width: 100%;
+    }
+
+    #inner-circle input,
+    #inner-circle button {
+      font-size: 1rem;
+      padding: 12px;
+    }
+  }
+</style>
+
+  <!-- MERCH -->
+<section id="merch" class="epk-section">
+  <div class="bio-container">
+    <h2 class="section-title">Merch</h2>
+    <p class="tagline">Grab some gear and support the grit.</p>
+
+    <div class="merch-list" id="merchList">
+      <!-- JS will inject merch items here -->
+    </div>
+
+    <button id="addToCartBtn" class="btn">Add Selected Items to Cart</button>
+
+    <div id="cart" class="cart">
+      <h3>Your Cart</h3>
+      <ul id="cartItems"></ul>
+      <p class="cart-total">
+        Total: $<span id="cartTotal">0.00</span>
+      </p>
+      <button id="checkoutBtn" class="btn">
+      Checkout
+    </button>
+    </div>
+  </div>
+</section>
+
+  <!-- BOOKING -->
+  <section id="booking" class="epk-section">
+    <h2>Book the Band</h2>
+    <p>Heavy rock band based in the Wasatch Front, Utah.</p>
+
+    <form
+      name="booking"
+      method="POST"
+    >
+      <input type="hidden" name="formType" value="booking">
+
+      <p style="display:none;">
+        <label>
+          Don’t fill this out:
+          <input name="bot-field">
+        </label>
+      </p>
+
+      <label>
+        Venue / Organization *
+        <input
+          type="text"
+          name="venue"
+          placeholder="Venue or Organization Name"
+          required
+          minlength="3"
+          maxlength="100"
+          pattern="[A-Za-z0-9\s\.\-&]+"
+        >
+      </label>
+
+      <label>
+        Contact Email *
+        <input
+          type="email"
+          name="email"
+          placeholder="booking@venue.com"
+          required
+        >
+      </label>
+
+      <label>
+        Contact Phone Number*
+        <input
+          type="phone"
+          name="phone"
+          placeholder="(000)000-0000"
+          required
+        >
+      </label>
+
+      <label>
+        Event Details *
+        <textarea
+          name="message"
+          placeholder="Date, location, capacity, load-in time, payment, etc."
+          required
+          minlength="20"
+          maxlength="1500"
+        ></textarea>
+      </label>
+
+      <button type="submit" class="btn">
+        Submit Booking Request
+      </button>
+      <p id="form-status" style="display:none; margin-top: 1rem; font-weight: bold;"></p>
+    </form>
+  </section>
+
+</main>
+
+<footer>
+    <div class="footer-container">
+        <h2 class="footer-logo">BUSTER</h2>
+        
+        <div class="social-links">
+            <a href="https://www.instagram.com/bustertheband/" target="_blank" class="social-icon">Instagram</a>
+            <a href="https://www.youtube.com/@bustertheband" target="_blank" class="social-icon">YouTube</a>
+            <a href="https://open.spotify.com/artist/your-id" target="_blank" class="social-icon">Spotify</a>
+        </div>
+
+        <div class="footer-contact">
+            <p>Booking & Press: <a href="mailto:busterthebandslc@gmail.com">busterthebandslc@gmail.com</a></p>
+        </div>
+        
+        <p class="copyright">© 2026 BUSTER. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
+
