@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   const merchList = document.getElementById("merchList");
+  const merchSection = document.getElementById("merch"); // Parent section for extra CSS control
   const cartEl = document.getElementById("cart");
   const cartItemsEl = document.getElementById("cartItems");
   const cartTotalEl = document.getElementById("cartTotal");
@@ -77,10 +78,15 @@ document.addEventListener("DOMContentLoaded", function () {
   const checkoutBtn = document.getElementById("checkoutBtn");
   let cart = [];
 
-  if (merchList) {
-    // If in Test Mode, unlock the CSS via class
-    if (isTestMode) merchList.classList.add("active-store");
+  // FORCE UNLOCK IF TEST MODE IS DETECTED
+  if (isTestMode) {
+    console.log("🛠️ Buster Secret Mode: ACTIVE");
+    if (merchList) merchList.classList.add("active-store");
+    if (merchSection) merchSection.classList.add("active-store");
+    document.body.classList.add("test-mode-active"); // Nuclear option for CSS targeting
+  }
 
+  if (merchList) {
     merchItems.forEach(item => {
       const div = document.createElement("div");
       div.className = "merch-item";
