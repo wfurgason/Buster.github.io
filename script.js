@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const isTestMode = urlParams.get('mode') === 'test';
 
   // 🔹 PUBLIC Apps Script deployment URL
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwRl5JcOXtEcsG8VcXur4kHohpPl634gS0iHp2ginodG-TXXeCJVyyk7r4E8ixjnvb9xg/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxE2pyBVgn0gy9WjgIPbu7aWXYQU1wbkkGCG9LRKamAAeWmPffWet_qwocW3nYv5x0D-g/exec";
 
   // =========================
   // 1. FORMS (Booking & Inner Circle)
