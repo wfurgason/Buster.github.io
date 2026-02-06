@@ -251,7 +251,26 @@
         <p class="copyright">© 2026 BUSTER. All Rights Reserved.</p>
     </div>
 </footer>
-<script src="https://js.stripe.com/v3/"></script>
+<button id="backToTop" title="Go to top">↑</button>
+
+    <script src="script.js"></script>
+
+    <script>
+      (function() {
+        const topBtn = document.getElementById("backToTop");
+        window.addEventListener("scroll", function() {
+          if (window.pageYOffset > 300 || document.documentElement.scrollTop > 300) {
+            topBtn.style.display = "block";
+          } else {
+            topBtn.style.display = "none";
+          }
+        });
+        topBtn.addEventListener("click", function() {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      })();
+    </script>
+    <script src="create-stripe-session.js"></script>
 </body>
 </html>
 
