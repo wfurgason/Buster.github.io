@@ -10,9 +10,7 @@
   <link rel="stylesheet" href="styles.css?v=2">
   <link rel="icon" type="image/png" href="assets/favicon.png">
 </head>
-
 <body>
-
 <header>
   <div class="logo">Buster</div>
 
@@ -250,25 +248,37 @@
         <p class="copyright">© 2026 BUSTER. All Rights Reserved.</p>
     </div>
 </footer>
-<button id="backToTop" title="Go to top">↑</button>
+<button id="joinFloatingBtn" title="Join the Inner Circle">JOIN</button><button id="backToTop" title="Go to top">↑</button>
 
     <script src="script.js"></script>
 
     <script>
-      (function() {
-        const topBtn = document.getElementById("backToTop");
-        window.addEventListener("scroll", function() {
-          if (window.pageYOffset > 300 || document.documentElement.scrollTop > 300) {
-            topBtn.style.display = "block";
-          } else {
-            topBtn.style.display = "none";
-          }
-        });
-        topBtn.addEventListener("click", function() {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-      })();
-    </script>
+  (function() {
+    // Back to Top Logic
+    const topBtn = document.getElementById("backToTop");
+    window.addEventListener("scroll", function() {
+      if (window.pageYOffset > 300 || document.documentElement.scrollTop > 300) {
+        topBtn.style.display = "block";
+      } else {
+        topBtn.style.display = "none";
+      }
+    });
+    topBtn.addEventListener("click", function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Join Button Logic
+    const joinBtn = document.getElementById("joinFloatingBtn");
+    if (joinBtn) {
+      joinBtn.addEventListener("click", function() {
+        const target = document.getElementById("inner-circle");
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+  })();
+</script>
     <script src="create-stripe-session.js"></script>
 </body>
 </html>

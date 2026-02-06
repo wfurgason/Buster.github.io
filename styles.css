@@ -205,3 +205,53 @@ footer { background-color: #000; padding: 60px 20px; border-top: 2px solid #ff00
     background-color: #cc0000;
     transform: scale(1.1);
 }
+/* --- Floating Join Button --- */
+#joinFloatingBtn {
+    position: fixed;
+    bottom: 30px;
+    left: 30px; /* Opposite side of the back-to-top button */
+    z-index: 10000;
+    border: 2px solid #fff;
+    background-color: #ff0000; /* Buster Red */
+    color: white;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 900;
+    width: 60px;
+    height: 60px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s;
+    /* Apply the pulse animation below */
+    animation: busterPulse 2s infinite;
+}
+
+#joinFloatingBtn:hover {
+    transform: scale(1.2) rotate(-5deg);
+    background-color: #cc0000;
+    animation: none; /* Stop pulsing when user hovers */
+}
+
+/* The Pulse Animation */
+@keyframes busterPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+    }
+    70% {
+        transform: scale(1.08);
+        box-shadow: 0 0 0 15px rgba(255, 0, 0, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+    }
+}
+
+/* Hide on very small screens if it covers content (Optional) */
+@media (max-width: 400px) {
+    #joinFloatingBtn { width: 50px; height: 50px; left: 15px; bottom: 15px; }
+}
