@@ -275,7 +275,7 @@ cite {
 }
 /* --- Back to Top Button --- */
 #backToTop {
-    display: block !important; /* Hidden by default */
+    display: none; /* Hidden by default */
     position: fixed;
     bottom: 30px;
     right: 30px;
