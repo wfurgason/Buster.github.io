@@ -73,11 +73,20 @@ document.addEventListener("DOMContentLoaded", function () {
   const innerCircleForm = document.getElementById("innerCircleForm");
   const signupBtn = document.getElementById("submitBtn");
   const signupResponse = document.getElementById("responseMessage");
+
   if (innerCircleForm) {
     innerCircleForm.addEventListener("submit", function (e) {
       e.preventDefault();
       signupBtn.innerText = "Joining...";
-      handleFormSubmit(innerCircleForm, signupResponse, signupBtn, "Thanks for joining!");
+      
+      // Remove the class in case they are resubmitting
+      signupResponse.classList.remove("success-glow");
+
+      handleFormSubmit(innerCircleForm, signupResponse, signupBtn, "Thanks for joining!")
+        .then(() => {
+          // Trigger the animation after a successful post
+          signupResponse.classList.add("success-glow");
+        });
     });
   }
 
