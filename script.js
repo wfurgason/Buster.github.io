@@ -11,6 +11,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // 1. FORM SUBMISSION LOGIC
   // =========================
   
+  /**
+   * Universal handler for GAS submissions
+   * Uses URLSearchParams to ensure Google Apps Script parses data correctly
+   */
   async function handleFormSubmit(formElement, statusElement, buttonElement, successMsg) {
     const formData = new FormData(formElement);
     const urlEncodedData = new URLSearchParams(formData);
@@ -30,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (statusElement) {
           statusElement.textContent = successMsg;
           statusElement.style.display = "block";
-          statusElement.style.color = "#4CAF50"; 
+          statusElement.style.color = "#4CAF50"; // Success Green
         }
         formElement.reset();
         if (buttonElement && formElement.id === "innerCircleForm") {
@@ -44,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (statusElement) {
         statusElement.textContent = "Oops! Something went wrong.";
         statusElement.style.display = "block";
-        statusElement.style.color = "#ff4444"; 
+        statusElement.style.color = "#ff4444"; // Error Red
       }
     } finally {
       if (buttonElement && formElement.id === "innerCircleForm") {
@@ -53,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // Booking Form Listener
   const bookingForm = document.querySelector('form[name="booking"]');
   const bookingStatus = document.getElementById('form-status');
   if (bookingForm) {
@@ -64,6 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Inner Circle Form Listener
   const innerCircleForm = document.getElementById("innerCircleForm");
   const signupBtn = document.getElementById("submitBtn");
   const signupResponse = document.getElementById("responseMessage");
@@ -192,26 +198,4 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   }
-
-  // =========================
-  // 5. BACK TO TOP BUTTON
-  // =========================
-  const topBtn = document.getElementById("backToTop");
-  if (topBtn) {
-    window.addEventListener("scroll", function() {
-      if (window.pageYOffset > 300) {
-        topBtn.style.display = "block";
-      } else {
-        topBtn.style.display = "none";
-      }
-    });
-
-    topBtn.addEventListener("click", function() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
-  }
-
 });
