@@ -68,6 +68,89 @@
     color: #888;
 }
 
+/* --- Past Venues Section (New) --- */
+.venue-subtitle {
+    color: #888;
+    margin-bottom: 30px;
+    font-style: italic;
+    font-size: 0.95rem;
+}
+
+.venue-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.venue-item {
+    position: relative;
+    background: #151515;
+    border: 1px solid #222;
+    padding: 15px 25px;
+    border-radius: 8px; /* Matched to lineup members */
+    transition: all 0.3s ease;
+    cursor: help;
+}
+
+.venue-item:hover {
+    border-color: #ff0000;
+    background: #1a1a1a;
+    transform: translateY(-3px);
+}
+
+.venue-name {
+    color: #eee;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+
+.venue-item:hover .venue-name {
+    color: #ff0000;
+}
+
+/* Tooltip / Caption styling */
+.venue-caption {
+    visibility: hidden;
+    opacity: 0;
+    width: 220px;
+    background-color: #ff0000;
+    color: #fff;
+    text-align: center;
+    padding: 12px;
+    position: absolute;
+    z-index: 100;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1.4;
+    border-radius: 6px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Tooltip Arrow */
+.venue-caption::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #ff0000 transparent transparent transparent;
+}
+
+.venue-item:hover .venue-caption {
+    visibility: visible;
+    opacity: 1;
+}
+
 /* --- Stage Plot & Input List Table --- */
 .tech-content {
     text-align: left;
@@ -86,7 +169,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     background-color: #111;
-    min-width: 600px; /* Ensures table doesn't squish too small */
+    min-width: 600px;
 }
 
 th {
@@ -104,7 +187,6 @@ td {
     color: #eee;
 }
 
-/* Zebra Striping for readability */
 tbody tr:nth-child(even) {
     background-color: #1a1a1a;
 }
@@ -148,7 +230,7 @@ tbody tr:hover {
 /* --- Responsive Video Container --- */
 .video-responsive {
     position: relative;
-    padding-bottom: 56.25%; /* 16:9 ratio */
+    padding-bottom: 56.25%; 
     height: 0;
     overflow: hidden;
     width: 100%;
@@ -179,4 +261,15 @@ cite {
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
+}
+
+/* --- Mobile Fixes --- */
+@media (max-width: 600px) {
+    .venue-item {
+        padding: 10px 15px;
+    }
+    .venue-caption {
+        width: 180px;
+        font-size: 12px;
+    }
 }
