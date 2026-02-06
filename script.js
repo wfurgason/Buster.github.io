@@ -8,38 +8,76 @@ document.addEventListener("DOMContentLoaded", function () {
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxE2pyBVgn0gy9WjgIPbu7aWXYQU1wbkkGCG9LRKamAAeWmPffWet_qwocW3nYv5x0D-g/exec";
 
   // =========================
-  // 1. FORMS (Booking & Inner Circle)
+  // 1. FORM SUBMISSION LOGIC
   // =========================
+  
+  /**
+   * Universal handler for GAS submissions
+   * Uses URLSearchParams to ensure Google Apps Script parses data correctly
+   */
+  async function handleFormSubmit(formElement, statusElement, buttonElement, successMsg) {
+    const formData = new FormData(formElement);
+    const urlEncodedData = new URLSearchParams(formData);
+
+    try {
+      const res = await fetch(SCRIPT_URL, { 
+        method: "POST", 
+        body: urlEncodedData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      });
+      
+      const data = await res.json();
+      
+      if (data.success) {
+        if (statusElement) {
+          statusElement.textContent = successMsg;
+          statusElement.style.display = "block";
+          statusElement.style.color = "#4CAF50"; // Success Green
+        }
+        formElement.reset();
+        if (buttonElement && formElement.id === "innerCircleForm") {
+          buttonElement.innerText = "JOINED!";
+        }
+      } else {
+        throw new Error(data.error || "Server error");
+      }
+    } catch (err) {
+      console.error("Form Error:", err);
+      if (statusElement) {
+        statusElement.textContent = "Oops! Something went wrong.";
+        statusElement.style.display = "block";
+        statusElement.style.color = "#ff4444"; // Error Red
+      }
+    } finally {
+      if (buttonElement && formElement.id === "innerCircleForm") {
+        setTimeout(() => { buttonElement.innerText = "JOIN"; }, 3000);
+      }
+    }
+  }
+
+  // Booking Form Listener
   const bookingForm = document.querySelector('form[name="booking"]');
   const bookingStatus = document.getElementById('form-status');
   if (bookingForm) {
-    bookingForm.addEventListener("submit", async function (e) {
+    bookingForm.addEventListener("submit", function (e) {
       e.preventDefault();
       bookingStatus.style.display = "block";
       bookingStatus.textContent = "Sending...";
-      try {
-        const res = await fetch(SCRIPT_URL, { method: "POST", body: new FormData(bookingForm) });
-        const data = await res.json();
-        bookingStatus.textContent = data.success ? "Booking request sent!" : "Error: " + data.error;
-        if (data.success) bookingForm.reset();
-      } catch (err) { bookingStatus.textContent = "Oops! Something went wrong."; }
+      handleFormSubmit(bookingForm, bookingStatus, null, "Booking request sent!");
     });
   }
 
+  // Inner Circle Form Listener
   const innerCircleForm = document.getElementById("innerCircleForm");
   const signupBtn = document.getElementById("submitBtn");
   const signupResponse = document.getElementById("responseMessage");
   if (innerCircleForm) {
-    innerCircleForm.addEventListener("submit", async function (e) {
+    innerCircleForm.addEventListener("submit", function (e) {
       e.preventDefault();
       signupBtn.innerText = "Joining...";
-      try {
-        const res = await fetch(SCRIPT_URL, { method: "POST", body: new FormData(innerCircleForm) });
-        const data = await res.json();
-        signupResponse.textContent = data.success ? "Thanks for joining!" : "Signup failed.";
-        if (data.success) innerCircleForm.reset();
-      } catch (err) { signupResponse.textContent = "Error joining."; }
-      finally { signupBtn.innerText = "JOIN"; }
+      handleFormSubmit(innerCircleForm, signupResponse, signupBtn, "Thanks for joining!");
     });
   }
 
@@ -70,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   const merchList = document.getElementById("merchList");
-  const merchSection = document.getElementById("merch"); // Parent section for extra CSS control
+  const merchSection = document.getElementById("merch");
   const cartEl = document.getElementById("cart");
   const cartItemsEl = document.getElementById("cartItems");
   const cartTotalEl = document.getElementById("cartTotal");
@@ -78,12 +116,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const checkoutBtn = document.getElementById("checkoutBtn");
   let cart = [];
 
-  // FORCE UNLOCK IF TEST MODE IS DETECTED
   if (isTestMode) {
-    console.log("🛠️ Buster Secret Mode: ACTIVE");
     if (merchList) merchList.classList.add("active-store");
     if (merchSection) merchSection.classList.add("active-store");
-    document.body.classList.add("test-mode-active"); // Nuclear option for CSS targeting
+    document.body.classList.add("test-mode-active");
   }
 
   if (merchList) {
@@ -135,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // =========================
-  // 4. STRIPE (SECRET SWITCH)
+  // 4. STRIPE (CHECKOUT)
   // =========================
   if (checkoutBtn) {
     if (isTestMode) {
@@ -154,7 +190,6 @@ document.addEventListener("DOMContentLoaded", function () {
         } catch (err) { alert("Checkout error."); }
       });
     } else {
-      // Public Preview Behavior
       checkoutBtn.innerText = "Store Opening Soon";
       checkoutBtn.addEventListener("click", (e) => {
         e.preventDefault();
