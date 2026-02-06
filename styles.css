@@ -3,6 +3,9 @@
 html {
   scroll-behavior: smooth !important;
 }
+section[id] {
+  scroll-margin-top: 90px; /* Adjust this to match the height of your header */
+}
 
 /* 2. Apply everything else to body */
 body {
