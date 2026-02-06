@@ -3,8 +3,9 @@
 html {
   scroll-behavior: smooth !important;
 }
-section[id] {
-  scroll-margin-top: 90px; /* Adjust this to match the height of your header */
+/* Force all sections with an ID to stay below the header */
+#music, #shows, #merch, #booking, #inner-circle, .epk-section {
+    scroll-margin-top: 100px !important;
 }
 
 /* 2. Apply everything else to body */
