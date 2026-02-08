@@ -59,11 +59,28 @@
     </ul>
   </section>
 
-<!-- INNER CIRCLE SIGNUP -->
 <section id="inner-circle" style="padding: 20px; text-align: center;">
   <h2>Join the Inner Circle</h2>
 
   <form id="innerCircleForm" style="display: inline-block; width: 100%; max-width: 400px;">
+    
+    <input 
+      type="text" 
+      name="name" 
+      placeholder="Your Name" 
+      required 
+      style="
+        width: 100%; 
+        padding: 14px 12px; 
+        border-radius: 4px; 
+        border: 1px solid #ccc; 
+        margin-bottom: 15px; 
+        font-size: 1rem;
+        line-height: 1.4;
+        box-sizing: border-box;
+      "
+    >
+
     <input 
       type="email" 
       name="email" 
@@ -71,18 +88,33 @@
       required 
       style="
         width: 100%; 
-        padding: 14px 12px; /* taller for vertical centering */
+        padding: 14px 12px; 
         border-radius: 4px; 
         border: 1px solid #ccc; 
         margin-bottom: 15px; 
         font-size: 1rem;
-        line-height: 1.4; /* ensures vertical alignment */
+        line-height: 1.4;
         box-sizing: border-box;
-        transition: border-color 0.3s, box-shadow 0.3s;
       "
     >
-    <input type="text" name="name" placeholder="Your Name" required>
-    <input type="text" name="zipCode" placeholder="Zip Code" required>
+
+    <input 
+      type="text" 
+      name="zipCode" 
+      placeholder="Zip Code" 
+      required 
+      style="
+        width: 100%; 
+        padding: 14px 12px; 
+        border-radius: 4px; 
+        border: 1px solid #ccc; 
+        margin-bottom: 15px; 
+        font-size: 1rem;
+        line-height: 1.4;
+        box-sizing: border-box;
+      "
+    >
+
     <input type="hidden" name="formType" value="fan">
 
     <button 
@@ -91,7 +123,7 @@
       class="btn" 
       style="
         width: 100%; 
-        padding: 14px; /* taller to match input */
+        padding: 14px; 
         font-size: 1rem;
         border-radius: 4px;
         transition: background-color 0.3s;
