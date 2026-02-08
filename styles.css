@@ -294,3 +294,59 @@ footer { background-color: #000; padding: 60px 20px; border-top: 2px solid #ff00
     border-color: #ff0000;
     box-shadow: 0 0 5px rgba(255, 0, 0, 0.2);
 }
+/* Container for the side-by-side layout */
+.flex-wrapper {
+    display: flex;
+    flex-wrap: wrap; /* Allows stacking on small screens */
+    gap: 40px;
+    align-items: flex-start;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Spotify takes up 50% */
+.spotify-side {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Poll takes up the other 50% */
+.poll-side {
+    flex: 1;
+    min-width: 300px;
+    background: #111;
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid #222;
+}
+
+/* Styling the Radio Buttons to look like Buster buttons */
+.poll-label {
+    display: block;
+    padding: 12px;
+    margin-bottom: 10px;
+    background: #000;
+    border: 1px solid #333;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.poll-label:hover {
+    border-color: #ff0000;
+}
+
+.poll-label input[type="radio"] {
+    accent-color: #ff0000; /* Makes the radio circle red */
+    margin-right: 10px;
+}
+
+/* Mobile Tweak */
+@media (max-width: 768px) {
+    .flex-wrapper {
+        flex-direction: column;
+    }
+    .spotify-side, .poll-side {
+        width: 100%;
+    }
+}

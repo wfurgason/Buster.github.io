@@ -208,3 +208,41 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+// --- SONG POLL HANDLER ---
+document.getElementById('busterPollForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const form = this;
+  const btn = document.getElementById('pollSubmitBtn');
+  const responseDiv = document.getElementById('pollResponse');
+  
+  // 1. Visual feedback
+  btn.disabled = true;
+  btn.innerText = "RECORDING VOTE...";
+
+  // 2. Prepare Data
+  const formData = new FormData(form);
+
+  // 3. Send to Google Apps Script
+  fetch('YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE', {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(data.success) {
+      responseDiv.style.color = "#d9eaad"; // Light Green for success
+      responseDiv.innerText = "Voted! We'll see you at the show.";
+      form.reset();
+      btn.innerText = "VOTE CAST";
+    } else {
+      throw new Error();
+    }
+  })
+  .catch(err => {
+    responseDiv.style.color = "#ff0000"; // Red for error
+    responseDiv.innerText = "Oops! Try again?";
+    btn.disabled = false;
+    btn.innerText = "CAST VOTE";
+  });
+});

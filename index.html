@@ -49,6 +49,72 @@
         </iframe>
     </div>
 </section>
+<section id="music-poll-section" style="padding: 60px 5%; background: #000;">
+  <div class="flex-wrapper">
+    
+    <div class="spotify-side">
+      <iframe 
+        style="border-radius:12px" 
+        src="https://open.spotify.com/embed/artist/YOUR_ARTIST_ID?utm_source=generator&theme=0" 
+        width="100%" 
+        height="352" 
+        frameBorder="0" 
+        allowfullscreen="" 
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+        loading="lazy">
+      </iframe>
+    </div>
+
+    <div class="poll-side">
+      <h2 style="margin-top: 0; color: #fff; text-transform: uppercase;">Fan Favorite?</h2>
+      <p style="color: #888; margin-bottom: 20px;">Listen and vote for the track we should play at the next show.</p>
+
+      <form id="busterPollForm">
+        <input type="hidden" name="formType" value="poll">
+        
+        <div class="radio-group">
+          <label class="poll-label">
+            <input type="radio" name="SOL In SLC" value="Song A" required> Song A
+          </label>
+          <label class="poll-label">
+            <input type="radio" name="Caravan" value="Song B"> Song B
+          </label>
+          <label class="poll-label">
+            <input type="radio" name="Miss You Every Day" value="Song C"> Song C
+          </label>
+          <label class="poll-label">
+            <input type="radio" name="Live A Little" value="Song A" required> Song D
+          </label>
+          <label class="poll-label">
+            <input type="radio" name="Weltanschauung" value="Song B"> Song E
+          </label>
+          <label class="poll-label">
+            <input type="radio" name="Food of Love" value="Song C"> Song F
+          </label>
+          <label class="poll-label">
+            <input type="radio" name="Kokopelli" value="Song A" required> Song G
+          </label>
+          <label class="poll-label">
+            <input type="radio" name="Caravan" value="Song B"> Song H
+          </label>
+          <label class="poll-label">
+            <input type="radio" name="Setting Sun" value="Song C"> Song I
+          </label>
+          <label class="poll-label">
+            <input type="radio" name="4-Family" value="Song A" required> Song J
+          </label>
+          <label class="poll-label">
+            <input type="radio" name="The Desert" value="Song B"> Song K
+          </label>
+        </div>
+
+        <button type="submit" id="pollSubmitBtn" class="btn">CAST VOTE</button>
+        <div id="pollResponse" style="margin-top: 15px; color: #ff0000; font-weight: bold;"></div>
+      </form>
+    </div>
+
+  </div>
+</section>
 
   <!-- SHOWS -->
   <section id="shows" class="epk-section">
