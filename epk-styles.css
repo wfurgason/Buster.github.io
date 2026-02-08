@@ -273,3 +273,47 @@ cite {
         font-size: 12px;
     }
 }
+/* The Floating Button Container */
+.sticky-booking-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999; /* Ensures it stays on top of everything */
+}
+
+/* The Button Itself */
+.sticky-booking-btn {
+    background-color: #ff4500; /* Buster Orange/Red - Change to match your brand */
+    color: white;
+    padding: 15px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sticky-booking-btn:hover {
+    transform: scale(1.05);
+    background-color: #ff6347;
+    color: white;
+}
+
+/* Mobile optimization: make it a bar at the bottom */
+@media (max-width: 600px) {
+    .sticky-booking-container {
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+    .sticky-booking-btn {
+        border-radius: 0;
+        justify-content: center;
+        padding: 20px;
+        width: 100%;
+    }
+}
