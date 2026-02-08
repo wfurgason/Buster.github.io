@@ -280,40 +280,50 @@ cite {
     right: 20px;
     z-index: 9999; /* Ensures it stays on top of everything */
 }
+/* The Floating Booking Button - Bottom Left */
+.sticky-booking-container {
+    position: fixed;
+    bottom: 30px; 
+    left: 30px; /* Moved to the left side */
+    right: auto; /* Ensure it doesn't stretch to the right */
+    z-index: 99999;
+}
 
-/* The Button Itself */
 .sticky-booking-btn {
-    background-color: #ff4500; /* Buster Orange/Red - Change to match your brand */
-    color: white;
-    padding: 15px 25px;
+    background-color: #ff4500; 
+    color: #ffffff !important;
+    padding: 16px 28px;
     border-radius: 50px;
-    text-decoration: none;
-    font-weight: bold;
+    text-decoration: none !important;
+    font-weight: 800;
     font-size: 1.1rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255,255,255,0.2);
+    animation: button-pulse 2s infinite;
 }
 
-.sticky-booking-btn:hover {
-    transform: scale(1.05);
-    background-color: #ff6347;
-    color: white;
+@keyframes button-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); box-shadow: 0 15px 25px rgba(255,69,0,0.4); }
+    100% { transform: scale(1); }
 }
 
-/* Mobile optimization: make it a bar at the bottom */
+/* Mobile: On small screens, we can keep it as a bottom bar 
+   or keep it left-aligned. A bar usually converts better. */
 @media (max-width: 600px) {
     .sticky-booking-container {
         bottom: 0;
-        right: 0;
         left: 0;
+        right: 0;
     }
     .sticky-booking-btn {
         border-radius: 0;
         justify-content: center;
-        padding: 20px;
         width: 100%;
+        animation: none;
     }
 }
