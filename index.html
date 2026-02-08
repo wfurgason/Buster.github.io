@@ -57,70 +57,67 @@
       </iframe>
     </div>
 
-    <div class="poll-side" style="flex: 0.8; min-width: 280px; max-width: 350px; background: #111; padding: 15px; border-radius: 12px; border: 1px solid #222; display: flex; flex-direction: column; height: 450px; box-sizing: border-box; text-align: left;">
+    <div class="poll-side" style="flex: 0.8; min-width: 280px; max-width: 350px; background: #111; padding: 15px; border-radius: 12px; border: 1px solid #222; display: flex; flex-direction: column; height: 450px; box-sizing: border-box;">
   
-  <h3 style="margin-top: 0; color: #fff; text-transform: uppercase; font-size: 1rem; text-align: center; margin-bottom: 10px;">Cast Your Vote</h3>
-  
-  <form id="busterPollForm" style="display: flex; flex-direction: column; height: 100%; margin: 0; padding: 0; text-align: left;">
-    <input type="hidden" name="formType" value="poll">
-    
-    <div class="radio-group" style="flex-grow: 1; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; padding-right: 5px; text-align: left;">
+      <h3 style="margin-top: 0; color: #fff; text-transform: uppercase; font-size: 1rem; text-align: center; margin-bottom: 10px;">Cast Your Vote</h3>
       
-      <label class="poll-list-item" style="display: flex; align-items: center; width: 100%; padding: 4px 0; margin: 0; cursor: pointer; color: #ccc; font-size: 0.95rem; text-align: left;">
-        <input type="radio" name="favoriteSong" value="SOL In SLC" required style="margin: 0 10px 0 0; flex-shrink: 0; accent-color: #ff0000;">
-        SOL In SLC
-      </label>
+      <form id="busterPollForm" style="display: flex; flex-direction: column; height: 100%; margin: 0; padding: 0;">
+        <input type="hidden" name="formType" value="poll">
+        
+        <div class="radio-group" style="flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding-right: 5px;">
+          <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <tbody>
+              <tr style="cursor: pointer;" onclick="this.querySelector('input').click();">
+                <td style="width: 30px; padding: 5px 0; text-align: center; vertical-align: middle;">
+                  <input type="radio" name="favoriteSong" value="SOL In SLC" required style="accent-color: #ff0000; cursor: pointer; margin: 0;">
+                </td>
+                <td style="padding: 5px 10px; color: #ccc; font-size: 0.95rem; vertical-align: middle;">SOL In SLC</td>
+              </tr>
+              <tr style="cursor: pointer;" onclick="this.querySelector('input').click();">
+                <td style="width: 30px; padding: 5px 0; text-align: center;"><input type="radio" name="favoriteSong" value="Caravan" style="accent-color: #ff0000; margin: 0;"></td>
+                <td style="padding: 5px 10px; color: #ccc; font-size: 0.95rem;">Caravan</td>
+              </tr>
+              <tr style="cursor: pointer;" onclick="this.querySelector('input').click();">
+                <td style="width: 30px; padding: 5px 0; text-align: center;"><input type="radio" name="favoriteSong" value="Miss You Every Day" style="accent-color: #ff0000; margin: 0;"></td>
+                <td style="padding: 5px 10px; color: #ccc; font-size: 0.95rem;">Miss You Every Day</td>
+              </tr>
+              <tr style="cursor: pointer;" onclick="this.querySelector('input').click();">
+                <td style="width: 30px; padding: 5px 0; text-align: center;"><input type="radio" name="favoriteSong" value="Live A Little" style="accent-color: #ff0000; margin: 0;"></td>
+                <td style="padding: 5px 10px; color: #ccc; font-size: 0.95rem;">Live A Little</td>
+              </tr>
+              <tr style="cursor: pointer;" onclick="this.querySelector('input').click();">
+                <td style="width: 30px; padding: 5px 0; text-align: center;"><input type="radio" name="favoriteSong" value="Weltanschauung" style="accent-color: #ff0000; margin: 0;"></td>
+                <td style="padding: 5px 10px; color: #ccc; font-size: 0.95rem;">Weltanschauung</td>
+              </tr>
+              <tr style="cursor: pointer;" onclick="this.querySelector('input').click();">
+                <td style="width: 30px; padding: 5px 0; text-align: center;"><input type="radio" name="favoriteSong" value="Food of Love" style="accent-color: #ff0000; margin: 0;"></td>
+                <td style="padding: 5px 10px; color: #ccc; font-size: 0.95rem;">Food of Love</td>
+              </tr>
+              <tr style="cursor: pointer;" onclick="this.querySelector('input').click();">
+                <td style="width: 30px; padding: 5px 0; text-align: center;"><input type="radio" name="favoriteSong" value="Kokopelli" style="accent-color: #ff0000; margin: 0;"></td>
+                <td style="padding: 5px 10px; color: #ccc; font-size: 0.95rem;">Kokopelli</td>
+              </tr>
+              <tr style="cursor: pointer;" onclick="this.querySelector('input').click();">
+                <td style="width: 30px; padding: 5px 0; text-align: center;"><input type="radio" name="favoriteSong" value="Setting Sun" style="accent-color: #ff0000; margin: 0;"></td>
+                <td style="padding: 5px 10px; color: #ccc; font-size: 0.95rem;">Setting Sun</td>
+              </tr>
+              <tr style="cursor: pointer;" onclick="this.querySelector('input').click();">
+                <td style="width: 30px; padding: 5px 0; text-align: center;"><input type="radio" name="favoriteSong" value="4-Family" style="accent-color: #ff0000; margin: 0;"></td>
+                <td style="padding: 5px 10px; color: #ccc; font-size: 0.95rem;">4-Family</td>
+              </tr>
+              <tr style="cursor: pointer;" onclick="this.querySelector('input').click();">
+                <td style="width: 30px; padding: 5px 0; text-align: center;"><input type="radio" name="favoriteSong" value="The Desert" style="accent-color: #ff0000; margin: 0;"></td>
+                <td style="padding: 5px 10px; color: #ccc; font-size: 0.95rem;">The Desert</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-      <label class="poll-list-item" style="display: flex; align-items: center; width: 100%; padding: 4px 0; margin: 0; cursor: pointer; color: #ccc; font-size: 0.95rem; text-align: left;">
-        <input type="radio" name="favoriteSong" value="Caravan" style="margin: 0 10px 0 0; flex-shrink: 0; accent-color: #ff0000;">
-        Caravan
-      </label>
-
-      <label class="poll-list-item" style="display: flex; align-items: center; width: 100%; padding: 4px 0; margin: 0; cursor: pointer; color: #ccc; font-size: 0.95rem; text-align: left;">
-        <input type="radio" name="favoriteSong" value="Miss You Every Day" style="margin: 0 10px 0 0; flex-shrink: 0; accent-color: #ff0000;">
-        Miss You Every Day
-      </label>
-
-      <label class="poll-list-item" style="display: flex; align-items: center; width: 100%; padding: 4px 0; margin: 0; cursor: pointer; color: #ccc; font-size: 0.95rem; text-align: left;">
-        <input type="radio" name="favoriteSong" value="Live A Little" style="margin: 0 10px 0 0; flex-shrink: 0; accent-color: #ff0000;">
-        Live A Little
-      </label>
-
-      <label class="poll-list-item" style="display: flex; align-items: center; width: 100%; padding: 4px 0; margin: 0; cursor: pointer; color: #ccc; font-size: 0.95rem; text-align: left;">
-        <input type="radio" name="favoriteSong" value="Weltanschauung" style="margin: 0 10px 0 0; flex-shrink: 0; accent-color: #ff0000;">
-        Weltanschauung
-      </label>
-
-      <label class="poll-list-item" style="display: flex; align-items: center; width: 100%; padding: 4px 0; margin: 0; cursor: pointer; color: #ccc; font-size: 0.95rem; text-align: left;">
-        <input type="radio" name="favoriteSong" value="Food of Love" style="margin: 0 10px 0 0; flex-shrink: 0; accent-color: #ff0000;">
-        Food of Love
-      </label>
-
-      <label class="poll-list-item" style="display: flex; align-items: center; width: 100%; padding: 4px 0; margin: 0; cursor: pointer; color: #ccc; font-size: 0.95rem; text-align: left;">
-        <input type="radio" name="favoriteSong" value="Kokopelli" style="margin: 0 10px 0 0; flex-shrink: 0; accent-color: #ff0000;">
-        Kokopelli
-      </label>
-
-      <label class="poll-list-item" style="display: flex; align-items: center; width: 100%; padding: 4px 0; margin: 0; cursor: pointer; color: #ccc; font-size: 0.95rem; text-align: left;">
-        <input type="radio" name="favoriteSong" value="Setting Sun" style="margin: 0 10px 0 0; flex-shrink: 0; accent-color: #ff0000;">
-        Setting Sun
-      </label>
-
-      <label class="poll-list-item" style="display: flex; align-items: center; width: 100%; padding: 4px 0; margin: 0; cursor: pointer; color: #ccc; font-size: 0.95rem; text-align: left;">
-        <input type="radio" name="favoriteSong" value="4-Family" style="margin: 0 10px 0 0; flex-shrink: 0; accent-color: #ff0000;">
-        4-Family
-      </label>
-
-      <label class="poll-list-item" style="display: flex; align-items: center; width: 100%; padding: 4px 0; margin: 0; cursor: pointer; color: #ccc; font-size: 0.95rem; text-align: left;">
-        <input type="radio" name="favoriteSong" value="The Desert" style="margin: 0 10px 0 0; flex-shrink: 0; accent-color: #ff0000;">
-        The Desert
-      </label>
+        <button type="submit" id="pollSubmitBtn" class="btn" style="width: 100%; padding: 10px; margin-top: 10px; flex-shrink: 0;">CAST VOTE</button>
+        <div id="pollResponse" style="margin-top: 5px; text-align: center; font-size: 0.85rem; min-height: 15px;"></div>
+      </form>
     </div>
-
-    <button type="submit" id="pollSubmitBtn" class="btn" style="width: 100%; padding: 10px; margin-top: 10px; flex-shrink: 0;">CAST VOTE</button>
-    <div id="pollResponse" style="margin-top: 5px; text-align: center; font-size: 0.85rem; min-height: 15px;"></div>
-  </form>
-</div>
+  </div>
 </section>
 
   <!-- SHOWS -->
