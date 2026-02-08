@@ -299,79 +299,100 @@ cite {
     z-index: 99999 !important;
 }
 
+/* --- STICKY BOOKING BUTTON V2 --- */
+.sticky-booking-container {
+    position: fixed !important;
+    bottom: 30px !important; 
+    left: 30px !important; 
+    right: auto !important; 
+    z-index: 99999 !important;
+    /* Ensure the container doesn't block clicks elsewhere */
+    width: auto;
+    height: auto;
+}
+
 .sticky-booking-btn {
     background-color: #ff0000 !important; 
     color: #ffffff !important;
     
-    /* Start as a Circle */
+    /* Perfect Circle Setup */
     width: 60px;
     height: 60px;
     padding: 0;
-    border-radius: 50px;
+    border-radius: 60px; /* Keep it perfectly round */
     
     text-decoration: none !important;
     font-weight: 800;
+    
+    /* The Secret to Perfect Centering */
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* Hides the text initially */
     
+    overflow: hidden;
     box-shadow: 0 10px 25px rgba(0,0,0,0.6);
     border: 2px solid rgba(255,255,255,0.3);
+    
+    /* Smooth Transition */
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    white-space: nowrap;
 }
 
-/* The Text inside the button */
+.btn-icon {
+    font-size: 1.6rem;
+    /* Extra nudge if the emoji looks slightly high/low in your specific font */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px; /* Matches the button width to stay centered */
+}
+
 .btn-text {
     opacity: 0;
-    white-space: nowrap;
     font-size: 0;
-    transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
-}
-
-/* The Icon */
-.btn-icon {
-    font-size: 1.5rem;
-    transition: all 0.3s ease;
+    transition: opacity 0.2s ease;
+    margin-right: 0;
 }
 
 /* Desktop Hover Expansion */
 @media (min-width: 601px) {
     .sticky-booking-btn:hover {
-        width: 220px; /* Expands to fit text */
+        width: 210px; /* Fixed width that fits the text perfectly */
         background-color: #cc0000 !important;
-        justify-content: flex-start;
-        padding-left: 20px;
+        padding-right: 20px;
     }
 
     .sticky-booking-btn:hover .btn-icon {
-        /* Optional: Hide icon on hover as requested */
-        display: none; 
+        min-width: 45px; /* Shrinks icon area slightly to make room for text */
     }
 
     .sticky-booking-btn:hover .btn-text {
         opacity: 1;
         font-size: 1.1rem;
-        margin-left: 10px;
     }
 }
 
-/* Mobile: Keep it a compact circle */
+/* Mobile: Pure Circle, No Expansion */
 @media (max-width: 600px) {
     .sticky-booking-container {
-        bottom: 20px !important;
-        left: 20px !important;
+        bottom: 25px !important;
+        left: 25px !important;
     }
     
     .sticky-booking-btn {
-        width: 55px;
-        height: 55px;
+        width: 60px !important; /* Force circle size */
+        height: 60px !important;
+        display: flex !important; /* Ensure flex is active for centering */
     }
     
-    /* Ensure text is hidden on mobile unless tapped */
     .btn-text {
-        display: none;
+        display: none !important; /* Kill the text entirely on mobile */
+    }
+
+    /* Remove hover effects on mobile to prevent "sticky" hover states */
+    .sticky-booking-btn:hover {
+        width: 60px !important;
     }
 }
