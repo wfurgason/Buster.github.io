@@ -271,3 +271,26 @@ footer { background-color: #000; padding: 60px 20px; border-top: 2px solid #ff00
   animation: rumble 0.2s linear 3; /* Rumbles 3 times quickly */
   color: #4CAF50 !important; /* Keep the success green, but glowing red */
 }
+/* Target all inputs in the fan signup form */
+#fan-signup-form input {
+    width: 100%; /* Or your preferred width */
+    padding: 12px;
+    margin-bottom: 0; /* Removes the gap between fields */
+    border: 1px solid #ccc; /* This adds the line to the fields missing it */
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensures padding doesn't mess with width */
+    font-size: 1rem;
+    display: block; /* Forces them to stack neatly */
+}
+
+/* This removes the extra space/gap between the inputs */
+#fan-signup-form input + input {
+    margin-top: 10px; /* Gives a consistent, controlled gap */
+}
+
+/* Optional: Add a red border highlight when a user clicks into a field */
+#fan-signup-form input:focus {
+    outline: none;
+    border-color: #ff0000;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.2);
+}
