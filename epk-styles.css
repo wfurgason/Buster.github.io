@@ -273,56 +273,63 @@ cite {
         font-size: 12px;
     }
 }
-/* The Floating Button Container */
-.sticky-booking-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 9999; /* Ensures it stays on top of everything */
-}
-/* The Floating Booking Button - Bottom Left */
+/* --- Sticky Booking Button (Bottom Left) --- */
 .sticky-booking-container {
     position: fixed;
     bottom: 30px; 
-    left: 30px; /* Moved to the left side */
-    right: auto; /* Ensure it doesn't stretch to the right */
+    left: 30px; 
+    right: auto !important; /* Explicitly disable the right side */
     z-index: 99999;
 }
 
 .sticky-booking-btn {
-    background-color: #ff4500; 
+    /* Color Fix: Matched to your theme's Red (#ff0000) */
+    background-color: #ff0000 !important; 
     color: #ffffff !important;
+    
     padding: 16px 28px;
     border-radius: 50px;
     text-decoration: none !important;
     font-weight: 800;
     font-size: 1.1rem;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    
     display: flex;
     align-items: center;
     gap: 12px;
+    
+    /* Styling & Shadow */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    border: 2px solid rgba(255,255,255,0.3);
     transition: all 0.3s ease;
-    border: 2px solid rgba(255,255,255,0.2);
-    animation: button-pulse 2s infinite;
+    animation: buster-pulse 2s infinite;
 }
 
-@keyframes button-pulse {
+.sticky-booking-btn:hover {
+    background-color: #cc0000 !important; /* Slightly darker on hover */
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(255,0,0,0.3);
+}
+
+@keyframes buster-pulse {
     0% { transform: scale(1); }
-    50% { transform: scale(1.05); box-shadow: 0 15px 25px rgba(255,69,0,0.4); }
+    50% { transform: scale(1.03); }
     100% { transform: scale(1); }
 }
 
-/* Mobile: On small screens, we can keep it as a bottom bar 
-   or keep it left-aligned. A bar usually converts better. */
+/* Mobile Bar Fix */
 @media (max-width: 600px) {
     .sticky-booking-container {
         bottom: 0;
         left: 0;
         right: 0;
+        width: 100%;
     }
     .sticky-booking-btn {
         border-radius: 0;
         justify-content: center;
+        padding: 20px;
         width: 100%;
         animation: none;
     }
