@@ -57,51 +57,30 @@
       </iframe>
     </div>
 
-    <div class="poll-side" style="flex: 0.8; min-width: 280px; max-width: 350px; background: #111; padding: 20px; border-radius: 12px; border: 1px solid #222; display: flex; flex-direction: column; height: 450px; box-sizing: border-box;">
-      <h3 style="margin-top: 0; color: #fff; text-transform: uppercase; font-size: 1.1rem; text-align: center;">Cast Your Vote</h3>
-      
-      <form id="busterPollForm" style="display: flex; flex-direction: column; height: 100%;">
-        <input type="hidden" name="formType" value="poll">
-        
-        <div class="radio-group" style="flex-grow: 1; overflow-y: auto; padding-right: 10px; margin-bottom: 15px;">
-  <label class="poll-list-item">
-    <input type="radio" name="favoriteSong" value="SOL In SLC" required> SOL In SLC
-  </label>
-  <label class="poll-list-item">
-    <input type="radio" name="favoriteSong" value="Caravan"> Caravan
-  </label>
-  <label class="poll-list-item">
-    <input type="radio" name="favoriteSong" value="Miss You Every Day"> Miss You Every Day
-  </label>
-  <label class="poll-list-item">
-    <input type="radio" name="favoriteSong" value="Live A Little"> Live A Little
-  </label>
-  <label class="poll-list-item">
-    <input type="radio" name="favoriteSong" value="Weltanschauung"> Weltanschauung
-  </label>
-  <label class="poll-list-item">
-    <input type="radio" name="favoriteSong" value="Food of Love"> Food of Love
-  </label>
-  <label class="poll-list-item">
-    <input type="radio" name="favoriteSong" value="Kokopelli"> Kokopelli
-  </label>
-  <label class="poll-list-item">
-    <input type="radio" name="favoriteSong" value="Setting Sun"> Setting Sun
-  </label>
-  <label class="poll-list-item">
-    <input type="radio" name="favoriteSong" value="4-Family"> 4-Family
-  </label>
-  <label class="poll-list-item">
-    <input type="radio" name="favoriteSong" value="The Desert"> The Desert
-  </label>
-</div>
-
-        <button type="submit" id="pollSubmitBtn" class="btn" style="width: 100%; padding: 12px; font-weight: bold; cursor: pointer;">CAST VOTE</button>
-        <div id="pollResponse" style="margin-top: 10px; text-align: center; font-size: 0.9rem; min-height: 20px;"></div>
-      </form>
+    <div class="poll-side" style="flex: 0.8; min-width: 280px; max-width: 350px; background: #111; padding: 20px; border-radius: 12px; border: 1px solid #222; display: flex; flex-direction: column; height: 450px; box-sizing: border-box; text-align: left;">
+  <h3 style="margin-top: 0; color: #fff; text-transform: uppercase; font-size: 1.1rem; text-align: center; margin-bottom: 15px;">Cast Your Vote</h3>
+  
+  <form id="busterPollForm" style="display: flex; flex-direction: column; height: 100%; text-align: left;">
+    <input type="hidden" name="formType" value="poll">
+    
+    <div class="radio-group" style="flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; text-align: left; overflow: hidden;">
+      <label class="poll-list-item"><input type="radio" name="favoriteSong" value="SOL In SLC" required> SOL In SLC</label>
+      <label class="poll-list-item"><input type="radio" name="favoriteSong" value="Caravan"> Caravan</label>
+      <label class="poll-list-item"><input type="radio" name="favoriteSong" value="Miss You Every Day"> Miss You Every Day</label>
+      <label class="poll-list-item"><input type="radio" name="favoriteSong" value="Live A Little"> Live A Little</label>
+      <label class="poll-list-item"><input type="radio" name="favoriteSong" value="Weltanschauung"> Weltanschauung</label>
+      <label class="poll-list-item"><input type="radio" name="favoriteSong" value="Food of Love"> Food of Love</label>
+      <label class="poll-list-item"><input type="radio" name="favoriteSong" value="Kokopelli"> Kokopelli</label>
+      <label class="poll-list-item"><input type="radio" name="favoriteSong" value="Setting Sun"> Setting Sun</label>
+      <label class="poll-list-item"><input type="radio" name="favoriteSong" value="4-Family"> 4-Family</label>
+      <label class="poll-list-item"><input type="radio" name="favoriteSong" value="The Desert"> The Desert</label>
     </div>
 
-  </div>
+    <button type="submit" id="pollSubmitBtn" class="btn" style="width: 100%; padding: 10px; margin-top: 10px;">CAST VOTE</button>
+    <div id="pollResponse" style="margin-top: 5px; text-align: center; font-size: 0.85rem; min-height: 15px;"></div>
+  </form>
+ </div>
+</div>
 </section>
 
   <!-- SHOWS -->
