@@ -216,23 +216,31 @@ const pollResponse = document.getElementById('pollResponse');
 if (pollForm) {
   pollForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    
-    // 1. Visual feedback
     pollBtn.disabled = true;
     pollBtn.innerText = "RECORDING VOTE...";
 
-    // 2. Use your existing universal handler
-    // We pass (form, statusElement, button, successMessage)
-    handleFormSubmit(pollForm, pollResponse, pollBtn, "Voted! We'll see you at the show.")
-      .then(() => {
+    const formData = new FormData(pollForm);
+    const queryString = new URLSearchParams(formData).toString();
+
+    // Appending the data to the URL as a GET-style string within a POST
+    fetch(`${SCRIPT_URL}?${queryString}`, { 
+      method: "POST"
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        pollResponse.innerText = "Voted! We'll see you at the show.";
+        pollResponse.style.color = "#4CAF50";
         pollBtn.innerText = "VOTE CAST";
-        // Button stays disabled so they don't vote twice immediately
-      })
-      .catch(() => {
-        // handleFormSubmit already handles the error text, 
-        // but we need to re-enable the button so they can try again.
-        pollBtn.disabled = false;
-        pollBtn.innerText = "CAST VOTE";
-      });
+      } else {
+        throw new Error();
+      }
+    })
+    .catch(err => {
+      pollResponse.innerText = "Oops! Try again?";
+      pollResponse.style.color = "#ff4444";
+      pollBtn.disabled = false;
+      pollBtn.innerText = "CAST VOTE";
+    });
   });
 }
