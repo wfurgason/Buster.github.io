@@ -209,40 +209,30 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 // --- SONG POLL HANDLER ---
-document.getElementById('busterPollForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  
-  const form = this;
-  const btn = document.getElementById('pollSubmitBtn');
-  const responseDiv = document.getElementById('pollResponse');
-  
-  // 1. Visual feedback
-  btn.disabled = true;
-  btn.innerText = "RECORDING VOTE...";
+const pollForm = document.getElementById('busterPollForm');
+const pollBtn = document.getElementById('pollSubmitBtn');
+const pollResponse = document.getElementById('pollResponse');
 
-  // 2. Prepare Data
-  const formData = new FormData(form);
+if (pollForm) {
+  pollForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    
+    // 1. Visual feedback
+    pollBtn.disabled = true;
+    pollBtn.innerText = "RECORDING VOTE...";
 
-  // 3. Send to Google Apps Script
-  fetch('YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE', {
-    method: 'POST',
-    body: formData
-  })
-  .then(res => res.json())
-  .then(data => {
-    if(data.success) {
-      responseDiv.style.color = "#d9eaad"; // Light Green for success
-      responseDiv.innerText = "Voted! We'll see you at the show.";
-      form.reset();
-      btn.innerText = "VOTE CAST";
-    } else {
-      throw new Error();
-    }
-  })
-  .catch(err => {
-    responseDiv.style.color = "#ff0000"; // Red for error
-    responseDiv.innerText = "Oops! Try again?";
-    btn.disabled = false;
-    btn.innerText = "CAST VOTE";
+    // 2. Use your existing universal handler
+    // We pass (form, statusElement, button, successMessage)
+    handleFormSubmit(pollForm, pollResponse, pollBtn, "Voted! We'll see you at the show.")
+      .then(() => {
+        pollBtn.innerText = "VOTE CAST";
+        // Button stays disabled so they don't vote twice immediately
+      })
+      .catch(() => {
+        // handleFormSubmit already handles the error text, 
+        // but we need to re-enable the button so they can try again.
+        pollBtn.disabled = false;
+        pollBtn.innerText = "CAST VOTE";
+      });
   });
-});
+}
