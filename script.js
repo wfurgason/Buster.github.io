@@ -94,11 +94,19 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
 
-        // --- DYNAMIC JSON-LD GENERATION ---
+        // --- DYNAMIC JSON-LD GENERATION WITH SOCIAL LINKS ---
         const schemaData = {
           "@context": "https://schema.org",
           "@type": "MusicGroup",
           "name": "Buster",
+          "url": "https://bustertheband.com",
+          "logo": "https://bustertheband.com/assets/logo.png", // Ensure this path is correct
+          "genre": "Heavy Rock",
+          "sameAs": [
+            "https://www.instagram.com/bustertheband",
+            "https://www.youtube.com/@bustertheband",
+            "https://open.spotify.com/artist/your_spotify_id"
+          ],
           "event": data.items.map(event => ({
             "@type": "Event",
             "name": event.summary,
@@ -115,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
           }))
         };
 
-        // Inject JSON-LD into the <head>
+        // Inject combined JSON-LD into the <head>
         const script = document.createElement('script');
         script.type = 'application/ld+json';
         script.text = JSON.stringify(schemaData);
