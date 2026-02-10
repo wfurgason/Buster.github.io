@@ -219,20 +219,32 @@ if (pollForm) {
     pollBtn.disabled = true;
     pollBtn.innerText = "RECORDING VOTE...";
 
+    // Use URLSearchParams to ensure the data is encoded for GAS
     const formData = new FormData(pollForm);
-    const queryString = new URLSearchParams(formData).toString();
-
-    // Convert FormData to a plain object for cleaner transmission
-    const data = {};
-    new FormData(pollForm).forEach((value, key) => data[key] = value);
+    const params = new URLSearchParams();
+    for (const [key, value] of formData) {
+        params.append(key, value);
+    }
 
     fetch(SCRIPT_URL, {
       method: "POST",
-      mode: "no-cors", // This can help bypass some Google redirect issues
-      headers: { "Content-Type": "text/plain" }, // GAS prefers text/plain for raw postData
-      body: JSON.stringify(data)
+      body: params.toString(), // Send as a string
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        pollResponse.innerText = "Voted! We'll see you at the show.";
+        pollResponse.style.color = "#4CAF50";
+        pollBtn.innerText = "VOTE CAST";
+      } else {
+        throw new Error(data.error);
+      }
     })
     .catch(err => {
+      console.error("Poll Error:", err);
       pollResponse.innerText = "Oops! Try again?";
       pollResponse.style.color = "#ff4444";
       pollBtn.disabled = false;
