@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const pollForm = document.getElementById('busterPollForm');
   const pollBtn = document.getElementById('pollSubmitBtn');
   const pollResponse = document.getElementById('pollResponse');
-  const topSongEl = document.getElementById('topSong'); // New element for live top song
+  const topSongEl = document.getElementById('pollLeader'); // New element for live top song
 
   // Helper: Fetch top song from GAS
   async function fetchTopSong() {
