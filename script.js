@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const isTestMode = urlParams.get('mode') === 'test';
 
   // =========================
-  // 1. UNIVERSAL FORM HANDLER (GAS)
+  // 1. FORM SUBMISSION LOGIC
   // =========================
   async function handleFormSubmit(formElement, statusElement, buttonElement, successMsg) {
     const formData = new FormData(formElement);
@@ -17,19 +17,16 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       const res = await fetch(SCRIPT_URL, {
         method: "POST",
-        body: urlEncodedData.toString(),
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        }
+        body: urlEncodedData,
+        headers: { "Content-Type": "application/x-www-form-urlencoded" }
       });
-
       const data = await res.json();
 
       if (data.success) {
         if (statusElement) {
           statusElement.textContent = successMsg;
           statusElement.style.display = "block";
-          statusElement.style.color = "#4CAF50";
+          statusElement.style.color = "#4CAF50"; // Success Green
         }
         formElement.reset();
         if (buttonElement && formElement.id === "innerCircleForm") {
@@ -43,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (statusElement) {
         statusElement.textContent = "Oops! Something went wrong.";
         statusElement.style.display = "block";
-        statusElement.style.color = "#ff4444";
+        statusElement.style.color = "#ff4444"; // Error Red
       }
     } finally {
       if (buttonElement && formElement.id === "innerCircleForm") {
@@ -52,12 +49,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // =========================
-  // 2. BOOKING FORM
-  // =========================
+  // --- Booking Form ---
   const bookingForm = document.querySelector('form[name="booking"]');
   const bookingStatus = document.getElementById('form-status');
-
   if (bookingForm) {
     bookingForm.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -67,13 +61,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // =========================
-  // 3. INNER CIRCLE FORM
-  // =========================
+  // --- Inner Circle Form ---
   const innerCircleForm = document.getElementById("innerCircleForm");
   const signupBtn = document.getElementById("submitBtn");
   const signupResponse = document.getElementById("responseMessage");
-
   if (innerCircleForm) {
     innerCircleForm.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -81,109 +72,32 @@ document.addEventListener("DOMContentLoaded", function () {
       signupResponse.classList.remove("success-glow");
 
       handleFormSubmit(innerCircleForm, signupResponse, signupBtn, "Thanks for joining!")
-        .then(() => signupResponse.classList.add("success-glow"));
+        .then(() => {
+          signupResponse.classList.add("success-glow");
+        });
     });
   }
 
   // =========================
-  // 4. SONG POLL HANDLER 
-  // =========================
-  const pollForm = document.getElementById('busterPollForm');
-  const pollBtn = document.getElementById('pollSubmitBtn');
-  const pollResponse = document.getElementById('pollResponse');
-
-  if (pollForm) {
-    pollForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      pollBtn.disabled = true;
-      pollBtn.innerText = "RECORDING VOTE...";
-
-      const formData = new FormData(pollForm);
-      const params = new URLSearchParams(formData);
-
-      fetch(SCRIPT_URL, {
-        method: "POST",
-        body: params.toString(),
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        }
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          pollResponse.innerText = "Voted! We'll see you at the show.";
-          pollResponse.style.color = "#4CAF50";
-          pollBtn.innerText = "VOTE CAST";
-        } else {
-          throw new Error(data.error);
-        }
-      })
-      .catch(err => {
-        console.error("Poll Error:", err);
-        pollResponse.innerText = "Oops! Try again?";
-        pollResponse.style.color = "#ff4444";
-        pollBtn.disabled = false;
-        pollBtn.innerText = "CAST VOTE";
-      });
-    });
-  }
-  // =========================
-  // 4. TOP SONG HANDLER 
-  // =========================
-  const pollLeaderEl = document.getElementById("pollLeader");
-
-async function updatePollLeader() {
-  try {
-    const res = await fetch(
-      SCRIPT_URL + "?mode=pollResults"
-    );
-    const data = await res.json();
-
-    if (data.success && data.leader) {
-      pollLeaderEl.innerHTML = `🔥 Fan Favorite Right Now: <strong>${data.leader}</strong>`;
-    } else {
-      pollLeaderEl.innerText = "Be the first to vote!";
-    }
-  } catch (err) {
-    console.error("Poll Leader Error:", err);
-  }
-}
-
-// Initial load
-if (pollLeaderEl) {
-  updatePollLeader();
-  setInterval(updatePollLeader, 20000); // every 20 seconds
-}
-
-
-  // =========================
-  // 5. UPCOMING SHOWS
+  // 2. UPCOMING SHOWS (CALENDAR)
   // =========================
   const calendarId = "busterthebandslc@gmail.com";
   const apiKey = "AIzaSyAisms0ydY6R8a_dTPNwYMR7bNTs1F5hKM";
   const showsList = document.getElementById("shows-list");
-
   if (showsList) {
     fetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?key=${apiKey}&timeMin=${new Date().toISOString()}&maxResults=5&orderBy=startTime&singleEvents=true`)
       .then(res => res.json())
       .then(data => {
-        if (!data.items || data.items.length === 0) {
-          showsList.innerHTML = "No upcoming shows!";
-          return;
-        }
+        if (!data.items || data.items.length === 0) { showsList.innerHTML = "No upcoming shows!"; return; }
         showsList.innerHTML = data.items.map(event => {
           const d = new Date(event.start.dateTime || event.start.date);
           return `<div style="margin-bottom:15px;">🎸 <strong>${event.summary}</strong><br>📍 ${event.location || 'TBA'}<br>🕒 ${d.toLocaleDateString()}</div>`;
         }).join("");
-      })
-      .catch(() => {
-        showsList.innerHTML = "Stay tuned for dates!";
-      });
+      }).catch(() => { showsList.innerHTML = "Stay tuned for dates!"; });
   }
 
   // =========================
-  // 6. MERCH + CART
+  // 3. MERCH & CART
   // =========================
   const merchItems = [
     { id: "sticker", name: "Buster Sticker", price: 3.0, image: "assets/sticker1.png" },
@@ -200,21 +114,18 @@ if (pollLeaderEl) {
   let cart = [];
 
   if (isTestMode) {
-    merchList?.classList.add("active-store");
-    merchSection?.classList.add("active-store");
+    if (merchList) merchList.classList.add("active-store");
+    if (merchSection) merchSection.classList.add("active-store");
     document.body.classList.add("test-mode-active");
   }
 
   if (merchList) {
     merchItems.forEach(item => {
       const div = document.createElement("div");
-      const sizeDropdown = item.sizes
-        ? `<select class="size-select" data-id="${item.id}">${item.sizes.map(s => `<option value="${s}">${s}</option>`).join("")}</select>`
-        : "";
-
       div.className = "merch-item";
+      const sizeDropdown = item.sizes ? `<select class="size-select" data-id="${item.id}">${item.sizes.map(s => `<option value="${s}">${s}</option>`).join("")}</select>` : "";
       div.innerHTML = `
-        <img src="${item.image}" alt="${item.name}">
+        <img src="${item.image}" class="sticker-sticker" alt="${item.name}">
         <div class="merch-name">${item.name}</div>
         <div class="merch-price">$${item.price.toFixed(2)}</div>
         ${sizeDropdown}
@@ -223,9 +134,16 @@ if (pollLeaderEl) {
           <input type="number" class="qty-input" value="1" min="1" data-id="${item.id}">
           <button class="qty-btn plus" data-id="${item.id}">+</button>
         </div>
-        <label><input type="checkbox" data-id="${item.id}"> Add to cart</label>
-      `;
+        <label><input type="checkbox" data-id="${item.id}"> Add to cart</label>`;
       merchList.appendChild(div);
+    });
+
+    merchList.addEventListener("click", e => {
+      if (!e.target.dataset.id) return;
+      const input = merchList.querySelector(`.qty-input[data-id="${e.target.dataset.id}"]`);
+      let val = parseInt(input.value);
+      if (e.target.classList.contains("plus")) input.value = val + 1;
+      if (e.target.classList.contains("minus") && val > 1) input.value = val - 1;
     });
   }
 
@@ -234,31 +152,109 @@ if (pollLeaderEl) {
       cart = [];
       cartItemsEl.innerHTML = "";
       let total = 0;
-
       merchItems.forEach(item => {
         const checkbox = merchList.querySelector(`input[type="checkbox"][data-id="${item.id}"]`);
-        if (checkbox?.checked) {
+        if (checkbox && checkbox.checked) {
           const qty = parseInt(merchList.querySelector(`.qty-input[data-id="${item.id}"]`).value);
           const size = merchList.querySelector(`.size-select[data-id="${item.id}"]`)?.value || null;
           cart.push({ id: item.id, name: item.name, price: item.price, quantity: qty, size });
-          total += item.price * qty;
+          total += (item.price * qty);
           cartItemsEl.innerHTML += `<li>${item.name}${size ? ` (${size})` : ""} × ${qty}</li>`;
         }
       });
-
       cartEl.style.display = total > 0 ? "block" : "none";
       cartTotalEl.textContent = total.toFixed(2);
     });
   }
 
   // =========================
-  // 7. STRIPE / STORE MODE
+  // 4. STRIPE (CHECKOUT)
   // =========================
   if (checkoutBtn) {
-    checkoutBtn.addEventListener("click", e => {
+    if (isTestMode) {
+      checkoutBtn.innerText = "Checkout (Secret Test Mode)";
+      checkoutBtn.addEventListener("click", async () => {
+        if (cart.length === 0) return alert("Cart is empty!");
+        try {
+          const res = await fetch("https://buster-github-io-git-main-wes-furgasons-projects.vercel.app/api/create-checkout-session", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ cart })
+          });
+          const session = await res.json();
+          const stripe = Stripe('pk_test_51Svqpj1sJKQpz5MMutWZAjn1ZoJju20mtduf945K5ltGkiq8f8epxiN4VvbqgFN3xU94G00zo8LzyRxb9KOeMstX00ZQjUZJIe');
+          await stripe.redirectToCheckout({ sessionId: session.id });
+        } catch (err) { alert("Checkout error."); }
+      });
+    } else {
+      checkoutBtn.innerText = "Store Opening Soon";
+      checkoutBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        alert("Buster Merch drops soon! Join the Inner Circle to get notified.");
+        document.getElementById("inner-circle").scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+  }
+
+  // =========================
+  // 5. SONG POLL HANDLER
+  // =========================
+  const pollForm = document.getElementById('busterPollForm');
+  const pollBtn = document.getElementById('pollSubmitBtn');
+  const pollResponse = document.getElementById('pollResponse');
+  const topSongEl = document.getElementById('topSong'); // New element for live top song
+
+  // Helper: Fetch top song from GAS
+  async function fetchTopSong() {
+    try {
+      const res = await fetch(`${SCRIPT_URL}?action=topSong`);
+      const data = await res.json();
+      if (data.success && data.topSong) {
+        if (topSongEl) topSongEl.textContent = `🔥 Fan Favorite Right Now: ${data.topSong}`;
+      } else {
+        if (topSongEl) topSongEl.textContent = "🔥 Fan Favorite Right Now: None yet";
+      }
+    } catch (err) {
+      console.error("Top Song Fetch Error:", err);
+      if (topSongEl) topSongEl.textContent = "🔥 Fan Favorite Right Now: Loading…";
+    }
+  }
+
+  if (topSongEl) fetchTopSong(); // Fetch on page load
+
+  if (pollForm) {
+    pollForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      alert("Buster Merch drops soon! Join the Inner Circle to get notified.");
-      document.getElementById("inner-circle").scrollIntoView({ behavior: "smooth" });
+      pollBtn.disabled = true;
+      pollBtn.innerText = "RECORDING VOTE...";
+
+      const formData = new FormData(pollForm);
+      const params = new URLSearchParams();
+      for (const [key, value] of formData) params.append(key, value);
+
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        body: params.toString(),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            pollResponse.innerText = "Voted! We'll see you at the show.";
+            pollResponse.style.color = "#4CAF50";
+            pollBtn.innerText = "VOTE CAST";
+            fetchTopSong(); // Update top song immediately
+          } else {
+            throw new Error(data.error);
+          }
+        })
+        .catch(err => {
+          console.error("Poll Error:", err);
+          pollResponse.innerText = "Oops! Try again?";
+          pollResponse.style.color = "#ff4444";
+          pollBtn.disabled = false;
+          pollBtn.innerText = "CAST VOTE";
+        });
     });
   }
 
