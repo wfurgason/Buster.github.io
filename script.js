@@ -222,19 +222,15 @@ if (pollForm) {
     const formData = new FormData(pollForm);
     const queryString = new URLSearchParams(formData).toString();
 
-    // Appending the data to the URL as a GET-style string within a POST
-    fetch(`${SCRIPT_URL}?${queryString}`, { 
-      method: "POST"
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        pollResponse.innerText = "Voted! We'll see you at the show.";
-        pollResponse.style.color = "#4CAF50";
-        pollBtn.innerText = "VOTE CAST";
-      } else {
-        throw new Error();
-      }
+    // Convert FormData to a plain object for cleaner transmission
+    const data = {};
+    new FormData(pollForm).forEach((value, key) => data[key] = value);
+
+    fetch(SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors", // This can help bypass some Google redirect issues
+      headers: { "Content-Type": "text/plain" }, // GAS prefers text/plain for raw postData
+      body: JSON.stringify(data)
     })
     .catch(err => {
       pollResponse.innerText = "Oops! Try again?";
