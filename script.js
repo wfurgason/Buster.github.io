@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+// 🔹 PUBLIC Apps Script deployment URL
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxE2pyBVgn0gy9WjgIPbu7aWXYQU1wbkkGCG9LRKamAAeWmPffWet_qwocW3nYv5x0D-g/exec";
+  document.addEventListener("DOMContentLoaded", function () {
   // URL Parameter Check for Secret Test Mode
   const urlParams = new URLSearchParams(window.location.search);
   const isTestMode = urlParams.get('mode') === 'test';
-
-  // 🔹 PUBLIC Apps Script deployment URL
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxE2pyBVgn0gy9WjgIPbu7aWXYQU1wbkkGCG9LRKamAAeWmPffWet_qwocW3nYv5x0D-g/exec";
 
   // =========================
   // 1. FORM SUBMISSION LOGIC
