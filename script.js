@@ -84,16 +84,57 @@ document.addEventListener("DOMContentLoaded", function () {
   const calendarId = "busterthebandslc@gmail.com";
   const apiKey = "AIzaSyAisms0ydY6R8a_dTPNwYMR7bNTs1F5hKM";
   const showsList = document.getElementById("shows-list");
+
   if (showsList) {
     fetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?key=${apiKey}&timeMin=${new Date().toISOString()}&maxResults=5&orderBy=startTime&singleEvents=true`)
       .then(res => res.json())
       .then(data => {
-        if (!data.items || data.items.length === 0) { showsList.innerHTML = "No upcoming shows!"; return; }
+        if (!data.items || data.items.length === 0) {
+          showsList.innerHTML = "No upcoming shows!";
+          return;
+        }
+
+        // --- DYNAMIC JSON-LD GENERATION ---
+        const schemaData = {
+          "@context": "https://schema.org",
+          "@type": "MusicGroup",
+          "name": "Buster",
+          "event": data.items.map(event => ({
+            "@type": "Event",
+            "name": event.summary,
+            "startDate": event.start.dateTime || event.start.date,
+            "location": {
+              "@type": "Place",
+              "name": event.location || "TBA",
+              "address": event.location || "TBA"
+            },
+            "performer": {
+              "@type": "MusicGroup",
+              "name": "Buster"
+            }
+          }))
+        };
+
+        // Inject JSON-LD into the <head>
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.text = JSON.stringify(schemaData);
+        document.head.appendChild(script);
+
+        // --- RENDER HTML LIST ---
         showsList.innerHTML = data.items.map(event => {
           const d = new Date(event.start.dateTime || event.start.date);
-          return `<div style="margin-bottom:15px;">🎸 <strong>${event.summary}</strong><br>📍 ${event.location || 'TBA'}<br>🕒 ${d.toLocaleDateString()}</div>`;
+          return `
+            <div style="margin-bottom:15px;">
+              🎸 <strong>${event.summary}</strong><br>
+              📍 ${event.location || 'TBA'}<br>
+              🕒 ${d.toLocaleDateString()}
+            </div>`;
         }).join("");
-      }).catch(() => { showsList.innerHTML = "Stay tuned for dates!"; });
+      })
+      .catch(() => {
+        showsList.innerHTML = "Stay tuned for dates!";
+      });
   }
 
   // =========================
