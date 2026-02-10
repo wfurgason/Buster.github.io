@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // =========================
-  // 4. SONG POLL HANDLER ✅ FIXED
+  // 4. SONG POLL HANDLER 
   // =========================
   const pollForm = document.getElementById('busterPollForm');
   const pollBtn = document.getElementById('pollSubmitBtn');
@@ -128,6 +128,34 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   }
+  // =========================
+  // 4. TOP SONG HANDLER 
+  // =========================
+  const pollLeaderEl = document.getElementById("pollLeader");
+
+async function updatePollLeader() {
+  try {
+    const res = await fetch(
+      SCRIPT_URL + "?mode=pollResults"
+    );
+    const data = await res.json();
+
+    if (data.success && data.leader) {
+      pollLeaderEl.innerHTML = `🔥 Fan Favorite Right Now: <strong>${data.leader}</strong>`;
+    } else {
+      pollLeaderEl.innerText = "Be the first to vote!";
+    }
+  } catch (err) {
+    console.error("Poll Leader Error:", err);
+  }
+}
+
+// Initial load
+if (pollLeaderEl) {
+  updatePollLeader();
+  setInterval(updatePollLeader, 20000); // every 20 seconds
+}
+
 
   // =========================
   // 5. UPCOMING SHOWS
