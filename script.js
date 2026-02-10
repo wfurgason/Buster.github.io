@@ -206,19 +206,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Helper: Fetch top song from GAS
   async function fetchTopSong() {
-    try {
-      const res = await fetch(`${SCRIPT_URL}?action=topSong`);
-      const data = await res.json();
-      if (data.success && data.topSong) {
-        if (topSongEl) topSongEl.textContent = `🔥 Fan Favorite Right Now: ${data.topSong}`;
-      } else {
-        if (topSongEl) topSongEl.textContent = "🔥 Fan Favorite Right Now: None yet";
-      }
-    } catch (err) {
-      console.error("Top Song Fetch Error:", err);
-      if (topSongEl) topSongEl.textContent = "🔥 Fan Favorite Right Now: Loading…";
+  try {
+    const res = await fetch(`${SCRIPT_URL}?action=topSong`);
+    const data = await res.json();
+
+    if (!data.success || !data.topSongs.length) {
+      topSongEl.textContent = "🔥 Fan Favorite Right Now: None yet";
+      return;
     }
+
+    if (data.tie) {
+      topSongEl.textContent =
+        `🔥 Fan Favorites Right Now: ${data.topSongs.join(" & ")} (tie)`;
+    } else {
+      topSongEl.textContent =
+        `🔥 Fan Favorite Right Now: ${data.topSongs[0]}`;
+    }
+  } catch (err) {
+    console.error("Top Song Fetch Error:", err);
+    topSongEl.textContent = "🔥 Fan Favorite Right Now: Loading…";
   }
+}
 
   if (topSongEl) fetchTopSong(); // Fetch on page load
 
