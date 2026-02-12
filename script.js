@@ -78,12 +78,52 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // =========================
-  // 2. UPCOMING SHOWS (REWRITTEN)
-  // =========================
+  // ==========================================
+  // 2. UPCOMING SHOWS (SEO + CALENDAR + INTEREST)
+  // ==========================================
   const calendarId = "busterthebandslc@gmail.com";
   const apiKey = "AIzaSyAisms0ydY6R8a_dTPNwYMR7bNTs1F5hKM";
   const showsList = document.getElementById("shows-list");
+
+  // Helper: Generates the .ics file for personal calendars
+  function downloadCalendarFile(title, date, location, description) {
+    const start = new Date(date).toISOString().replace(/-|:|\.\d+/g, "");
+    const end = new Date(new Date(date).getTime() + 3600000).toISOString().replace(/-|:|\.\d+/g, ""); 
+    const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:${start}\nDTEND:${end}\nSUMMARY:${title}\nLOCATION:${location}\nDESCRIPTION:${description}\nEND:VEVENT\nEND:VCALENDAR`;
+    const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.setAttribute("download", `${title.replace(/\s+/g, "_")}.ics`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  // Global Function for the Button Click
+  window.markInterest = async function(eventId, title, date, location) {
+    const btn = document.querySelector(`[data-event-id="${eventId}"] .interest-btn`);
+    if (btn) {
+      btn.innerText = "SAVED!";
+      btn.classList.add("saved");
+      btn.disabled = true;
+    }
+
+    // 1. Download the calendar reminder
+    downloadCalendarFile(title, date, location, "Buster Live Show Reminder");
+
+    // 2. Send interest data to your Google Sheet
+    try {
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: new URLSearchParams({
+          "action": "interest",
+          "eventId": eventId,
+          "eventTitle": title
+        }),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      });
+    } catch (err) { console.error("Counter Error:", err); }
+  };
 
   if (showsList) {
     fetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?key=${apiKey}&timeMin=${new Date().toISOString()}&maxResults=5&orderBy=startTime&singleEvents=true`)
@@ -94,33 +134,45 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
 
-        // --- JSON-LD remains the same (Best for SEO) ---
+        // --- SEO: JSON-LD (MAINTAINED & IMPROVED) ---
         const schemaData = {
           "@context": "https://schema.org",
           "@type": "MusicGroup",
           "name": "Buster",
+          "url": "https://bustertheband.com",
+          "logo": "https://bustertheband.com/assets/logo.png",
+          "sameAs": [
+            "https://www.instagram.com/bustertheband",
+            "https://www.youtube.com/@bustertheband",
+            "https://open.spotify.com/artist/13"
+          ],
           "event": data.items.map(event => ({
             "@type": "Event",
             "name": event.summary,
             "startDate": event.start.dateTime || event.start.date,
-            "location": { "@type": "Place", "name": event.location || "TBA" }
+            "location": {
+              "@type": "Place",
+              "name": event.location || "TBA",
+              "address": event.location || "TBA"
+            },
+            "description": event.description || "",
+            "performer": { "@type": "MusicGroup", "name": "Buster" }
           }))
         };
-        const script = document.createElement('script');
-        script.type = 'application/ld+json';
-        script.text = JSON.stringify(schemaData);
-        document.head.appendChild(script);
 
-        // --- IMPROVED HTML RENDERING ---
+        const scriptTag = document.createElement('script');
+        scriptTag.type = 'application/ld+json';
+        scriptTag.text = JSON.stringify(schemaData);
+        document.head.appendChild(scriptTag);
+
+        // --- DISPLAY: RENDER SHOW ROWS ---
         showsList.innerHTML = data.items.map(event => {
           const d = new Date(event.start.dateTime || event.start.date);
           const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-          
-          // Pulling description and cleaning up any HTML tags Google might add
-          const description = event.description ? `<p class="show-desc">${event.description}</p>` : "";
+          const eventId = event.id;
 
           return `
-            <div class="show-row">
+            <div class="show-row" data-event-id="${eventId}">
               <div class="show-date">
                 <span class="show-month">${dateStr.split(' ')[0]}</span>
                 <span class="show-day">${dateStr.split(' ')[1]}</span>
@@ -128,15 +180,18 @@ document.addEventListener("DOMContentLoaded", function () {
               <div class="show-info">
                 <h3 class="show-title">${event.summary}</h3>
                 <p class="show-venue">📍 ${event.location || 'TBA'}</p>
-                ${description}
+                <div class="show-desc">${event.description || ''}</div>
               </div>
               <div class="show-cta">
-                <a href="#booking" class="show-btn">INFO</a>
+                <button class="interest-btn" onclick="markInterest('${eventId}', '${event.summary.replace(/'/g, "\\'")}', '${event.start.dateTime || event.start.date}', '${(event.location || 'TBA').replace(/'/g, "\\'")}')">
+                  INTERESTED
+                </button>
               </div>
             </div>`;
         }).join("");
       })
-      .catch(() => {
+      .catch(err => {
+        console.error("Calendar Load Error:", err);
         showsList.innerHTML = "Stay tuned for dates!";
       });
   }
