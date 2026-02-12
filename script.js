@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // =========================
-  // 2. UPCOMING SHOWS (CALENDAR)
+  // 2. UPCOMING SHOWS (REWRITTEN)
   // =========================
   const calendarId = "busterthebandslc@gmail.com";
   const apiKey = "AIzaSyAisms0ydY6R8a_dTPNwYMR7bNTs1F5hKM";
@@ -90,53 +90,49 @@ document.addEventListener("DOMContentLoaded", function () {
       .then(res => res.json())
       .then(data => {
         if (!data.items || data.items.length === 0) {
-          showsList.innerHTML = "No upcoming shows!";
+          showsList.innerHTML = "<p class='no-shows'>More dates dropping soon!</p>";
           return;
         }
 
-        // --- DYNAMIC JSON-LD GENERATION WITH SOCIAL LINKS ---
+        // --- JSON-LD remains the same (Best for SEO) ---
         const schemaData = {
           "@context": "https://schema.org",
           "@type": "MusicGroup",
           "name": "Buster",
-          "url": "https://bustertheband.com",
-          "logo": "https://bustertheband.com/assets/logo.png", // Ensure this path is correct
-          "genre": "Heavy Rock",
-          "sameAs": [
-            "https://www.instagram.com/bustertheband",
-            "https://www.youtube.com/@bustertheband",
-            "https://open.spotify.com/artist/your_spotify_id"
-          ],
           "event": data.items.map(event => ({
             "@type": "Event",
             "name": event.summary,
             "startDate": event.start.dateTime || event.start.date,
-            "location": {
-              "@type": "Place",
-              "name": event.location || "TBA",
-              "address": event.location || "TBA"
-            },
-            "performer": {
-              "@type": "MusicGroup",
-              "name": "Buster"
-            }
+            "location": { "@type": "Place", "name": event.location || "TBA" }
           }))
         };
-
-        // Inject combined JSON-LD into the <head>
         const script = document.createElement('script');
         script.type = 'application/ld+json';
         script.text = JSON.stringify(schemaData);
         document.head.appendChild(script);
 
-        // --- RENDER HTML LIST ---
+        // --- IMPROVED HTML RENDERING ---
         showsList.innerHTML = data.items.map(event => {
           const d = new Date(event.start.dateTime || event.start.date);
+          const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+          
+          // Pulling description and cleaning up any HTML tags Google might add
+          const description = event.description ? `<p class="show-desc">${event.description}</p>` : "";
+
           return `
-            <div style="margin-bottom:15px;">
-              🎸 <strong>${event.summary}</strong><br>
-              📍 ${event.location || 'TBA'}<br>
-              🕒 ${d.toLocaleDateString()}
+            <div class="show-row">
+              <div class="show-date">
+                <span class="show-month">${dateStr.split(' ')[0]}</span>
+                <span class="show-day">${dateStr.split(' ')[1]}</span>
+              </div>
+              <div class="show-info">
+                <h3 class="show-title">${event.summary}</h3>
+                <p class="show-venue">📍 ${event.location || 'TBA'}</p>
+                ${description}
+              </div>
+              <div class="show-cta">
+                <a href="#booking" class="show-btn">INFO</a>
+              </div>
             </div>`;
         }).join("");
       })

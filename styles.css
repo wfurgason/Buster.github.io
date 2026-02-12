@@ -350,3 +350,39 @@ footer { background-color: #000; padding: 60px 20px; border-top: 2px solid #ff00
         width: 100%;
     }
 }
+.show-row {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 10px;
+    padding: 15px;
+    border-left: 4px solid #ff0000; /* Buster Red accent */
+    border-radius: 4px;
+    text-align: left;
+}
+
+.show-date {
+    flex: 0 0 70px;
+    text-align: center;
+    border-right: 1px solid #333;
+    margin-right: 20px;
+}
+
+.show-month { display: block; font-size: 0.8rem; text-transform: uppercase; color: #ff0000; }
+.show-day { display: block; font-size: 1.5rem; font-weight: bold; }
+
+.show-info { flex-grow: 1; }
+.show-title { margin: 0; font-size: 1.1rem; color: #fff; }
+.show-venue { margin: 5px 0; font-size: 0.9rem; color: #888; }
+.show-desc { font-size: 0.85rem; color: #ccc; font-style: italic; margin-top: 5px; }
+
+.show-btn {
+    padding: 8px 15px;
+    border: 1px solid #ff0000;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
+
+.show-btn:hover { background: #ff0000; color: #000; }
