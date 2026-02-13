@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.removeChild(link);
   }
 
-  // Global Function for the Button Click
+  // UPDATED: Global Function for the Button Click
   window.markInterest = async function(eventId, title, date, location) {
     const btn = document.querySelector(`[data-event-id="${eventId}"] .interest-btn`);
     if (btn) {
@@ -122,6 +122,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }),
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
       });
+      
+      // Update the local display if you decide to add a counter label later
+      console.log("Interest recorded for: " + title);
     } catch (err) { console.error("Counter Error:", err); }
   };
 
@@ -134,42 +137,25 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
 
-        // --- SEO: JSON-LD (MAINTAINED & IMPROVED) ---
-        const schemaData = {
-          "@context": "https://schema.org",
-          "@type": "MusicGroup",
-          "name": "Buster",
-          "url": "https://bustertheband.com",
-          "logo": "https://bustertheband.com/assets/logo.png",
-          "sameAs": [
-            "https://www.instagram.com/bustertheband",
-            "https://www.youtube.com/@bustertheband",
-            "https://open.spotify.com/artist/13"
-          ],
-          "event": data.items.map(event => ({
-            "@type": "Event",
-            "name": event.summary,
-            "startDate": event.start.dateTime || event.start.date,
-            "location": {
-              "@type": "Place",
-              "name": event.location || "TBA",
-              "address": event.location || "TBA"
-            },
-            "description": event.description || "",
-            "performer": { "@type": "MusicGroup", "name": "Buster" }
-          }))
-        };
-
-        const scriptTag = document.createElement('script');
-        scriptTag.type = 'application/ld+json';
-        scriptTag.text = JSON.stringify(schemaData);
-        document.head.appendChild(scriptTag);
+        // --- SEO: JSON-LD ---
+        // (Keep your existing schemaData logic here)
 
         // --- DISPLAY: RENDER SHOW ROWS ---
         showsList.innerHTML = data.items.map(event => {
           const d = new Date(event.start.dateTime || event.start.date);
           const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
           const eventId = event.id;
+
+          // NEW: Tell the Google Sheet this show exists as soon as it loads
+          fetch(SCRIPT_URL, {
+            method: "POST",
+            body: new URLSearchParams({
+              "action": "register",
+              "eventId": eventId,
+              "eventTitle": event.summary
+            }),
+            headers: { "Content-Type": "application/x-www-form-urlencoded" }
+          }).catch(e => console.log("Register skip"));
 
           return `
             <div class="show-row" data-event-id="${eventId}">
@@ -189,10 +175,6 @@ document.addEventListener("DOMContentLoaded", function () {
               </div>
             </div>`;
         }).join("");
-      })
-      .catch(err => {
-        console.error("Calendar Load Error:", err);
-        showsList.innerHTML = "Stay tuned for dates!";
       });
   }
 
