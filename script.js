@@ -99,7 +99,23 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.removeChild(link);
   }
 
-  // UPDATED: Global Function for the Button Click
+  // Function to pull Interest Counts from the Google Sheet
+  async function updateGlobalCounts() {
+    try {
+      const res = await fetch(SCRIPT_URL); 
+      const counts = await res.json();
+      Object.keys(counts).forEach(id => {
+        const label = document.getElementById(`count-${id}`);
+        if (label && counts[id] > 0) {
+          label.innerText = `${counts[id]} People Interested`;
+        }
+      });
+    } catch (e) {
+      console.error("Could not load interest counts");
+    }
+  }
+
+  // Global Function for the Button Click
   window.markInterest = async function(eventId, title, date, location) {
     const btn = document.querySelector(`[data-event-id="${eventId}"] .interest-btn`);
     if (btn) {
@@ -123,8 +139,8 @@ document.addEventListener("DOMContentLoaded", function () {
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
       });
       
-      // Update the local display if you decide to add a counter label later
-      console.log("Interest recorded for: " + title);
+      // Refresh the counts instantly after the click
+      updateGlobalCounts();
     } catch (err) { console.error("Counter Error:", err); }
   };
 
@@ -137,16 +153,13 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
 
-        // --- SEO: JSON-LD ---
-        // (Keep your existing schemaData logic here)
-
         // --- DISPLAY: RENDER SHOW ROWS ---
         showsList.innerHTML = data.items.map(event => {
           const d = new Date(event.start.dateTime || event.start.date);
           const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
           const eventId = event.id;
 
-          // NEW: Tell the Google Sheet this show exists as soon as it loads
+          // Silently ensure the show is registered in the spreadsheet
           fetch(SCRIPT_URL, {
             method: "POST",
             body: new URLSearchParams({
@@ -157,48 +170,34 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { "Content-Type": "application/x-www-form-urlencoded" }
           }).catch(e => console.log("Register skip"));
 
-          // ... inside your data.items.map(event => { ...
-
-return `
-  <div class="show-row" data-event-id="${eventId}">
-    <div class="show-date">
-      <span class="show-month">${dateStr.split(' ')[0]}</span>
-      <span class="show-day">${dateStr.split(' ')[1]}</span>
-    </div>
-    <div class="show-info">
-      <h3 class="show-title">${event.summary}</h3>
-      <p class="show-venue">📍 ${event.location || 'TBA'}</p>
-      <div class="show-desc">${event.description || ''}</div>
-    </div>
-    <div class="show-cta">
-      <button class="interest-btn" onclick="markInterest('${eventId}', '${event.summary.replace(/'/g, "\\'")}', '${event.start.dateTime || event.start.date}', '${(event.location || 'TBA').replace(/'/g, "\\'")}')">
-        INTERESTED
-      </button>
-      
-      <span class="interest-label" id="count-${eventId}"></span>
-      
-    </div>
-  </div>`;
+          return `
+            <div class="show-row" data-event-id="${eventId}">
+              <div class="show-date">
+                <span class="show-month">${dateStr.split(' ')[0]}</span>
+                <span class="show-day">${dateStr.split(' ')[1]}</span>
+              </div>
+              <div class="show-info">
+                <h3 class="show-title">${event.summary}</h3>
+                <p class="show-venue">📍 ${event.location || 'TBA'}</p>
+                <div class="show-desc">${event.description || ''}</div>
+              </div>
+              <div class="show-cta">
+                <button class="interest-btn" onclick="markInterest('${eventId}', '${event.summary.replace(/'/g, "\\'")}', '${event.start.dateTime || event.start.date}', '${(event.location || 'TBA').replace(/'/g, "\\'")}')">
+                  INTERESTED
+                </button>
+                <span class="interest-label" id="count-${eventId}"></span>
+              </div>
+            </div>`;
         }).join("");
+
+        // Final step: Load the counts from the sheet for display
+        updateGlobalCounts();
+      })
+      .catch(err => {
+        console.error("Calendar Load Error:", err);
+        showsList.innerHTML = "Stay tuned for dates!";
       });
   }
-  async function updateGlobalCounts() {
-  try {
-    // This hits the doGet(e) function in your Code.gs
-    const res = await fetch(SCRIPT_URL); 
-    const counts = await res.json();
-    
-    // Loop through every count returned from the sheet
-    Object.keys(counts).forEach(id => {
-      const label = document.getElementById(`count-${id}`);
-      if (label && counts[id] > 0) {
-        label.innerText = `${counts[id]} People Interested`;
-      }
-    });
-  } catch (e) {
-    console.error("Could not load interest counts");
-  }
-}
 
   // =========================
   // 3. MERCH & CART
