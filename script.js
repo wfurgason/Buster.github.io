@@ -99,23 +99,46 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.removeChild(link);
   }
 
-  // Function to pull Interest Counts from the Google Sheet
-  async function updateGlobalCounts() {
-    try {
-      const res = await fetch(SCRIPT_URL); 
-      const counts = await res.json();
-      Object.keys(counts).forEach(id => {
-        const label = document.getElementById(`count-${id}`);
-        if (label && counts[id] > 0) {
-          label.innerText = `${counts[id]} People Interested`;
-        }
-      });
-    } catch (e) {
-      console.error("Could not load interest counts");
-    }
+  // --- JSONP COUNTER LOGIC ---
+  
+  // Pull Interest Counts from Sheet
+  window.updateGlobalCounts = function() {
+    const script = document.createElement('script');
+    script.src = `${SCRIPT_URL}?callback=handleCountsResponse&t=${new Date().getTime()}`;
+    document.body.appendChild(script);
   }
 
-  // Global Function for the Button Click
+  // Receiver for Interest Counts
+  window.handleCountsResponse = function(counts) {
+    Object.keys(counts).forEach(id => {
+      const label = document.getElementById(`count-${id}`);
+      if (label && counts[id] > 0) {
+        label.innerText = `${counts[id]} PEOPLE INTERESTED`;
+        label.style.display = 'block';
+      }
+    });
+  };
+
+  // Pull Top Song from Sheet
+  window.fetchTopSong = function() {
+    const script = document.createElement('script');
+    script.src = `${SCRIPT_URL}?action=topSong&callback=handleTopSongResponse&t=${new Date().getTime()}`;
+    document.body.appendChild(script);
+  }
+
+  // Receiver for Top Song
+  window.handleTopSongResponse = function(data) {
+    const topSongEl = document.getElementById('pollLeader');
+    if (!topSongEl) return;
+    if (data.topSongs && data.topSongs.length > 0) {
+      topSongEl.textContent = data.tie 
+        ? `🔥 Fan Favorites Right Now: ${data.topSongs.join(" & ")} (tie)`
+        : `🔥 Fan Favorite Right Now: ${data.topSongs[0]}`;
+    }
+  };
+
+  // --- INTERACTIVE ACTIONS ---
+
   window.markInterest = async function(eventId, title, date, location) {
     const btn = document.querySelector(`[data-event-id="${eventId}"] .interest-btn`);
     if (btn) {
@@ -124,10 +147,10 @@ document.addEventListener("DOMContentLoaded", function () {
       btn.disabled = true;
     }
 
-    // 1. Download the calendar reminder
+    // 1. Download calendar reminder
     downloadCalendarFile(title, date, location, "Buster Live Show Reminder");
 
-    // 2. Send interest data to your Google Sheet
+    // 2. Send data to Google Sheet
     try {
       await fetch(SCRIPT_URL, {
         method: "POST",
@@ -139,10 +162,12 @@ document.addEventListener("DOMContentLoaded", function () {
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
       });
       
-      // Refresh the counts instantly after the click
+      // Refresh counts instantly to show the update
       updateGlobalCounts();
     } catch (err) { console.error("Counter Error:", err); }
   };
+
+  // --- CALENDAR LOAD & RENDER ---
 
   if (showsList) {
     fetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?key=${apiKey}&timeMin=${new Date().toISOString()}&maxResults=5&orderBy=startTime&singleEvents=true`)
@@ -153,13 +178,12 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
 
-        // --- DISPLAY: RENDER SHOW ROWS ---
         showsList.innerHTML = data.items.map(event => {
           const d = new Date(event.start.dateTime || event.start.date);
           const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
           const eventId = event.id;
 
-          // Silently ensure the show is registered in the spreadsheet
+          // Register show in spreadsheet
           fetch(SCRIPT_URL, {
             method: "POST",
             body: new URLSearchParams({
@@ -185,17 +209,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 <button class="interest-btn" onclick="markInterest('${eventId}', '${event.summary.replace(/'/g, "\\'")}', '${event.start.dateTime || event.start.date}', '${(event.location || 'TBA').replace(/'/g, "\\'")}')">
                   INTERESTED
                 </button>
-                <span class="interest-label" id="count-${eventId}"></span>
+                <span class="interest-label" id="count-${eventId}" style="display:none;"></span>
               </div>
             </div>`;
         }).join("");
 
-        // Final step: Load the counts from the sheet for display
+        // Final step: Update counts on load
         updateGlobalCounts();
-      })
-      .catch(err => {
-        console.error("Calendar Load Error:", err);
-        showsList.innerHTML = "Stay tuned for dates!";
       });
   }
 
