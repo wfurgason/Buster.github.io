@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // ==========================================
+ // ==========================================
   // 2. UPCOMING SHOWS (SEO + CALENDAR + INTEREST)
   // ==========================================
   const calendarId = "busterthebandslc@gmail.com";
@@ -101,14 +101,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // --- JSONP COUNTER LOGIC ---
   
-  // Pull Interest Counts from Sheet
   window.updateGlobalCounts = function() {
     const script = document.createElement('script');
     script.src = `${SCRIPT_URL}?callback=handleCountsResponse&t=${new Date().getTime()}`;
     document.body.appendChild(script);
   }
 
-  // Receiver for Interest Counts
   window.handleCountsResponse = function(counts) {
     Object.keys(counts).forEach(id => {
       const label = document.getElementById(`count-${id}`);
@@ -119,14 +117,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   };
 
-  // Pull Top Song from Sheet
   window.fetchTopSong = function() {
     const script = document.createElement('script');
     script.src = `${SCRIPT_URL}?action=topSong&callback=handleTopSongResponse&t=${new Date().getTime()}`;
     document.body.appendChild(script);
   }
 
-  // Receiver for Top Song
   window.handleTopSongResponse = function(data) {
     const topSongEl = document.getElementById('pollLeader');
     if (!topSongEl) return;
@@ -147,10 +143,8 @@ document.addEventListener("DOMContentLoaded", function () {
       btn.disabled = true;
     }
 
-    // 1. Download calendar reminder
     downloadCalendarFile(title, date, location, "Buster Live Show Reminder");
 
-    // 2. Send data to Google Sheet
     try {
       await fetch(SCRIPT_URL, {
         method: "POST",
@@ -161,8 +155,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }),
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
       });
-      
-      // Refresh counts instantly to show the update
       updateGlobalCounts();
     } catch (err) { console.error("Counter Error:", err); }
   };
@@ -182,8 +174,11 @@ document.addEventListener("DOMContentLoaded", function () {
           const d = new Date(event.start.dateTime || event.start.date);
           const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
           const eventId = event.id;
+          const venue = event.location || 'TBA';
+          
+          // Generate a Google Maps link for the address
+          const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(venue)}`;
 
-          // Register show in spreadsheet
           fetch(SCRIPT_URL, {
             method: "POST",
             body: new URLSearchParams({
@@ -202,11 +197,13 @@ document.addEventListener("DOMContentLoaded", function () {
               </div>
               <div class="show-info">
                 <h3 class="show-title">${event.summary}</h3>
-                <p class="show-venue">📍 ${event.location || 'TBA'}</p>
+                <p class="show-venue">
+                  📍 <a href="${mapLink}" target="_blank" rel="noopener noreferrer" class="venue-link">${venue}</a>
+                </p>
                 <div class="show-desc">${event.description || ''}</div>
               </div>
               <div class="show-cta">
-                <button class="interest-btn" onclick="markInterest('${eventId}', '${event.summary.replace(/'/g, "\\'")}', '${event.start.dateTime || event.start.date}', '${(event.location || 'TBA').replace(/'/g, "\\'")}')">
+                <button class="interest-btn" onclick="markInterest('${eventId}', '${event.summary.replace(/'/g, "\\'")}', '${event.start.dateTime || event.start.date}', '${venue.replace(/'/g, "\\'")}')">
                   INTERESTED
                 </button>
                 <span class="interest-label" id="count-${eventId}" style="display:none;"></span>
@@ -214,7 +211,6 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>`;
         }).join("");
 
-        // Final step: Update counts on load
         updateGlobalCounts();
       });
   }
