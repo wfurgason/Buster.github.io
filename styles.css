@@ -428,3 +428,14 @@ footer { background-color: #000; padding: 60px 20px; border-top: 2px solid #ff00
     border-color: #4CAF50;
     color: #4CAF50;
 }
+.venue-link {
+  color: #ff3b3b; /* Or your preferred theme color */
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(255, 59, 59, 0.4);
+  transition: all 0.2s ease;
+}
+
+.venue-link:hover {
+  color: #ffffff;
+  border-bottom: 1px solid #ffffff;
+}
