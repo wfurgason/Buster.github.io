@@ -61,8 +61,8 @@
 <main>
   <!-- HERO -->
   <section class="hero">
-  <video autoplay muted loop playsinline poster="hero-poster.jpg">
-    <source src="heroSOL.mp4" type="video/mp4">
+  <video id="heroVideo" autoplay muted loop playsinline poster="hero-poster.jpg">
+    <!-- src injected by JS on desktop only -->
   </video>
 <div class="hero-caption">
   <h1>Buster — Heavy Rock from Utah</h1>
@@ -395,6 +395,17 @@
 </footer>
 <button id="joinFloatingBtn" title="Join the Inner Circle">JOIN</button><button id="backToTop" title="Go to top">↑</button>
 
+    <script>
+  // Only load hero video on desktop - prevents mobile from downloading 1.5MB video
+  if (window.innerWidth > 768) {
+    var video = document.getElementById('heroVideo');
+    var source = document.createElement('source');
+    source.src = 'heroSOL.mp4';
+    source.type = 'video/mp4';
+    video.appendChild(source);
+    video.load();
+  }
+</script>
     <script src="script.js"></script>
 
     <script>
