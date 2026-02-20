@@ -107,6 +107,7 @@ function jsonResponse(obj) {
 /************************************************
  * EMAIL & UTILS
  ************************************************/
+
 function getOrCreateSheet(ss, name) {
   let sheet = ss.getSheetByName(name);
   if (!sheet) {
@@ -119,19 +120,106 @@ function getOrCreateSheet(ss, name) {
   return sheet;
 }
 
-function jsonResponse(obj) {
-  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
-}
-
-function sendWelcomeEmail(recipientEmail, name) {
-  const subject = `Welcome to the Inner Circle, ${name}!`;
+function sendWelcomeEmail(recipientEmail, fanName) {
+  const subject = `Welcome to the Inner Circle, ${fanName}!`;
   const alias = "buster@bustertheband.com";
-  const htmlTemplate = HtmlService.createTemplateFromFile('WelcomeTemplate');
-  htmlTemplate.fanName = name;
-  GmailApp.sendEmail(recipientEmail, subject, `Welcome to Buster, ${name}!`, { htmlBody: htmlTemplate.evaluate().getContent(), from: alias });
+
+  const htmlTemplate = HtmlService.createTemplateFromFile("WelcomeTemplate");
+  htmlTemplate.fanName = fanName;
+
+  GmailApp.sendEmail(
+    recipientEmail,
+    subject,
+    `Welcome to Buster, ${fanName}!`,
+    {
+      htmlBody: htmlTemplate.evaluate().getContent(),
+      from: alias
+    }
+  );
 }
 
 function sendBookingAlert(venue, email, phone, message) {
   const myEmail = "busterthebandslc@gmail.com";
-  try { GmailApp.sendEmail(myEmail, `NEW BOOKING REQUEST: ${venue}`, `New Booking!\n\nVENUE: ${venue}\nCONTACT: ${email}\nPHONE: ${phone}\n\nDETAILS:\n${message}`); } catch(e){}
+  GmailApp.sendEmail(
+    myEmail,
+    `NEW BOOKING REQUEST: ${venue}`,
+    `New Booking!\n\nVENUE: ${venue}\nCONTACT: ${email}\nPHONE: ${phone}\n\nDETAILS:\n${message}`
+  );
 }
+
+/************************************************
+ * AGENT EMAIL AUTOMATION
+ ************************************************/
+
+function installableOnEdit(e) {
+  if (!e || !e.range) return;
+
+  const sheet = e.range.getSheet();
+  if (sheet.getName() !== "Agents") return;
+
+  const row = e.range.getRow();
+  if (row === 1) return; // header row
+
+  const values = sheet.getRange(row, 1, 1, 6).getValues()[0];
+
+  const dateSent = values[0];
+  const agentEmail = values[1];
+  const agentName = values[2];
+  const venueName = values[3];
+  const status = values[4];
+
+  // Required fields must exist and status must be blank
+  if (!agentEmail || !agentName || !venueName || status) return;
+
+  // Duplicate check (earlier rows only)
+  if (row > 2) {
+    const priorEmails = sheet
+      .getRange(2, 2, row - 2, 1)
+      .getValues()
+      .flat();
+
+    if (priorEmails.includes(agentEmail)) {
+      markStatus(sheet, row, "DUPLICATE", "#fff2cc");
+      return;
+    }
+  }
+
+  try {
+    sendAgentEmail(agentEmail, agentName, venueName);
+
+    sheet.getRange(row, 1).setValue(new Date());
+    markStatus(sheet, row, "SENT", "#d9ead3");
+  } catch (err) {
+    markStatus(sheet, row, "ERROR", "#f4cccc");
+    sheet.getRange(row, 6).setValue(err.message);
+    throw err;
+  }
+}
+
+function sendAgentEmail(agentEmail, agentName, venueName) {
+  const subject = "Booking Inquiry – Buster";
+  const alias = "buster@bustertheband.com";
+
+  const template = HtmlService.createTemplateFromFile("AgentTemplate");
+  template.agentName = agentName;
+  template.venueName = venueName;
+
+  GmailApp.sendEmail(
+    agentEmail,
+    subject,
+    "Booking Inquiry",
+    {
+      htmlBody: template.evaluate().getContent(),
+      from: alias
+    }
+  );
+}
+
+function markStatus(sheet, row, text, color) {
+  sheet
+    .getRange(row, 5)
+    .setValue(text)
+    .setBackground(color)
+    .setFontWeight("bold");
+}
+
