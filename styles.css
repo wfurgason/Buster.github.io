@@ -39,10 +39,11 @@ nav a:hover { color: #ff0000 !important; }
 @media (max-width: 768px) {
   .hero video { display: none; }
   .hero { 
-    min-height: 56vw;
     background-image: url('hero-poster.jpg');
     background-size: cover;
     background-position: center;
+    padding-top: calc(65px + 56vw); /* 65px nav + image area */
+    min-height: 0;
   }
 }
 .hero-caption { background: #000; padding: 60px 20px; text-align: center; border-bottom: 3px solid #ff0000; }
