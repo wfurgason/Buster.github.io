@@ -40,9 +40,10 @@ nav a:hover { color: #ff0000 !important; }
   .hero video { display: none; }
   .hero { 
     background-image: url('hero-poster.jpg');
-    background-size: cover;
-    background-position: center;
-    padding-top: calc(65px + 56vw); /* 65px nav + image area */
+    background-size: 100% auto;
+    background-position: center 65px;
+    background-repeat: no-repeat;
+    padding-top: calc(65px + 55.5vw);
     min-height: 0;
   }
 }
