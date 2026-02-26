@@ -4,7 +4,7 @@ html {
   scroll-behavior: smooth !important;
 }
 /* Force all sections with an ID to stay below the header */
-#music, #shows, #merch, #booking, #inner-circle, .epk-section {
+#about, #music, #shows, #merch, #booking, #inner-circle, .epk-section {
     scroll-margin-top: 100px !important;
 }
 
@@ -27,9 +27,56 @@ header {
     background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px);      
     border-bottom: 1px solid #333;
 }
-.logo { font-size: 1.8rem; font-weight: 900; text-transform: uppercase; letter-spacing: 4px; color: #ff0000; }
+.logo, a.logo, a.logo:visited { font-size: 1.8rem; font-weight: 900; text-transform: uppercase; letter-spacing: 4px; color: #ff0000; text-decoration: none; }
 nav a { color: #fff !important; margin-left: 20px; text-transform: uppercase; font-weight: bold; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease; }
 nav a:hover { color: #ff0000 !important; }
+
+/* --- HAMBURGER MENU --- */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 10000;
+}
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: #fff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+@media (max-width: 768px) {
+    .hamburger { display: flex; }
+    nav {
+        display: none;
+        flex-direction: column;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.97);
+        padding: 20px 0;
+        border-bottom: 2px solid #ff0000;
+        z-index: 9998;
+    }
+    nav.open { display: flex; }
+    nav a {
+        margin: 0;
+        padding: 14px 5%;
+        border-bottom: 1px solid #1a1a1a;
+        font-size: 1.1rem;
+    }
+    nav a:last-child { border-bottom: none; }
+}
 
 /* --- 3. HERO --- */
 .hero { width: 100%; background: #000; }
@@ -37,6 +84,7 @@ nav a:hover { color: #ff0000 !important; }
 
 /* On mobile, hide video and show poster image instead for faster load */
 @media (max-width: 768px) {
+  .hero-caption h1 { font-size: 1.8rem; }
   .hero video { display: none; }
   .hero { 
     background-image: url('hero-poster.jpg');

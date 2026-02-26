@@ -46,17 +46,7 @@
 </script>
 </head>
 <body>
-<header>
-  <div class="logo">Buster</div>
-
-  <nav aria-label="Main navigation">
-    <a href="#music-poll-section">Music</a>
-    <a href="#shows">Shows</a>
-    <a href="#merch">Merch</a>
-    <a href="#booking">Booking</a>
-    <a href="epk.html">EPK</a>
-  </nav>
-</header>
+<header></header>
 
 <main>
   <!-- HERO -->
@@ -72,6 +62,7 @@
   </section>
 
 <section id="about" style="padding: 60px 5%; background: #111; text-align: center;">
+  <h2>About</h2>
   <p style="max-width: 700px; margin: 0 auto; color: #ccc; font-size: 1.15rem; line-height: 1.8;">Buster is what happens when AC/DC, Nirvana, and Sonic Youth collide somewhere in the Utah desert, then get slapped silly by the Sex Pistols. We're heavy, irreverent, and seemingly impossible to pin down — we're a big swirling mess of rock and roll, and we wouldn't have it any other way. Catch us live all along the Wasatch Front.</p>
 </section>
 
@@ -173,6 +164,7 @@
 
 <section id="inner-circle" style="padding: 20px; text-align: center;">
   <h2>Join the Inner Circle</h2>
+  <p style="color: #ccc; margin: -10px 0 20px 0; font-size: 1rem;">Be the first to know about shows, merch drops, and things we don't post anywhere else. No spam. Just the good stuff.</p>
 
   <form id="innerCircleForm" style="display: inline-block; width: 100%; max-width: 400px;">
     
@@ -376,23 +368,7 @@
 
 </main>
 
-<footer>
-    <div class="footer-container">
-        <h2 class="footer-logo">BUSTER</h2>
-        
-        <div class="social-links">
-            <a href="https://www.instagram.com/bustertheband/" target="_blank" class="social-icon">Instagram</a>
-            <a href="https://www.youtube.com/@bustertheband" target="_blank" class="social-icon">YouTube</a>
-            <a href="https://open.spotify.com/artist/3exYjJhkzwnv436LMtWAGI" target="_blank" class="social-icon">Spotify</a>
-        </div>
-
-        <div class="footer-contact">
-            <p>Booking & Press: <a href="mailto:busterthebandslc@gmail.com">buster@bustertheband.com</a></p>
-        </div>
-        
-        <p class="copyright">© 2026 BUSTER. All Rights Reserved.</p>
-    </div>
-</footer>
+<footer></footer>
 <button id="joinFloatingBtn" title="Join the Inner Circle">JOIN</button><button id="backToTop" title="Go to top">↑</button>
 
     <script>
@@ -410,19 +386,6 @@
 
     <script>
   (function() {
-    // Back to Top Logic
-    const topBtn = document.getElementById("backToTop");
-    window.addEventListener("scroll", function() {
-      if (window.pageYOffset > 300 || document.documentElement.scrollTop > 300) {
-        topBtn.style.display = "block";
-      } else {
-        topBtn.style.display = "none";
-      }
-    });
-    topBtn.addEventListener("click", function() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
     // Join Button Logic
     const joinBtn = document.getElementById("joinFloatingBtn");
     if (joinBtn) {
@@ -436,6 +399,7 @@
   })();
 </script>
     <script src="create-stripe-session.js"></script>
+    <script src="components.js"></script>
 </body>
 </html>
 

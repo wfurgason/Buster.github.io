@@ -139,7 +139,7 @@ function sendWelcomeEmail(recipientEmail, fanName) {
 }
 
 function sendBookingAlert(venue, email, phone, message) {
-  const myEmail = "busterthebandslc@gmail.com";
+  const myEmail = "buster@bustertheband.com";
   GmailApp.sendEmail(
     myEmail,
     `NEW BOOKING REQUEST: ${venue}`,
@@ -222,4 +222,3 @@ function markStatus(sheet, row, text, color) {
     .setBackground(color)
     .setFontWeight("bold");
 }
-
