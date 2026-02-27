@@ -175,13 +175,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const short = text.substring(0, LIMIT);
     const id = 'desc-' + Math.random().toString(36).substr(2, 6);
     return `
-      <span class="desc-short">
+      <span class="desc-short" id="${id}-short">
         ${short}<button class="desc-more-btn" onclick="
           document.getElementById('${id}-full').style.display='inline';
-          this.parentElement.style.display='none';
+          document.getElementById('${id}-short').style.display='none';
         ">…more</button>
       </span>
-      <span class="desc-full" id="${id}-full">${text}</span>
+      <span class="desc-full" id="${id}-full" style="display:none;">
+        ${text}<button class="desc-more-btn" onclick="
+          document.getElementById('${id}-full').style.display='none';
+          document.getElementById('${id}-short').style.display='inline';
+        ">…less</button>
+      </span>
     `;
   }
 
