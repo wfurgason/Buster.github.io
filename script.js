@@ -164,6 +164,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // Builds description HTML with a short/full toggle for mobile
   function buildDesc(text) {
     if (!text) return '';
+    // Strip any HTML tags Google Calendar may include
+    const tmp = document.createElement('div');
+    tmp.innerHTML = text;
+    text = tmp.textContent || tmp.innerText || '';
     const LIMIT = 25;
     if (text.length <= LIMIT) {
       return `<span class="desc-short">${text}</span><span class="desc-full">${text}</span>`;
