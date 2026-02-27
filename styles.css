@@ -98,6 +98,17 @@ nav a:hover { color: #ff0000 !important; }
 .hero-caption { background: #000; padding: 60px 20px; text-align: center; border-bottom: 3px solid #ff0000; }
 .hero-caption h1 { color: #ffffff !important; font-size: 3rem; text-transform: uppercase; margin: 0 0 10px 0; letter-spacing: 2px; }
 .hero-caption p { color: #ffffff !important; font-size: 1.2rem; margin-bottom: 30px; }
+.inner-circle-teaser {
+    display: block;
+    margin-top: 16px;
+    color: #aaa;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+}
+.inner-circle-teaser:hover { color: #fff; }
 
 /* --- 4. SECTION HEADINGS --- */
 h2 { color: #fff; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px; display: table; margin: 40px auto; text-align: center; border-bottom: 3px solid #ff0000; padding-bottom: 10px; }
