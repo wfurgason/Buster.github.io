@@ -161,6 +161,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // --- CALENDAR LOAD & RENDER ---
 
+  // Builds description HTML with a short/full toggle for mobile
+  function buildDesc(text) {
+    if (!text) return '';
+    const LIMIT = 25;
+    if (text.length <= LIMIT) {
+      return `<span class="desc-short">${text}</span><span class="desc-full">${text}</span>`;
+    }
+    const short = text.substring(0, LIMIT);
+    const id = 'desc-' + Math.random().toString(36).substr(2, 6);
+    return `
+      <span class="desc-short">
+        ${short}<button class="desc-more-btn" onclick="
+          document.getElementById('${id}-full').style.display='inline';
+          this.parentElement.style.display='none';
+        ">…more</button>
+      </span>
+      <span class="desc-full" id="${id}-full">${text}</span>
+    `;
+  }
+
   if (showsList) {
     fetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?key=${apiKey}&timeMin=${new Date().toISOString()}&maxResults=5&orderBy=startTime&singleEvents=true`)
       .then(res => res.json())
@@ -200,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <p class="show-venue">
                   📍 <a href="${mapLink}" target="_blank" rel="noopener noreferrer" class="venue-link">${venue}</a>
                 </p>
-                <div class="show-desc">${event.description || ''}</div>
+                <div class="show-desc">${buildDesc(event.description || '')}</div>
               </div>
               <div class="show-cta">
                 <button class="interest-btn" onclick="markInterest('${eventId}', '${event.summary.replace(/'/g, "\\'")}', '${event.start.dateTime || event.start.date}', '${venue.replace(/'/g, "\\'")}')">

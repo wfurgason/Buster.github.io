@@ -514,6 +514,49 @@ footer { background-color: #000; padding: 60px 20px; border-top: 2px solid #ff00
     text-transform: uppercase;
 }
 
+/* --- MOBILE: Show Row Layout --- */
+@media (max-width: 768px) {
+    .show-row {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .show-info {
+        flex: 1;
+        min-width: 0; /* Prevents text from overflowing */
+    }
+    .show-cta {
+        width: 100%;
+    }
+    .interest-btn {
+        width: 100%;
+        padding: 14px;
+    }
+    /* Hide the full description on mobile by default */
+    .show-desc .desc-full {
+        display: none;
+    }
+    .show-desc .desc-short {
+        display: inline;
+    }
+    .desc-more-btn {
+        background: none;
+        border: none;
+        color: #ff0000;
+        font-size: inherit;
+        font-style: italic;
+        cursor: pointer;
+        padding: 0;
+        margin: 0;
+    }
+}
+
+/* On desktop, always show the full description */
+@media (min-width: 769px) {
+    .show-desc .desc-short { display: none; }
+    .show-desc .desc-full { display: inline; }
+    .desc-more-btn { display: none; }
+}
+
 .venue-link {
     color: #ff3b3b; /* Red accent for the link */
     text-decoration: none;
