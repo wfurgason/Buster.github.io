@@ -58,7 +58,6 @@
   <h1>Buster — Heavy Rock from Utah</h1>
   <p>Live. Loud. Wasatch Front.</p>
   <a href="#music-poll-section" class="btn">Listen Now</a>
-  <a href="#inner-circle" class="inner-circle-teaser">What's the Inner Circle?</a>
 </div>
   </section>
 
@@ -86,6 +85,14 @@
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
         loading="lazy">
       </iframe>
+      <!-- Quick email capture strip -->
+      <div id="quick-capture" style="margin-top: 16px; text-align: center;">
+        <p style="color: #888; font-size: 0.85rem; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 1px;">Digging it? Get early access to shows &amp; drops.</p>
+        <div style="display: flex; gap: 8px; max-width: 400px; margin: 0 auto;">
+          <input type="email" id="quickEmail" placeholder="Your email" style="flex: 1; padding: 12px; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 4px; font-size: 0.95rem;">
+          <button onclick="quickCapture()" class="btn" style="padding: 12px 20px; white-space: nowrap;">I'm In</button>
+        </div>
+      </div>
     </div>
 
     <div class="poll-side" style="flex: 0.8; min-width: 280px; max-width: 350px; background: #111; padding: 15px; border-radius: 12px; border: 1px solid #222; display: flex; flex-direction: column; height: 450px; box-sizing: border-box;">
@@ -146,12 +153,10 @@
 
         <button type="submit" id="pollSubmitBtn" class="btn" style="width: 100%; padding: 10px; margin-top: 10px; flex-shrink: 0;">CAST VOTE</button>
         <div id="pollResponse" style="margin-top: 5px; text-align: center; font-size: 0.85rem; min-height: 15px;"></div>
+        <div id="pollLeader" style="margin-top: 8px; text-align: center; color: #ccc; font-size: 0.8rem;">🔥 Fan Favorite Right Now: Loading…</div>
       </form>
     </div>
   </div>
-  <div id="pollLeader" style="margin-top:10px; text-align:center; color:#ccc; font-size:0.9rem;">
-  🔥 Fan Favorite Right Now: Loading…
-</div>
 </section>
 
   <!-- SHOWS -->
@@ -188,6 +193,7 @@
 
     <input 
       type="email" 
+      id="innerCircleEmail"
       name="email" 
       placeholder="Enter your email" 
       required 
@@ -203,6 +209,11 @@
       "
     >
 
+    <div style="position: relative; display: inline-block; margin-bottom: 5px;">
+      <span style="color: #ccc; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">Zip Code</span>
+      <button type="button" id="zipWhyBtn" style="background: none; border: none; color: #ff0000; font-size: 0.75rem; cursor: pointer; padding: 0 0 0 6px; text-decoration: underline;">why we ask?</button>
+      <div id="zipTooltip" style="display: none; position: absolute; left: 0; top: 100%; margin-top: 6px; background: #1a1a1a; border: 1px solid #444; color: #ccc; font-size: 0.8rem; padding: 10px 14px; border-radius: 6px; max-width: 280px; z-index: 100; text-align: left; line-height: 1.5;">We only notify you about shows happening near you — no spam about gigs on the other side of the country.</div>
+    </div>
     <input 
       type="text" 
       name="zipCode" 
@@ -398,6 +409,40 @@
       });
     }
   })();
+</script>
+    <script>
+  // Quick email capture → pre-fills Inner Circle form and scrolls there
+  function quickCapture() {
+    const val = document.getElementById('quickEmail').value.trim();
+    if (!val || !val.includes('@')) {
+      document.getElementById('quickEmail').focus();
+      return;
+    }
+    document.getElementById('innerCircleEmail').value = val;
+    document.getElementById('inner-circle').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(function() {
+      document.querySelector('#innerCircleForm [name="name"]').focus();
+    }, 600);
+  }
+
+  // Allow pressing Enter in the quick capture field
+  document.getElementById('quickEmail').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); quickCapture(); }
+  });
+
+  // Zip code tooltip toggle
+  document.getElementById('zipWhyBtn').addEventListener('click', function() {
+    const tip = document.getElementById('zipTooltip');
+    tip.style.display = tip.style.display === 'none' ? 'block' : 'none';
+  });
+
+  // Close tooltip if user clicks anywhere else
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('#zipWhyBtn') && !e.target.closest('#zipTooltip')) {
+      const tip = document.getElementById('zipTooltip');
+      if (tip) tip.style.display = 'none';
+    }
+  });
 </script>
     <script src="create-stripe-session.js"></script>
     <script src="components.js"></script>
