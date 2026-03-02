@@ -117,33 +117,26 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   };
 
-  window.fetchTopSong = function() {
-    const script = document.createElement('script');
-    script.src = `${SCRIPT_URL}?action=topSong&callback=handleTopSongResponse&t=${new Date().getTime()}`;
-    document.body.appendChild(script);
-  }
-
-  window.handleTopSongResponse = function(data) {
-    const topSongEl = document.getElementById('pollLeader');
-    if (!topSongEl) return;
-    if (data.topSongs && data.topSongs.length > 0) {
-      topSongEl.textContent = data.tie 
-        ? `🔥 Fan Favorites Right Now: ${data.topSongs.join(" & ")} (tie)`
-        : `🔥 Fan Favorite Right Now: ${data.topSongs[0]}`;
-    }
-  };
-
   // --- INTERACTIVE ACTIONS ---
 
   window.markInterest = async function(eventId, title, date, location) {
+    // Prevent duplicate interest clicks
+    if (localStorage.getItem('busterInterest_' + eventId)) return;
+
     const btn = document.querySelector(`[data-event-id="${eventId}"] .interest-btn`);
     if (btn) {
-      btn.innerText = "SAVED!";
+      btn.innerText = "Going!";
       btn.classList.add("saved");
       btn.disabled = true;
     }
 
-    downloadCalendarFile(title, date, location, "Buster Live Show Reminder");
+    // Ask before triggering a file download — especially important on mobile
+    if (confirm('Add this show to your calendar?')) {
+      downloadCalendarFile(title, date, location, "Buster Live Show Reminder");
+    }
+
+    // Remember this fan already marked interest for this show
+    localStorage.setItem('busterInterest_' + eventId, 'true');
 
     try {
       await fetch(SCRIPT_URL, {
@@ -204,6 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
           const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
           const eventId = event.id;
           const venue = event.location || 'TBA';
+          const alreadyInterested = localStorage.getItem('busterInterest_' + eventId);
           
           // Generate a Google Maps link for the address
           const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(venue)}`;
@@ -232,8 +226,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="show-desc">${buildDesc(event.description || '')}</div>
               </div>
               <div class="show-cta">
-                <button class="interest-btn" onclick="markInterest('${eventId}', '${event.summary.replace(/'/g, "\\'")}', '${event.start.dateTime || event.start.date}', '${venue.replace(/'/g, "\\'")}')">
-                  INTERESTED
+                <button class="interest-btn ${alreadyInterested ? 'saved' : ''}" 
+                  ${alreadyInterested ? 'disabled' : ''}
+                  onclick="markInterest('${eventId}', '${event.summary.replace(/'/g, "\\'")}', '${event.start.dateTime || event.start.date}', '${venue.replace(/'/g, "\\'")}')">
+                  ${alreadyInterested ? 'Going!' : 'INTERESTED'}
                 </button>
                 <span class="interest-label" id="count-${eventId}" style="display:none;"></span>
               </div>
@@ -350,33 +346,39 @@ document.addEventListener("DOMContentLoaded", function () {
   const pollForm = document.getElementById('busterPollForm');
   const pollBtn = document.getElementById('pollSubmitBtn');
   const pollResponse = document.getElementById('pollResponse');
-  const topSongEl = document.getElementById('pollLeader'); // New element for live top song
+  const topSongEl = document.getElementById('pollLeader');
 
   // Helper: Fetch top song from GAS
   async function fetchTopSong() {
-  try {
-    const res = await fetch(`${SCRIPT_URL}?action=topSong`);
-    const data = await res.json();
+    try {
+      const res = await fetch(`${SCRIPT_URL}?action=topSong`);
+      const data = await res.json();
 
-    if (!data.success || !data.topSongs.length) {
-      topSongEl.textContent = "🔥 Fan Favorite Right Now: None yet";
-      return;
-    }
+      if (!data.success || !data.topSongs.length) {
+        topSongEl.textContent = "🔥 Fan Favorite Right Now: None yet";
+        return;
+      }
 
-    if (data.tie) {
-      topSongEl.textContent =
-        `🔥 Fan Favorites Right Now: ${data.topSongs.join(" & ")} (tie)`;
-    } else {
-      topSongEl.textContent =
-        `🔥 Fan Favorite Right Now: ${data.topSongs[0]}`;
+      if (data.tie) {
+        topSongEl.textContent =
+          `🔥 Fan Favorites Right Now: ${data.topSongs.join(" & ")} (tie)`;
+      } else {
+        topSongEl.textContent =
+          `🔥 Fan Favorite Right Now: ${data.topSongs[0]}`;
+      }
+    } catch (err) {
+      console.error("Top Song Fetch Error:", err);
+      topSongEl.textContent = "🔥 Fan Favorite Right Now: Loading…";
     }
-  } catch (err) {
-    console.error("Top Song Fetch Error:", err);
-    topSongEl.textContent = "🔥 Fan Favorite Right Now: Loading…";
   }
-}
 
   if (topSongEl) fetchTopSong(); // Fetch on page load
+
+  // Disable poll button if user already voted
+  if (pollBtn && localStorage.getItem('busterPollVoted')) {
+    pollBtn.disabled = true;
+    pollBtn.innerText = 'VOTE CAST';
+  }
 
   if (pollForm) {
     pollForm.addEventListener("submit", function (e) {
@@ -399,6 +401,7 @@ document.addEventListener("DOMContentLoaded", function () {
             pollResponse.innerText = "Voted! We'll see you at the show.";
             pollResponse.style.color = "#4CAF50";
             pollBtn.innerText = "VOTE CAST";
+            localStorage.setItem('busterPollVoted', 'true'); // Remember the vote
             fetchTopSong(); // Update top song immediately
           } else {
             throw new Error(data.error);

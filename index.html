@@ -40,7 +40,12 @@
   "sameAs": [
     "https://www.instagram.com/bustertheband/",
     "https://www.youtube.com/@bustertheband",
-    "https://open.spotify.com/artist/3exYjJhkzwnv436LMtWAGI"
+    "https://open.spotify.com/artist/3exYjJhkzwnv436LMtWAGI",
+    "https://www.tiktok.com/@bustertheband",
+    "https://www.facebook.com/profile.php?id=61567940656919",
+    "https://www.threads.com/@bustertheband",
+    "https://x.com/BusterSLC"
+
   ]
 }
 </script>
@@ -55,7 +60,8 @@
     <!-- src injected by JS on desktop only -->
   </video>
 <div class="hero-caption">
-  <h1>Buster — Heavy Rock from Utah</h1>
+  <h1>Buster</h1>
+  <p class="hero-subtitle">Heavy Rock from Utah</p>
   <p>Live. Loud. Wasatch Front.</p>
   <a href="#music-poll-section" class="btn">Listen Now</a>
 </div>
@@ -68,7 +74,7 @@
 
 <section id="music-poll-section" style="padding: 60px 5%; background: #000;">
   <div style="text-align: center; margin-bottom: 30px;">
-    <h2 style="color: #fff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;">Music & Fan Poll</h2>
+    <h2>Music & Fan Poll</h2>
     <p style="color: #888;">Listen and vote for the track we should play at the next show.</p>
   </div>
 
@@ -163,9 +169,9 @@
   <section id="shows" class="epk-section">
     <h2>Upcoming Shows</h2>
 
-    <ul id="shows-list">
-      <li>Loading shows…</li>
-    </ul>
+    <div id="shows-list">
+      <p>Loading shows…</p>
+    </div>
   </section>
 
 <section id="inner-circle" style="padding: 20px; text-align: center;">
@@ -183,7 +189,9 @@
         width: 100%; 
         padding: 14px 12px; 
         border-radius: 4px; 
-        border: 1px solid #ccc; 
+        border: 1px solid #333;
+        background: #1a1a1a;
+        color: #fff;
         margin-bottom: 15px; 
         font-size: 1rem;
         line-height: 1.4;
@@ -201,7 +209,9 @@
         width: 100%; 
         padding: 14px 12px; 
         border-radius: 4px; 
-        border: 1px solid #ccc; 
+        border: 1px solid #333;
+        background: #1a1a1a;
+        color: #fff;
         margin-bottom: 15px; 
         font-size: 1rem;
         line-height: 1.4;
@@ -223,7 +233,9 @@
         width: 100%; 
         padding: 14px 12px; 
         border-radius: 4px; 
-        border: 1px solid #ccc; 
+        border: 1px solid #333;
+        background: #1a1a1a;
+        color: #fff;
         margin-bottom: 15px; 
         font-size: 1rem;
         line-height: 1.4;
@@ -256,13 +268,13 @@
   /* Input focus glow */
   #inner-circle input:focus {
     outline: none;
-    border-color: #FF4500; /* Matches your heading color */
+    border-color: #FF4500;
     box-shadow: 0 0 5px #FF4500;
   }
 
   /* Hover for the button */
   #inner-circle button:hover {
-    background-color: #cc3700; /* Matches other buttons */
+    background-color: #cc3700;
   }
 
   /* Responsive tweak for small screens */
@@ -311,13 +323,13 @@
 
     <form
       name="booking"
-      method="POST"
+      action="javascript:void(0)"
     >
       <input type="hidden" name="formType" value="booking">
 
       <p style="display:none;">
         <label>
-          Don’t fill this out:
+          Don't fill this out:
           <input name="bot-field"
                  id="bot-field"
           >
@@ -334,7 +346,7 @@
           required
           minlength="3"
           maxlength="100"
-          pattern="[A-Za-z0-9\s\.\-&]+"
+          pattern="[A-Za-z0-9 \.\-&]+"
         >
       </label>
 
@@ -394,6 +406,7 @@
     video.load();
   }
 </script>
+    <script src="https://js.stripe.com/v3/"></script>
     <script src="script.js"></script>
 
     <script>
@@ -444,8 +457,6 @@
     }
   });
 </script>
-    <script src="create-stripe-session.js"></script>
     <script src="components.js"></script>
 </body>
 </html>
-

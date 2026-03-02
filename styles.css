@@ -4,7 +4,7 @@ html {
   scroll-behavior: smooth !important;
 }
 /* Force all sections with an ID to stay below the header */
-#about, #music, #shows, #merch, #booking, #inner-circle, .epk-section {
+#about, #music, #music-poll-section, #shows, #merch, #booking, #inner-circle, .epk-section {
     scroll-margin-top: 100px !important;
 }
 
@@ -85,6 +85,7 @@ nav a:hover { color: #ff0000 !important; }
 /* On mobile, hide video and show poster image instead for faster load */
 @media (max-width: 768px) {
   .hero-caption h1 { font-size: 1.8rem; }
+  .hero-subtitle { font-size: 1.1rem; }
   .hero video { display: none; }
   .hero { 
     background-image: url('hero-poster.jpg');
@@ -97,51 +98,11 @@ nav a:hover { color: #ff0000 !important; }
 }
 .hero-caption { background: #000; padding: 60px 20px; text-align: center; border-bottom: 3px solid #ff0000; }
 .hero-caption h1 { color: #ffffff !important; font-size: 3rem; text-transform: uppercase; margin: 0 0 10px 0; letter-spacing: 2px; }
+.hero-subtitle { color: #ffffff !important; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px 0; }
 .hero-caption p { color: #ffffff !important; font-size: 1.2rem; margin-bottom: 30px; }
-.inner-circle-teaser {
-    display: inline-block;
-    margin-top: 16px;
-    padding: 12px 28px;
-    color: #fff;
-    font-size: 0.9rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    border: 2px solid #fff;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: background 0.2s ease, color 0.2s ease;
-}
-.inner-circle-teaser:hover {
-    background: #fff;
-    color: #000;
-}
-
 /* --- 4. SECTION HEADINGS --- */
 h2 { color: #fff; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px; display: table; margin: 40px auto; text-align: center; border-bottom: 3px solid #ff0000; padding-bottom: 10px; }
 .epk-section { padding: 60px 5%; max-width: 1000px; margin: 0 auto; text-align: center; color: #fff; }
-
-/* --- 5. MUSIC --- */
-#music {
-    /* This ensures the title "MUSIC" isn't hidden by the header */
-    scroll-margin-top: 120px !important;
-    padding-top: 20px; /* Gives a little breathing room below the Hero */
-}
-
-.music-player-container { 
-    width: 100%; 
-    max-width: 600px; 
-    margin: 30px auto; 
-    height: 352px; 
-    display: block; 
-}
-
-.music-player-container iframe { 
-    width: 100% !important; 
-    height: 100% !important; 
-    border-radius: 12px; 
-    border: none; 
-}
 
 /* --- 6. BUTTONS --- */
 .btn, button[type="submit"] { display: inline-block; padding: 14px 32px; background-color: #ff0000; color: #fff !important; font-weight: bold; text-transform: uppercase; border: none; border-radius: 4px; transition: 0.2s ease; cursor: pointer; }
@@ -181,69 +142,8 @@ h2 { color: #fff; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 
     display: none !important; 
 }
 
-/* SECRET TEST MODE UNLOCK */
-#merchList.active-store .merch-item { filter: none; opacity: 1; pointer-events: auto; }
-#merchList.active-store + #addToCartBtn { display: inline-block !important; }
-
-/* --- 8. FORMS (Booking & Signup) --- */
-#booking-form {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 0 20px;
-}
-
-/* This wrapper ensures the label stays on top of the input */
-.form-group {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-}
-
-label {
-    color: #fff;
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    margin-bottom: 8px; /* Creates space between label and box */
-    letter-spacing: 1px;
-}
-
-input, textarea {
-    padding: 15px;
-    background: #1a1a1a;
-    border: 1px solid #333;
-    color: #fff;
-    border-radius: 4px;
-    font-family: inherit;
-    width: 100%; /* Prevents boxes from being different widths */
-    box-sizing: border-box; 
-}
-
-input:focus, textarea:focus {
-    border-color: #ff0000;
-    outline: none;
-    background: #222;
-}
-
-/* Form Submit Button specific spacing */
-#booking-form button[type="submit"] {
-    margin-top: 10px;
-    align-self: center; /* Centers just the button */
-    width: 100%;
-}
-
-/* --- 9. FOOTER & MISC --- */
-footer { background-color: #000; padding: 60px 20px; border-top: 2px solid #ff0000; text-align: center; color: #fff; }
-.social-icon { border: 1px solid #333; padding: 8px 16px; color: #fff !important; margin: 0 10px; }
-.social-icon:hover { border-color: #ff0000; background: #111; }
-.copyright { font-size: 0.8rem; color: #888; margin-top: 30px; display: block; }
-.cart { margin: 30px auto; background: #111; padding: 20px; border-radius: 8px; border: 1px solid #333; max-width: 500px; }
-
-/* Add this to your styles.css */
-#merchList.active-store::after, 
+/* --- SECRET TEST MODE UNLOCK --- */
+#merchList.active-store::after,
 .test-mode-active #merchList::after {
     display: none !important;
     content: none !important;
@@ -256,6 +156,43 @@ footer { background-color: #000; padding: 60px 20px; border-top: 2px solid #ff00
     opacity: 1 !important;
     pointer-events: auto !important;
 }
+#merchList.active-store + #addToCartBtn { display: inline-block !important; }
+
+/* --- 8. FORMS (Booking & Signup) --- */
+label {
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+input, textarea {
+    padding: 15px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: #fff;
+    border-radius: 4px;
+    font-family: inherit;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input:focus, textarea:focus {
+    border-color: #ff0000;
+    outline: none;
+    background: #222;
+}
+
+/* --- 9. FOOTER & MISC --- */
+footer { background-color: #000; padding: 60px 20px; border-top: 2px solid #ff0000; text-align: center; color: #fff; }
+.social-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 20px 0; }
+.social-icon { border: 1px solid #333; padding: 8px 16px; color: #fff !important; margin: 0 10px; }
+.social-icon:hover { border-color: #ff0000; background: #111; }
+.copyright { font-size: 0.8rem; color: #888; margin-top: 30px; display: block; }
+.cart { margin: 30px auto; background: #111; padding: 20px; border-radius: 8px; border: 1px solid #333; max-width: 500px; }
+
 /* --- Global Back to Top Button --- */
 #backToTop {
     display: none; 
@@ -350,29 +287,6 @@ footer { background-color: #000; padding: 60px 20px; border-top: 2px solid #ff00
   animation: rumble 0.2s linear 3; /* Rumbles 3 times quickly */
   color: #4CAF50 !important; /* Keep the success green, but glowing red */
 }
-/* Target all inputs in the fan signup form */
-#fan-signup-form input {
-    width: 100%; /* Or your preferred width */
-    padding: 12px;
-    margin-bottom: 0; /* Removes the gap between fields */
-    border: 1px solid #ccc; /* This adds the line to the fields missing it */
-    border-radius: 4px;
-    box-sizing: border-box; /* Ensures padding doesn't mess with width */
-    font-size: 1rem;
-    display: block; /* Forces them to stack neatly */
-}
-
-/* This removes the extra space/gap between the inputs */
-#fan-signup-form input + input {
-    margin-top: 10px; /* Gives a consistent, controlled gap */
-}
-
-/* Optional: Add a red border highlight when a user clicks into a field */
-#fan-signup-form input:focus {
-    outline: none;
-    border-color: #ff0000;
-    box-shadow: 0 0 5px rgba(255, 0, 0, 0.2);
-}
 /* Container for the side-by-side layout */
 .flex-wrapper {
     display: flex;
@@ -428,6 +342,9 @@ footer { background-color: #000; padding: 60px 20px; border-top: 2px solid #ff00
     .spotify-side, .poll-side {
         width: 100%;
     }
+    .poll-side {
+        height: auto !important;
+    }
 }
 .show-row {
     display: flex;
@@ -455,16 +372,6 @@ footer { background-color: #000; padding: 60px 20px; border-top: 2px solid #ff00
 .show-venue { margin: 5px 0; font-size: 0.9rem; color: #888; }
 .show-desc { font-size: 0.85rem; color: #ccc; font-style: italic; margin-top: 5px; }
 
-.show-btn {
-    padding: 8px 15px;
-    border: 1px solid #ff0000;
-    color: #fff;
-    text-decoration: none;
-    font-size: 0.8rem;
-    transition: 0.3s;
-}
-
-.show-btn:hover { background: #ff0000; color: #000; }
 .show-cta {
     display: flex;
     flex-direction: column;
@@ -488,38 +395,15 @@ footer { background-color: #000; padding: 60px 20px; border-top: 2px solid #ff00
     color: #000;
 }
 
-.interest-count {
-    font-size: 0.8rem;
-    color: #888;
-}
-.interest-label {
-    display: block;
-    margin-top: 8px;
-    font-size: 0.85rem;
-    color: #4CAF50; /* Green to match a "success" state */
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    text-align: center;
-}
-
 .interest-btn.saved {
     border-color: #4CAF50;
     color: #4CAF50;
 }
-.venue-link {
-  color: #ff3b3b; /* Or your preferred theme color */
-  text-decoration: none;
-  border-bottom: 1px dashed rgba(255, 59, 59, 0.4);
-  transition: all 0.2s ease;
-}
 
-.venue-link:hover {
-  color: #ffffff;
-  border-bottom: 1px solid #ffffff;
+.interest-count {
+    font-size: 0.8rem;
+    color: #888;
 }
-/* --- SECTION 2: SHOWS & INTEREST LABEL POLISH --- */
-
 .interest-label {
     display: block;
     margin-top: 8px;
