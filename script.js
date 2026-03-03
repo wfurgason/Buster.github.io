@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
           document.getElementById('${id}-short').style.display='none';
         ">…more</button>
       </span>
-      <span class="desc-full" id="${id}-full" style="display:none;">
+      <span class="desc-full" id="${id}-full">
         ${text}<button class="desc-more-btn" onclick="
           document.getElementById('${id}-full').style.display='none';
           document.getElementById('${id}-short').style.display='inline';
