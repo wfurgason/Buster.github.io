@@ -99,23 +99,22 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.removeChild(link);
   }
 
-  // --- JSONP COUNTER LOGIC ---
-  
-  window.updateGlobalCounts = function() {
-    const script = document.createElement('script');
-    script.src = `${SCRIPT_URL}?callback=handleCountsResponse&t=${new Date().getTime()}`;
-    document.body.appendChild(script);
+  // --- COUNTER LOGIC ---
+  async function updateGlobalCounts() {
+    try {
+      const res = await fetch(`${SCRIPT_URL}?action=getCounts`);
+      const counts = await res.json();
+      Object.keys(counts).forEach(id => {
+        const label = document.getElementById(`count-${id}`);
+        if (label && counts[id] > 0) {
+          label.innerText = `${counts[id]} GOING`;
+          label.style.display = 'block';
+        }
+      });
+    } catch (err) {
+      console.error('Count fetch error:', err);
+    }
   }
-
-  window.handleCountsResponse = function(counts) {
-    Object.keys(counts).forEach(id => {
-      const label = document.getElementById(`count-${id}`);
-      if (label && counts[id] > 0) {
-        label.innerText = `${counts[id]} PEOPLE INTERESTED`;
-        label.style.display = 'block';
-      }
-    });
-  };
 
   // --- INTERACTIVE ACTIONS ---
 
