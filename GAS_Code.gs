@@ -140,10 +140,20 @@ function sendWelcomeEmail(recipientEmail, fanName) {
 
 function sendBookingAlert(venue, email, phone, message) {
   const myEmail = "buster@bustertheband.com";
+  const myPhone = "8012011095@tmomail.net";
+
+  // Email alert (full details)
   GmailApp.sendEmail(
     myEmail,
     `NEW BOOKING REQUEST: ${venue}`,
     `New Booking!\n\nVENUE: ${venue}\nCONTACT: ${email}\nPHONE: ${phone}\n\nDETAILS:\n${message}`
+  );
+
+  // SMS alert (notification only)
+  GmailApp.sendEmail(
+    myPhone,
+    "Buster",
+    "New booking request — check your email for details."
   );
 }
 
