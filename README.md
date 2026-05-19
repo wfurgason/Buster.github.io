@@ -145,23 +145,40 @@ Vercel environment variables (including `STRIPE_SECRET_KEY`) are set in the Verc
 
 ### 🟠 Google Calendar API Key in `script.js`
 **Risk:** The API key is visible in client-side source code and could be used by anyone to consume quota against the project.  
-**Mitigation:** Key is restricted to the `bustertheband.com` HTTP referrer in Google Cloud Console. Requests from any other origin are rejected by Google.  
+**Mitigation:** Key is restricted in Google Cloud Console under **APIs & Services → Credentials**. Configuration is as follows:
+
+**Application Restrictions:** Websites  
+**Website Restrictions:**
+- `http://localhost:3000/*`
+- `http://localhost:8000/*`
+- `https://bustertheband.com/*`
+- `https://www.bustertheband.com/*`
+
+Requests from any origin not on this list are rejected by Google.  
 **Status:** Mitigated.
 
 ### 🟡 GAS endpoint has no authentication or rate limiting
 **Risk:** The Apps Script deployment URL is public and accepts POST requests from anyone. A bad actor could spam the `Fans` or `Bookings` sheets with fake data.  
-**Mitigation:** None currently in place.  
-**Status:** Open. Future improvement: add a simple shared secret token check in `doPost`, or add a honeypot/CAPTCHA to the forms.
+**Mitigation:** Two layers of protection added to `doPost` in `GAS_Code.gs`:
+- **Honeypot field** — a hidden `bot-field` input exists on both the Inner Circle and Booking forms. If it contains any value on submission, the request is silently ignored. Bots fill hidden fields; humans don't.
+- **Rate limiting** — `PropertiesService` tracks the last submission timestamp per email address. The same email is blocked from submitting again within 10 minutes. Fan form submissions are silently ignored; booking form submissions return an error message.  
+**Status:** Mitigated. Monitor `Fans` and `Bookings` sheets periodically for any unusual volume.
 
 ### 🟡 Merch store activated by URL parameter
 **Risk:** The store is gated behind `?mode=test` — visible to anyone who reads `script.js`.  
-**Mitigation:** None beyond obscurity. Store is in test mode only; no real payments can be taken.  
-**Status:** Acceptable for now. Remove the parameter gate entirely when the store goes live.
+**Mitigation:** Store is in test mode only; no real payments can be taken. The parameter gate will be removed entirely when the store goes live and Stripe is switched to live mode.  
+**Status:** Acceptable. Revisit when launching the store.
 
 ### 🔵 No HTTP security headers (CSP, etc.)
 **Risk:** Without headers like `Content-Security-Policy`, `X-Frame-Options`, and `X-Content-Type-Options`, the site is more exposed to XSS and clickjacking attacks.  
-**Mitigation:** None currently configured.  
-**Status:** Open. Future improvement: add a `headers` block to `vercel.json`.
+**Mitigation:** A `vercel.json` file was added to the project root with the following headers applied to all routes:
+- `Content-Security-Policy` — whitelists allowed sources for scripts, styles, media, frames, and network requests
+- `X-Content-Type-Options: nosniff` — prevents MIME-type sniffing
+- `X-Frame-Options: SAMEORIGIN` — blocks clickjacking via iframes
+- `X-XSS-Protection: 1; mode=block` — enables legacy browser XSS filter
+- `Referrer-Policy: strict-origin-when-cross-origin` — limits referrer data sent to third parties
+- `Permissions-Policy` — explicitly disables camera, microphone, and geolocation access  
+**Status:** Mitigated.
 
 ---
 
