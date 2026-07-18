@@ -18,6 +18,7 @@
       '<nav id="mainNav" aria-label="Main navigation">',
       '  <a href="' + prefix + '#about">About</a>',
       '  <a href="' + prefix + '#music-poll-section">Music</a>',
+      '  <a href="epk.html#live-performance">Video</a>',
       '  <a href="' + prefix + '#shows">Shows</a>',
       '  <a href="' + prefix + '#merch">Merch</a>',
       '  <a href="' + prefix + '#booking">Booking</a>',
