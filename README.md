@@ -3,7 +3,7 @@
 **Live site:** [bustertheband.com](https://bustertheband.com)  
 **Repo:** Buster.github.io  
 **Deployed via:** Vercel  
-**Last updated:** May 2025
+**Last updated:** September 2026
 
 ---
 
@@ -43,6 +43,8 @@ Buster.github.io/
 ├── components.js       # Shared nav + footer injected on all pages
 ├── styles.css          # Global styles
 ├── epk-styles.css      # EPK-specific styles
+├── heroSOL.mp4         # Looping homepage hero video
+├── hero-poster.jpg     # Fallback/poster image for the hero video
 ├── GAS_Code.gs         # LOCAL COPY ONLY — reference for the Apps Script
 ├── WelcomeTemplate.html # Fan welcome email template (used in GAS)
 ├── robots.txt
@@ -53,7 +55,7 @@ Buster.github.io/
 ├── api/
 │   ├── create-checkout-session.js   # Vercel serverless function (Stripe)
 │   └── package.json                 # stripe npm dependency
-├── assets/             # Images, favicon, merch photos
+├── assets/             # Band photos, merch images, favicon, tech rider, downloadable press assets
 └── backups/            # Manual file backups
 ```
 
@@ -81,6 +83,7 @@ Buster.github.io/
 - **Secret key:** Set as `STRIPE_SECRET_KEY` environment variable in Vercel dashboard — never hardcoded
 - **Publishable key:** Hardcoded in `script.js` (this is safe and expected for Stripe)
 - **Store is hidden** behind `?mode=test` URL parameter until ready to launch
+- **Current checkout endpoint:** `script.js` calls the production Vercel deployment directly at `https://buster-github-io-git-main-wes-furgasons-projects.vercel.app/api/create-checkout-session`. If the Vercel project URL changes, update this value (or switch to a relative `/api/create-checkout-session` route).
 
 ### Google Calendar
 - Shows are pulled from the band's public Google Calendar (`busterthebandslc@gmail.com`)
@@ -90,7 +93,7 @@ Buster.github.io/
 ### Email / SMS Alerts
 - Welcome emails sent from `buster@bustertheband.com` alias via GAS
 - Booking alerts sent to band email + SMS via T-Mobile carrier gateway (`8012011095@tmomail.net`)
-- Agent outreach uses a separate `AgentTemplate.html` in GAS
+- Agent outreach uses a separate `AgentTemplate.html` in the Apps Script project. It is not maintained as a local repository file.
 
 ---
 
@@ -180,6 +183,10 @@ Requests from any origin not on this list are rejected by Google.
 - `Permissions-Policy` — explicitly disables camera, microphone, and geolocation access  
 **Status:** Mitigated.
 
+### 🟡 Embedded-video CSP allowance
+**Current behavior:** The EPK includes two YouTube live-performance embeds. The deployed `Content-Security-Policy` must include `https://www.youtube.com` in `frame-src` in addition to Spotify and Stripe; otherwise browsers can block those videos.
+**Status:** Verify after each CSP change and keep this allowlist aligned with embedded providers.
+
 ---
 
 ## Pages
@@ -192,6 +199,16 @@ Requests from any origin not on this list are rejected by Google.
 | `cancel.html` | Abandoned checkout | Fans |
 | `thankyou.html` | Generic thank-you | Forms |
 
+## Current EPK Content
+
+`epk.html` is the booking-facing press kit. It currently includes:
+
+- Band biography and individual member profiles
+- Downloadable tech rider, band-logo ZIP, and promo-photo ZIP
+- Two embedded YouTube live-performance videos
+- A past-venues section and press quotes
+- Booking contact information and a persistent booking CTA
+
 ---
 
 ## Fan Engagement Features
@@ -203,3 +220,12 @@ Requests from any origin not on this list are rejected by Google.
 - **Merch store** — hidden until launch (`?mode=test` for preview)
 - **Floating JOIN button** — persistent scroll-to-Inner-Circle CTA
 
+## Recent Changes
+
+- **August 2026:** Added a venue to the EPK’s past-venues section.
+- **July 2026:** Added a second EPK live-performance video and a Video navigation link.
+- **June 2026:** Updated EPK layout and added the Speakeasy to the past-venues section.
+
+## Asset Notes
+
+The `assets/` directory includes the individual band-member images used by the EPK, merch artwork, downloadable press packages, the tech rider PDF, and the site favicon. Homepage hero media (`heroSOL.mp4` and `hero-poster.jpg`) lives at the repository root. Keep large source media and manual backups organized so deployed assets remain intentional.
