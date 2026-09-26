@@ -94,12 +94,20 @@ function doPost(e) {
 }
 
 /**
- * GET HANDLER: Pulls Global Interest Counts and Poll Results
+ * GET HANDLER: Pulls Global Interest Counts, Poll Results, and the
+ * confirmed-shows-only calendar feed.
  * Supports JSONP to bypass CORS errors.
  */
 function doGet(e) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
   const action = e.parameter.action;
+
+  // Confirmed-shows-only .ics feed for the website's "Subscribe to Calendar" button.
+  // Handled first and separately since it returns calendar data, not JSON.
+  if (action === "showsFeed") {
+    return getConfirmedShowsFeed();
+  }
+
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
   let dataOut = {};
 
   if (action === "topSong") {
@@ -264,6 +272,17 @@ function markStatus(sheet, row, text, color) {
 var CALENDAR_ID = 'busterthebandslc@gmail.com';
 var NOTIFIED_KEY = 'notifiedEventIds';
 
+/**
+ * A show only counts as "confirmed" (and only then does it appear on the
+ * website, in the subscribe feed, or trigger a fan email) if it's colored
+ * Basil (green) on the Google Calendar. Any other color — including no
+ * color — is treated as a personal reminder (e.g. a festival submission
+ * deadline) and ignored everywhere.
+ */
+function isConfirmedShow(event) {
+  return event.getColor() === CalendarApp.EventColor.GREEN;
+}
+
 function checkForNewShowsAndNotify() {
   var newEvents = getNewCalendarEvents();
   if (newEvents.length === 0) {
@@ -288,7 +307,7 @@ function getNewCalendarEvents() {
   var now = new Date();
   var oneYearOut = new Date();
   oneYearOut.setFullYear(now.getFullYear() + 1);
-  var upcomingEvents = calendar.getEvents(now, oneYearOut);
+  var upcomingEvents = calendar.getEvents(now, oneYearOut).filter(isConfirmedShow);
   var notifiedIds = getNotifiedIds();
   return upcomingEvents.filter(function(event) {
     return notifiedIds.indexOf(event.getId()) === -1;
@@ -300,7 +319,7 @@ function getAllUpcomingEvents() {
   var now = new Date();
   var oneYearOut = new Date();
   oneYearOut.setFullYear(now.getFullYear() + 1);
-  return calendar.getEvents(now, oneYearOut).map(function(event) {
+  return calendar.getEvents(now, oneYearOut).filter(isConfirmedShow).map(function(event) {
     return {
       title: event.getTitle(),
       date: event.getStartTime(),
@@ -385,4 +404,50 @@ function installDailyTrigger() {
     .atHour(16)
     .create();
   Logger.log('Daily trigger installed.');
+}
+
+/************************************************
+ * CONFIRMED SHOWS CALENDAR FEED (for website subscribe button)
+ ************************************************/
+
+function getConfirmedShowsFeed() {
+  var calendar = CalendarApp.getCalendarById(CALENDAR_ID);
+  var now = new Date();
+  var oneYearOut = new Date();
+  oneYearOut.setFullYear(now.getFullYear() + 1);
+  var events = calendar.getEvents(now, oneYearOut).filter(isConfirmedShow);
+
+  var lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Buster//Show Calendar//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'X-WR-CALNAME:Buster Shows'
+  ];
+
+  events.forEach(function(event) {
+    lines.push('BEGIN:VEVENT');
+    lines.push('UID:' + event.getId());
+    lines.push('DTSTAMP:' + formatICSDate(new Date()));
+    lines.push('DTSTART:' + formatICSDate(event.getStartTime()));
+    lines.push('DTEND:' + formatICSDate(event.getEndTime()));
+    lines.push('SUMMARY:' + escapeICS(event.getTitle()));
+    if (event.getLocation()) lines.push('LOCATION:' + escapeICS(event.getLocation()));
+    if (event.getDescription()) lines.push('DESCRIPTION:' + escapeICS(event.getDescription()));
+    lines.push('END:VEVENT');
+  });
+
+  lines.push('END:VCALENDAR');
+
+  return ContentService.createTextOutput(lines.join('\r\n'))
+    .setMimeType(ContentService.MimeType.ICAL);
+}
+
+function formatICSDate(date) {
+  return Utilities.formatDate(date, 'UTC', "yyyyMMdd'T'HHmmss'Z'");
+}
+
+function escapeICS(text) {
+  return String(text).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
 }

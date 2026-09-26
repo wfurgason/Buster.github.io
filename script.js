@@ -177,15 +177,20 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   if (showsList) {
-    fetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?key=${apiKey}&timeMin=${new Date().toISOString()}&maxResults=5&orderBy=startTime&singleEvents=true`)
+    fetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?key=${apiKey}&timeMin=${new Date().toISOString()}&maxResults=25&orderBy=startTime&singleEvents=true`)
       .then(res => res.json())
       .then(data => {
-        if (!data.items || data.items.length === 0) {
+        // Only show events tagged with the "Basil" (green) calendar color —
+        // that's how confirmed shows are told apart from personal reminders.
+        const CONFIRMED_COLOR_ID = '10'; // Basil in Google Calendar's color picker
+        const confirmedShows = (data.items || []).filter(event => event.colorId === CONFIRMED_COLOR_ID);
+
+        if (confirmedShows.length === 0) {
           showsList.innerHTML = "<p class='no-shows'>More dates dropping soon!</p>";
           return;
         }
 
-        showsList.innerHTML = data.items.map(event => {
+        showsList.innerHTML = confirmedShows.slice(0, 5).map(event => {
           const d = new Date(event.start.dateTime || event.start.date);
           const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
           const eventId = event.id;
