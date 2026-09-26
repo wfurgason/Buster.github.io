@@ -169,6 +169,14 @@
   <section id="shows" class="epk-section">
     <h2>Upcoming Shows</h2>
 
+    <div id="calendarSubscribeWrap" style="text-align:center; margin-bottom:20px; position:relative; display:inline-block; width:100%;">
+      <button onclick="toggleCalendarSubscribe(event)" class="btn" style="padding:10px 20px;">📅 Subscribe to Our Show Calendar</button>
+      <div id="calendarSubscribeMenu" style="display:none; position:absolute; left:50%; transform:translateX(-50%); top:100%; margin-top:8px; background:#1a1a1a; border:1px solid #333; border-radius:6px; padding:10px; z-index:50; min-width:220px; text-align:left;">
+        <a href="https://calendar.google.com/calendar/render?cid=busterthebandslc%40gmail.com" target="_blank" rel="noopener noreferrer" style="display:block; padding:8px 10px; color:#fff; text-decoration:none;">Google Calendar</a>
+        <a href="webcal://calendar.google.com/calendar/ical/busterthebandslc%40gmail.com/public/basic.ics" style="display:block; padding:8px 10px; color:#fff; text-decoration:none;">Apple / Outlook (.ics)</a>
+      </div>
+    </div>
+
     <div id="shows-list">
       <p>Loading shows…</p>
     </div>

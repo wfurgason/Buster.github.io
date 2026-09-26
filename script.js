@@ -85,19 +85,18 @@ document.addEventListener("DOMContentLoaded", function () {
   const apiKey = "AIzaSyAisms0ydY6R8a_dTPNwYMR7bNTs1F5hKM";
   const showsList = document.getElementById("shows-list");
 
-  // Helper: Generates the .ics file for personal calendars
-  function downloadCalendarFile(title, date, location, description) {
-    const start = new Date(date).toISOString().replace(/-|:|\.\d+/g, "");
-    const end = new Date(new Date(date).getTime() + 3600000).toISOString().replace(/-|:|\.\d+/g, ""); 
-    const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:${start}\nDTEND:${end}\nSUMMARY:${title}\nLOCATION:${location}\nDESCRIPTION:${description}\nEND:VEVENT\nEND:VCALENDAR`;
-    const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
-    const link = document.createElement("a");
-    link.href = window.URL.createObjectURL(blob);
-    link.setAttribute("download", `${title.replace(/\s+/g, "_")}.ics`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
+  // --- CALENDAR SUBSCRIBE MENU ---
+  window.toggleCalendarSubscribe = function(e) {
+    e.stopPropagation();
+    const menu = document.getElementById('calendarSubscribeMenu');
+    if (menu) menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+  };
+  document.addEventListener('click', function(e) {
+    const menu = document.getElementById('calendarSubscribeMenu');
+    if (menu && menu.style.display === 'block' && !e.target.closest('#calendarSubscribeWrap')) {
+      menu.style.display = 'none';
+    }
+  });
 
   // --- COUNTER LOGIC ---
   async function updateGlobalCounts() {
@@ -127,11 +126,6 @@ document.addEventListener("DOMContentLoaded", function () {
       btn.innerText = "Going!";
       btn.classList.add("saved");
       btn.disabled = true;
-    }
-
-    // Ask before triggering a file download — especially important on mobile
-    if (confirm('Add this show to your calendar?')) {
-      downloadCalendarFile(title, date, location, "Buster Live Show Reminder");
     }
 
     // Remember this fan already marked interest for this show
