@@ -81,8 +81,6 @@ document.addEventListener("DOMContentLoaded", function () {
  // ==========================================
   // 2. UPCOMING SHOWS (SEO + CALENDAR + INTEREST)
   // ==========================================
-  const calendarId = "busterthebandslc@gmail.com";
-  const apiKey = "AIzaSyAisms0ydY6R8a_dTPNwYMR7bNTs1F5hKM";
   const showsList = document.getElementById("shows-list");
 
   // --- CALENDAR SUBSCRIBE MENU ---
@@ -177,13 +175,16 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   if (showsList) {
-    fetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?key=${apiKey}&timeMin=${new Date().toISOString()}&maxResults=25&orderBy=startTime&singleEvents=true`)
+    // Confirmed shows now come from the GAS backend (SCRIPT_URL), which reads
+    // the calendar via CalendarApp as the owner. That reliably sees each
+    // event's real color; the public googleapis.com REST API + API key did
+    // not consistently return colorId for this calendar, so filtering here
+    // was silently dropping confirmed shows. The backend already filters to
+    // Basil-colored (confirmed) events, so no colorId check is needed here.
+    fetch(`${SCRIPT_URL}?action=confirmedShows`)
       .then(res => res.json())
       .then(data => {
-        // Only show events tagged with the "Basil" (green) calendar color —
-        // that's how confirmed shows are told apart from personal reminders.
-        const CONFIRMED_COLOR_ID = '10'; // Basil in Google Calendar's color picker
-        const confirmedShows = (data.items || []).filter(event => event.colorId === CONFIRMED_COLOR_ID);
+        const confirmedShows = data.items || [];
 
         if (confirmedShows.length === 0) {
           showsList.innerHTML = "<p class='no-shows'>More dates dropping soon!</p>";

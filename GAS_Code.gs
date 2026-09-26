@@ -119,6 +119,29 @@ function doGet(e) {
       const winners = Object.keys(counts).filter(k => counts[k] === maxVotes);
       dataOut = { success: true, topSongs: winners, tie: winners.length > 1 };
     }
+  } else if (action === "confirmedShows") {
+    // Confirmed shows for the website's Shows section, read via CalendarApp
+    // (authenticated as the calendar owner) so the real event color is always
+    // visible — unlike the public REST API + API key, which does not reliably
+    // return colorId for this calendar.
+    const calendar = CalendarApp.getCalendarById(CALENDAR_ID);
+    const now = new Date();
+    const oneYearOut = new Date();
+    oneYearOut.setFullYear(now.getFullYear() + 1);
+    const shows = calendar.getEvents(now, oneYearOut)
+      .filter(isConfirmedShow)
+      .slice(0, 25)
+      .map(function(event) {
+        return {
+          id: event.getId(),
+          summary: event.getTitle(),
+          location: event.getLocation() || '',
+          description: event.getDescription() || '',
+          start: { dateTime: event.getStartTime().toISOString() },
+          end: { dateTime: event.getEndTime().toISOString() }
+        };
+      });
+    dataOut = { items: shows };
   } else {
     // Default: Show Interest Counts for the Shows section
     const sheet = ss.getSheetByName("ShowInterest");
