@@ -25,9 +25,15 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://js.stripe.com https://apis.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; media-src 'self'; frame-src https://open.spotify.com https://js.stripe.com https://www.youtube.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://www.googleapis.com https://calendar.googleapis.com https://api.stripe.com https://buster-github-io-git-main-wes-furgasons-projects.vercel.app; font-src 'self';"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://js.stripe.com https://apis.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; media-src 'self' https://music.bustertheband.com; frame-src https://open.spotify.com https://js.stripe.com https://www.youtube.com; connect-src 'self' https://music.bustertheband.com https://script.google.com https://script.googleusercontent.com https://www.googleapis.com https://calendar.googleapis.com https://api.stripe.com https://buster-github-io-git-main-wes-furgasons-projects.vercel.app; font-src 'self';"
         }
       ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/card/penitent-sinner",
+      "destination": "/penitent-sinner.html"
     }
   ]
 }
