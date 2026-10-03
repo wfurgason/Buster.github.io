@@ -38,6 +38,10 @@
     {
       "source": "/card/the-desert",
       "destination": "/the-desert.html"
+    },
+    {
+      "source": "/card/sol-in-slc",
+      "destination": "/sol-in-slc.html"
     }
   ]
 }
