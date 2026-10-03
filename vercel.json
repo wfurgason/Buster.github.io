@@ -34,6 +34,10 @@
     {
       "source": "/card/penitent-sinner",
       "destination": "/penitent-sinner.html"
+    },
+    {
+      "source": "/card/the-desert",
+      "destination": "/the-desert.html"
     }
   ]
 }
