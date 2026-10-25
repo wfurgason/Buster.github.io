@@ -23,7 +23,7 @@
 
   <link rel="preload" as="image" href="hero-poster.jpg">
   <link rel="canonical" href="https://bustertheband.com/">
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=3">
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <script type="application/ld+json">
 {
@@ -80,17 +80,22 @@
 
   <div class="flex-wrapper" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; align-items: stretch; max-width: 1000px; margin: 0 auto;">
     
-    <div class="spotify-side" style="flex: 1.2; min-width: 300px;">
-      <iframe 
-        style="border-radius:12px; background-color: #111;" 
-        src="https://open.spotify.com/embed/artist/3exYjJhkzwnv436LMtWAGI?utm_source=generator" 
-        width="100%" 
-        height="450" 
-        frameBorder="0" 
-        allowfullscreen="" 
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-        loading="lazy">
-      </iframe>
+    <div class="music-player-side" style="flex: 1.2; min-width: 300px;">
+      <section class="public-player" aria-labelledby="public-player-title">
+        <div class="public-player-heading">
+          <div>
+            <p class="player-kicker">BUSTER MUSIC</p>
+            <h3 id="public-player-title">Now playing</h3>
+            <p id="public-now-playing" class="public-now-playing">S.O.L In SLC</p>
+          </div>
+          <button id="public-play-toggle" class="public-play-toggle" type="button">▶ Play</button>
+        </div>
+        <label class="sr-only" for="public-release-select">Choose a release</label>
+        <select id="public-release-select" class="public-release-select"></select>
+        <audio id="public-audio" controls preload="none" crossorigin="anonymous" aria-label="Buster music player"></audio>
+        <p id="public-player-status" class="public-player-status" role="status" aria-live="polite"></p>
+        <ol id="public-tracklist" class="public-tracklist" aria-label="Track list"></ol>
+      </section>
       <!-- Quick email capture strip -->
       <div id="quick-capture" style="margin-top: 16px; text-align: center;">
         <p style="color: #888; font-size: 0.85rem; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 1px;">Digging it? Get early access to shows &amp; drops.</p>
@@ -420,6 +425,7 @@
 </script>
     <script src="https://js.stripe.com/v3/"></script>
     <script src="script.js"></script>
+    <script src="public-player.js"></script>
 
     <script>
   (function() {
