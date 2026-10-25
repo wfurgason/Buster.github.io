@@ -23,7 +23,7 @@
 
   <link rel="preload" as="image" href="hero-poster.jpg">
   <link rel="canonical" href="https://bustertheband.com/">
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <script type="application/ld+json">
 {
@@ -83,15 +83,14 @@
     <div class="music-player-side" style="flex: 1.2; min-width: 300px;">
       <section class="public-player" aria-labelledby="public-player-title">
         <div class="public-player-heading">
-          <div>
+          <img id="public-release-art" class="public-release-art" src="assets/sol-in-slc.png" alt="S.O.L In SLC cover art" width="96" height="96">
+          <div class="public-player-copy">
             <p class="player-kicker">BUSTER MUSIC</p>
             <h3 id="public-player-title">Now playing</h3>
             <p id="public-now-playing" class="public-now-playing">S.O.L In SLC</p>
           </div>
           <button id="public-play-toggle" class="public-play-toggle" type="button">▶ Play</button>
         </div>
-        <label class="sr-only" for="public-release-select">Choose a release</label>
-        <select id="public-release-select" class="public-release-select"></select>
         <audio id="public-audio" controls preload="none" crossorigin="anonymous" aria-label="Buster music player"></audio>
         <p id="public-player-status" class="public-player-status" role="status" aria-live="polite"></p>
         <ol id="public-tracklist" class="public-tracklist" aria-label="Track list"></ol>
